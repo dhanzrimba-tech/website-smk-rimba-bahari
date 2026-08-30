@@ -470,52 +470,69 @@ html,body{
 
 <script>
 /* =========================================================
-   SMKK Rimba Bahari - Slider Beranda V4
+   SMKK Rimba Bahari - Slider Beranda V4 FINAL REPAIR
    - 3 foto utama lama tetap dipertahankan
    - Foto terbaru dari Berita + Kegiatan otomatis masuk
    - Otomatis bergeser setiap 4 detik
-   - Tombol kiri/kanan dan titik indikator tetap aktif
+   - Tombol kiri/kanan dan titik indikator aktif
    ========================================================= */
 const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
 const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-
 const SLIDE_INTERVAL = 4000;
 let slides = [];
 let dots = [];
-let index = 0;
-let timer = null;
+let currentSlide = 0;
+let autoTimer = null;
 
 function refreshSlides(){
-  slides = Array.from(document.querySelectorAll('.hero .slide'));
-  dots = Array.from(document.querySelectorAll('.hero .dot'));
+  slides = Array.from(document.querySelectorAll('.hero > .slide'));
+  dots = Array.from(document.querySelectorAll('.hero .controls .dot'));
 }
 
-function show(i){
+function showSlide(i){
   refreshSlides();
   if(!slides.length) return;
-  index = (i + slides.length) % slides.length;
-  slides.forEach((slide,n)=>slide.classList.toggle('active', n === index));
-  dots.forEach((dot,n)=>dot.classList.toggle('active', n === index));
+  currentSlide = ((i % slides.length) + slides.length) % slides.length;
+  slides.forEach((slide,n)=>slide.classList.toggle('active', n === currentSlide));
+  dots.forEach((dot,n)=>dot.classList.toggle('active', n === currentSlide));
 }
 
 function startAutoSlide(){
-  clearInterval(timer);
-  timer = setInterval(()=>show(index + 1), SLIDE_INTERVAL);
-}
-
-function restartAutoSlide(){
-  startAutoSlide();
+  if(autoTimer) clearInterval(autoTimer);
+  autoTimer = setInterval(()=>showSlide(currentSlide + 1), SLIDE_INTERVAL);
 }
 
 function bindSliderControls(){
-  const next = document.querySelector('.hero .next');
-  const prev = document.querySelector('.hero .prev');
-  if(next) next.onclick = (e)=>{ e.preventDefault(); show(index + 1); restartAutoSlide(); };
-  if(prev) prev.onclick = (e)=>{ e.preventDefault(); show(index - 1); restartAutoSlide(); };
+  const hero = document.querySelector('.hero');
+  if(!hero) return;
+  const next = hero.querySelector('.next');
+  const prev = hero.querySelector('.prev');
+
+  if(next){
+    next.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      showSlide(currentSlide + 1);
+      startAutoSlide();
+    };
+  }
+  if(prev){
+    prev.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      showSlide(currentSlide - 1);
+      startAutoSlide();
+    };
+  }
   refreshSlides();
   dots.forEach((dot,n)=>{
-    dot.onclick = (e)=>{ e.preventDefault(); show(n); restartAutoSlide(); };
+    dot.onclick = function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      showSlide(n);
+      startAutoSlide();
+    };
   });
 }
 
@@ -535,80 +552,67 @@ function addDynamicDot(){
   const dot = document.createElement('button');
   dot.className = 'dot';
   dot.type = 'button';
-  dot.setAttribute('aria-label','Foto '+(document.querySelectorAll('.hero .slide').length));
+  dot.setAttribute('aria-label','Foto '+(document.querySelectorAll('.hero > .slide').length));
   controls.appendChild(dot);
 }
 
 async function addLatestPhotosToSlider(){
-  const hero = document.querySelector('.hero');
-  if(!hero || !supabaseClient) {
-    console.warn('Slider: Supabase belum tersedia.');
-    return;
-  }
-
-  try {
+  if(!supabaseClient) return;
+  try{
     const {data,error} = await supabaseClient
       .from('berita')
       .select('id,judul,kategori,gambar,tanggal,created_at')
       .not('gambar','is',null)
       .order('created_at',{ascending:false})
-      .limit(20);
+      .limit(12);
+    if(error){ console.error('Slider Supabase:', error); return; }
 
-    if(error){
-      console.error('Slider: gagal mengambil data Supabase:', error);
-      return;
-    }
-
-    const allowed = new Set(['kegiatan','berita sekolah','prestasi','pengumuman','informasi','berita']);
-    const rows = (data || []).filter(row => {
-      const kategori = String(row.kategori || '').trim().toLowerCase();
-      return allowed.has(kategori) && String(row.gambar || '').trim();
-    }).slice(0,6);
-
-    const existingUrls = new Set();
-    document.querySelectorAll('.hero .slide').forEach(slide=>{
+    const rows = (data || []).filter(row=>String(row.gambar || '').trim()).slice(0,6);
+    const existing = new Set();
+    document.querySelectorAll('.hero > .slide').forEach(slide=>{
       const bg = slide.style.backgroundImage || '';
-      const match = bg.match(/url\(["']?(.*?)["']?\)/);
-      if(match && match[1]) existingUrls.add(match[1]);
+      const m = bg.match(/url\(["']?(.*?)["']?\)/);
+      if(m && m[1]) existing.add(m[1]);
     });
 
     let added = 0;
     for(const row of rows){
       const url = getPhotoUrl(row.gambar);
-      if(!url || existingUrls.has(url)) continue;
-
+      if(!url || existing.has(url)) continue;
       const slide = document.createElement('div');
       slide.className = 'slide';
       slide.style.backgroundImage = `url("${url.replace(/"/g,'\\"')}")`;
-
       const content = document.createElement('div');
       content.className = 'content';
       const copy = document.createElement('div');
       copy.className = 'copy';
       const kicker = document.createElement('div');
       kicker.className = 'kicker';
-      kicker.textContent = String(row.kategori || '').trim().toLowerCase() === 'kegiatan' ? 'KEGIATAN SEKOLAH' : 'BERITA TERBARU';
+      kicker.textContent = String(row.kategori||'').trim().toLowerCase()==='kegiatan' ? 'KEGIATAN SEKOLAH' : 'BERITA TERBARU';
       const title = document.createElement('h1');
       title.textContent = row.judul || 'Kabar Terbaru Sekolah';
       copy.append(kicker,title);
       content.appendChild(copy);
       slide.appendChild(content);
-
-      const stats = hero.querySelector('.stats');
-      hero.insertBefore(slide, stats || null);
+      const stats = document.querySelector('.hero .stats');
+      heroInsertBeforeStats(slide, stats);
       addDynamicDot();
-      existingUrls.add(url);
+      existing.add(url);
       added++;
     }
-
     refreshSlides();
-    show(index);
+    showSlide(Math.min(currentSlide, slides.length-1));
     bindSliderControls();
     startAutoSlide();
-    console.log('Slider: '+added+' foto terbaru ditambahkan. Total '+slides.length+' foto.');
-  } catch(err){
-    console.error('Slider: error:', err);
+    console.log('Slider dinamis:', added, 'foto baru; total', slides.length);
+  }catch(err){
+    console.error('Slider dynamic error:',err);
   }
+}
+
+function heroInsertBeforeStats(slide, stats){
+  const hero = document.querySelector('.hero');
+  if(hero) hero.insertBefore(slide, stats || null);
 }
 
 function setupMobileMenu(){
@@ -679,7 +683,7 @@ function portalInfo(){return true;}
 /* Mulai setelah seluruh elemen HTML dan Supabase siap. */
 document.addEventListener('DOMContentLoaded',()=>{
   refreshSlides();
-  show(0);
+  showSlide(0);
   bindSliderControls();
   startAutoSlide();
   setupMobileMenu();

@@ -311,7 +311,7 @@
 
         if (!newsGrid) return;
 
-        const { data, error } = await supabaseClient
+        let { data, error } = await supabaseClient
             .from("berita")
             .select("*")
             .order("created_at", { ascending: false });
