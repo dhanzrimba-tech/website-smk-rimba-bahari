@@ -1,0 +1,19 @@
+PAKET SIGN IN WEBSITE SMK RIMBA BAHARI
+
+1. Upload signin.html dan admin.html ke root repository GitHub.
+2. Upload logo-sekolah.png jika belum ada (website saat ini sudah memilikinya).
+3. Jalankan isi file supabase-keamanan-berita.sql di Supabase SQL Editor.
+4. Buat akun admin di Supabase > Authentication > Users > Add user.
+   Gunakan email dan password yang nanti dipakai pada tombol SIGN IN.
+5. Setelah deploy Vercel selesai, buka:
+   https://DOMAIN-ANDA/signin.html
+6. Untuk tombol SIGN IN di halaman depan, tambahkan link:
+   <a href="signin.html">SIGN IN</a>
+   Letakkan di menu/header sesuai posisi yang diinginkan.
+7. Setelah login berhasil, pengguna masuk ke admin.html.
+   Tanpa login, admin.html tidak dapat digunakan.
+
+Catatan:
+- Nama halaman pengelolaan sengaja dibuat "admin.html" secara teknis,
+  tetapi di tampilan tidak memakai tulisan "ADMIN".
+- Tombol keluar mengembalikan pengguna ke signin.html.
