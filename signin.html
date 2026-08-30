@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sign In | SMK Kehutanan Rimba Bahari</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#063d28,#087443);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#173b2b}
+.box{width:100%;max-width:430px;background:#fff;border-radius:22px;padding:34px;box-shadow:0 20px 60px rgba(0,0,0,.22)}
+.logo{text-align:center}.logo img{width:78px;height:78px;object-fit:contain}h1{color:#075c38;font-size:26px;margin:10px 0 4px}.sub{color:#68736c;margin-bottom:28px}
+label{display:block;font-weight:700;margin:15px 0 7px}input{width:100%;padding:13px 14px;border:1px solid #ccd8d2;border-radius:10px;font-size:15px}
+button{width:100%;margin-top:22px;padding:14px;border:0;border-radius:10px;background:#087443;color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+button:disabled{opacity:.65;cursor:not-allowed}.msg{margin-top:15px;padding:11px;border-radius:9px;display:none;line-height:1.45}.ok{display:block;background:#e7f7ed;color:#126b39}.err{display:block;background:#fde9e7;color:#9b241b}
+.back{display:block;text-align:center;margin-top:20px;color:#087443;text-decoration:none;font-weight:700}
+.small{font-size:12px;color:#78837d;text-align:center;margin-top:22px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">
+    <img src="logo-sekolah.png" alt="Logo SMK Kehutanan Rimba Bahari">
+    <h1>SMK KEHUTANAN RIMBA BAHARI</h1>
+    <div class="sub">Akses Pengelolaan Website</div>
+  </div>
+  <form id="loginForm">
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="username" required placeholder="Email admin">
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required placeholder="Password">
+    <button id="loginBtn" type="submit">SIGN IN</button>
+    <div id="msg" class="msg"></div>
+  </form>
+  <a class="back" href="index.html">← Kembali ke Website</a>
+  <div class="small">Halaman ini digunakan untuk masuk ke area pengelolaan berita sekolah.</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const supabaseClient = supabase.createClient("https://xzgbrzabcceqwcaxegfx.supabase.co","sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf");
+const form=document.getElementById("loginForm"), btn=document.getElementById("loginBtn"), msg=document.getElementById("msg");
+function show(text,ok=false){msg.textContent=text;msg.className="msg "+(ok?"ok":"err")}
+(async()=>{
+  const {data}=await supabaseClient.auth.getSession();
+  if(data.session) location.href="admin.html";
+})();
+form.addEventListener("submit",async(e)=>{
+  e.preventDefault(); msg.className="msg"; btn.disabled=true; btn.textContent="MEMPROSES...";
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  const {error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){show("Email atau password salah. "+error.message);btn.disabled=false;btn.textContent="SIGN IN";return}
+  show("Login berhasil. Membuka halaman pengelolaan...",true);
+  setTimeout(()=>location.href="admin.html",400);
+});
+</script>
+</body>
+</html>
