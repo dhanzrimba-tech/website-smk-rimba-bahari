@@ -470,8 +470,8 @@ let index=0, timer;
 const SLIDE_INTERVAL=4000;
 
 function refreshSlides(){
-  slides=[...document.querySelectorAll('.slide')];
-  dots=[...document.querySelectorAll('.dot')];
+  slides=[...document.querySelectorAll('.hero .slide')];
+  dots=[...document.querySelectorAll('.hero .dot')];
 }
 function show(i){
   refreshSlides();
@@ -480,71 +480,100 @@ function show(i){
   slides.forEach((s,n)=>s.classList.toggle('active',n===index));
   dots.forEach((d,n)=>d.classList.toggle('active',n===index));
 }
-function start(){clearInterval(timer);timer=setInterval(()=>show(index+1),SLIDE_INTERVAL)}
-function reset(){clearInterval(timer);start()}
-document.querySelector('.next').onclick=()=>{show(index+1);reset()};
-document.querySelector('.prev').onclick=()=>{show(index-1);reset()};
+function start(){
+  clearInterval(timer);
+  timer=setInterval(()=>show(index+1),SLIDE_INTERVAL);
+}
+function reset(){start()}
+
+document.querySelector('.hero .next').onclick=()=>{show(index+1);reset()};
+document.querySelector('.hero .prev').onclick=()=>{show(index-1);reset()};
 dots.forEach((d,n)=>d.onclick=()=>{show(n);reset()});
 
-/* Tambahkan foto Berita + Kegiatan terbaru ke slider Beranda.
+/* Foto Berita + Kegiatan terbaru otomatis ditambahkan ke slider.
    Foto slider lama tetap dipertahankan. */
 async function addLatestPhotosToSlider(){
-  if(typeof supabaseClient==="undefined") return;
-  const slider=document.querySelector('.hero .slider');
-  if(!slider) return;
+  const slider=document.querySelector('.hero');
+  if(!slider || typeof supabaseClient==="undefined") return;
+
   try{
-    const {data,error}=await supabaseClient.from('berita')
-      .select('*')
+    const {data,error}=await supabaseClient
+      .from('berita')
+      .select('id,judul,kategori,gambar,tanggal,created_at')
+      .not('gambar','is',null)
       .order('created_at',{ascending:false})
       .limit(20);
-    if(error||!Array.isArray(data)) return;
 
-    const existing=new Set([...slider.querySelectorAll('img')].map(img=>img.getAttribute('src')));
-    const seen=new Set();
-    data.forEach(row=>{
-      const kategori=String(row.kategori||'').toLowerCase();
-      const isContent= kategori.includes('kegiatan') ||
-        kategori.includes('berita') ||
-        kategori.includes('prestasi') ||
-        kategori.includes('pengumuman') ||
-        kategori.includes('informasi');
-      if(!isContent) return;
+    if(error){
+      console.error("Slider: gagal mengambil data:",error);
+      return;
+    }
 
-      const foto=row.foto||row.gambar||row.image||row.photo||row.thumbnail||row.image_url;
-      if(!foto) return;
-      let url=String(foto).trim();
-      if(!/^https?:\/\//i.test(url) && !url.startsWith('data:') && !url.startsWith('/')){
-        if(url.startsWith('berita/')) url=url.slice(7);
-        url=supabaseClient.storage.from('berita').getPublicUrl(url).data.publicUrl;
+    const existing=new Set(
+      [...slider.querySelectorAll('.slide')].map(s=>{
+        const bg=s.style.backgroundImage||"";
+        return bg.replace(/^url\(["']?/,'').replace(/["']?\)$/,'');
+      })
+    );
+
+    let added=0;
+    for(const row of (data||[])){
+      const kategori=String(row.kategori||"").trim().toLowerCase();
+      if(!kategori) continue;
+
+      const allowed=["kegiatan","berita sekolah","prestasi","pengumuman","informasi"];
+      if(!allowed.includes(kategori)) continue;
+
+      let foto=String(row.gambar||"").trim();
+      if(!foto) continue;
+
+      let url=foto;
+      if(!/^https?:\/\//i.test(url) && !url.startsWith("/")){
+        if(url.startsWith("berita/")) url=url.slice(7);
+        url=supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
       }
-      if(existing.has(url)||seen.has(url)) return;
-      seen.add(url);
 
-      const slide=document.createElement('div');
-      slide.className='slide';
-      const img=document.createElement('img');
-      img.src=url;
-      img.alt=row.judul||'Kegiatan SMK Kehutanan Rimba Bahari';
-      slide.appendChild(img);
-      slider.appendChild(slide);
+      if(existing.has(url)) continue;
 
-      const dotsBox=document.querySelector('.slider-dots');
-      if(dotsBox){
-        const dot=document.createElement('button');
-        dot.className='dot';
-        dot.type='button';
-        dotsBox.appendChild(dot);
+      const slide=document.createElement("div");
+      slide.className="slide";
+      slide.style.backgroundImage=`url("${url.replace(/"/g,'\\"')}")`;
+
+      // Konten ringan pada slide baru agar konsisten dengan slider utama.
+      const content=document.createElement("div");
+      content.className="content";
+      const copy=document.createElement("div");
+      copy.className="copy";
+      const kicker=document.createElement("div");
+      kicker.className="kicker";
+      kicker.textContent=kategori==="kegiatan"?"KEGIATAN":"BERITA TERBARU";
+      const h1=document.createElement("h1");
+      h1.textContent=row.judul||"Kabar Terbaru Sekolah";
+      copy.append(kicker,h1);
+      content.appendChild(copy);
+      slide.appendChild(content);
+      slider.insertBefore(slide,slider.querySelector(".stats"));
+
+      const controls=document.querySelector(".hero .controls");
+      if(controls){
+        const dot=document.createElement("button");
+        dot.className="dot";
+        dot.type="button";
+        dot.setAttribute("aria-label","Foto "+(slider.querySelectorAll(".slide").length));
+        controls.appendChild(dot);
       }
-    });
+      existing.add(url);
+      added++;
+    }
 
-    refreshSlides();
-    show(index);
-    start();
+    if(added){
+      refreshSlides();
+      show(index);
+    }
   }catch(err){
-    console.warn('Gagal menambahkan foto terbaru ke slider:',err);
+    console.error("Slider: error:",err);
   }
 }
-
 function syncMobileMenuTop(){
 {
   const topbar=document.querySelector('.topbar');
@@ -591,9 +620,8 @@ if(hero){
 const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
 const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// Setelah Supabase siap, tambahkan foto terbaru ke slider.
 addLatestPhotosToSlider();
+
 
 function escHome(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 function homeImageUrl(v){
