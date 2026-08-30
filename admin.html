@@ -36,7 +36,14 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 10px;border-bottom:
           <option value="Berita Sekolah">Berita Sekolah</option><option value="Kegiatan">Kegiatan</option><option value="Prestasi">Prestasi</option><option value="Pengumuman">Pengumuman</option><option value="Informasi">Informasi</option>
         </select></div>
         <div><label>Tanggal</label><input type="date" id="tanggal"></div>
-        <div><label>Foto (opsional)</label><input type="file" id="fotoFile" accept="image/*"><img id="preview" class="preview" alt="Pratinjau foto"></div>
+        <div>
+<label>Foto (opsional)</label>
+<div style="display:flex;gap:8px;align-items:center">
+  <input type="file" id="fotoFile" accept="image/*">
+  <button class="action secondary" type="button" id="clearFotoBtn" style="white-space:nowrap">Hapus Foto</button>
+</div>
+<img id="preview" class="preview" alt="Pratinjau foto">
+</div>
         <div class="full"><label>Ringkasan</label><textarea id="ringkasan" style="min-height:90px" placeholder="Ringkasan singkat yang tampil di kartu berita"></textarea></div>
         <div class="full"><label>Isi Berita *</label><textarea id="isi" required placeholder="Tulis isi berita lengkap di sini..."></textarea></div>
       </div>
@@ -52,13 +59,35 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 10px;border-bottom:
 <script>
 const supabaseClient=supabase.createClient("https://xzgbrzabcceqwcaxegfx.supabase.co","sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf");
 const app=document.getElementById("app"), authError=document.getElementById("authError");
-const form=document.getElementById("formBerita"), statusBox=document.getElementById("status"), list=document.getElementById("list"), fileInput=document.getElementById("fotoFile"), preview=document.getElementById("preview");
+const form=document.getElementById("formBerita"), statusBox=document.getElementById("status"), list=document.getElementById("list"), fileInput=document.getElementById("fotoFile"), preview=document.getElementById("preview"), clearFotoBtn=document.getElementById("clearFotoBtn");
+let removeExistingPhoto=false;
+let previewObjectUrl="";
 function msg(text,ok=true){statusBox.textContent=text;statusBox.className="status "+(ok?"ok":"err")}
 function clearMsg(){statusBox.className="status";statusBox.textContent=""}
 function slugify(text){return text.toString().toLowerCase().trim().replace(/[^a-z0-9\s-]/g,"").replace(/[\s_-]+/g,"-").replace(/^-+|-+$/g,"")}
 function formatTanggal(v){if(!v)return "-";const d=new Date(v+"T00:00:00");return d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}
 function imageUrl(v){if(!v)return "";if(/^https?:\/\//i.test(v)||v.startsWith("/")||v.startsWith("./"))return v;return "https://xzgbrzabcceqwcaxegfx.supabase.co/storage/v1/object/public/berita/"+encodeURIComponent(v)}
-function resetForm(){form.reset();document.getElementById("id").value="";document.getElementById("tanggal").value=new Date().toISOString().slice(0,10);document.getElementById("formTitle").textContent="Tambah Berita";document.getElementById("saveBtn").textContent="Simpan Berita";document.getElementById("cancelBtn").style.display="none";preview.style.display="none";preview.src="";clearMsg()}
+function clearPhotoUI(){
+  removeExistingPhoto=true;
+  if(previewObjectUrl){URL.revokeObjectURL(previewObjectUrl);previewObjectUrl="";}
+  fileInput.value="";
+  preview.removeAttribute("src");
+  preview.style.display="none";
+}
+function resetForm(){
+  form.reset();
+  document.getElementById("id").value="";
+  document.getElementById("tanggal").value=new Date().toISOString().slice(0,10);
+  document.getElementById("formTitle").textContent="Tambah Berita";
+  document.getElementById("saveBtn").textContent="Simpan Berita";
+  document.getElementById("cancelBtn").style.display="none";
+  removeExistingPhoto=false;
+  if(previewObjectUrl){URL.revokeObjectURL(previewObjectUrl);previewObjectUrl="";}
+  fileInput.value="";
+  preview.removeAttribute("src");
+  preview.style.display="none";
+  clearMsg();
+}
 async function loadList(){
   list.innerHTML="Memuat data...";
   const {data,error}=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false});
@@ -68,10 +97,34 @@ async function loadList(){
   list.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Foto</th><th>Berita</th><th>Aksi</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-window.editBerita=async function(id){const {data,error}=await supabaseClient.from("berita").select("*").eq("id",id).single();if(error){msg("Gagal mengambil data untuk diedit.",false);return}document.getElementById("id").value=data.id;document.getElementById("judul").value=data.judul||"";document.getElementById("kategori").value=data.kategori||"Berita Sekolah";document.getElementById("tanggal").value=(data.tanggal||"").slice(0,10);document.getElementById("ringkasan").value=data.ringkasan||"";document.getElementById("isi").value=data.isi||"";const old=imageUrl(data.gambar||data.foto||"");if(old){preview.src=old;preview.style.display="block"}else preview.style.display="none";document.getElementById("formTitle").textContent="Edit Berita";document.getElementById("saveBtn").textContent="Update Berita";document.getElementById("cancelBtn").style.display="inline-block";window.scrollTo({top:0,behavior:"smooth"})};
+window.editBerita=async function(id){const {data,error}=await supabaseClient.from("berita").select("*").eq("id",id).single();if(error){msg("Gagal mengambil data untuk diedit.",false);return}document.getElementById("id").value=data.id;document.getElementById("judul").value=data.judul||"";document.getElementById("kategori").value=data.kategori||"Berita Sekolah";document.getElementById("tanggal").value=(data.tanggal||"").slice(0,10);document.getElementById("ringkasan").value=data.ringkasan||"";document.getElementById("isi").value=data.isi||"";const old=imageUrl(data.gambar||data.foto||"");
+removeExistingPhoto=false;
+if(previewObjectUrl){URL.revokeObjectURL(previewObjectUrl);previewObjectUrl="";}
+fileInput.value="";
+if(old){preview.src=old;preview.style.display="block"}else{preview.removeAttribute("src");preview.style.display="none"};document.getElementById("formTitle").textContent="Edit Berita";document.getElementById("saveBtn").textContent="Update Berita";document.getElementById("cancelBtn").style.display="inline-block";window.scrollTo({top:0,behavior:"smooth"})};
 window.hapusBerita=async function(id){if(!confirm("Yakin ingin menghapus berita ini?"))return;const {error}=await supabaseClient.from("berita").delete().eq("id",id);if(error){msg("Gagal menghapus berita: "+error.message,false);return}msg("Berita berhasil dihapus.");await loadList()};
-fileInput.addEventListener("change",()=>{const f=fileInput.files[0];if(!f)return;preview.src=URL.createObjectURL(f);preview.style.display="block"});
-form.addEventListener("submit",async e=>{e.preventDefault();clearMsg();const id=document.getElementById("id").value, judul=document.getElementById("judul").value.trim(), kategori=document.getElementById("kategori").value, tanggal=document.getElementById("tanggal").value, ringkasan=document.getElementById("ringkasan").value.trim(), isi=document.getElementById("isi").value.trim();if(!judul||!isi){msg("Judul dan isi berita wajib diisi.",false);return}const payload={judul,kategori,tanggal:tanggal||null,ringkasan,isi,slug:slugify(judul)};const file=fileInput.files[0];document.getElementById("saveBtn").disabled=true;try{if(file){const safeName=Date.now()+"-"+slugify(file.name);const {error:upErr}=await supabaseClient.storage.from("berita").upload(safeName,file,{upsert:true,contentType:file.type});if(upErr)throw upErr;payload.gambar=safeName}let result=id?await supabaseClient.from("berita").update(payload).eq("id",id):await supabaseClient.from("berita").insert(payload);if(result.error)throw result.error;msg(id?"Berita berhasil diperbarui.":"Berita berhasil ditambahkan.");resetForm();await loadList()}catch(err){console.error(err);msg("Gagal menyimpan: "+err.message,false)}finally{document.getElementById("saveBtn").disabled=false}});
+fileInput.addEventListener("change",()=>{
+  const f=fileInput.files[0];
+  if(!f)return;
+  removeExistingPhoto=false;
+  if(previewObjectUrl){URL.revokeObjectURL(previewObjectUrl);}
+  previewObjectUrl=URL.createObjectURL(f);
+  preview.src=previewObjectUrl;
+  preview.style.display="block";
+});
+clearFotoBtn.addEventListener("click",()=>{
+  clearPhotoUI();
+  msg("Foto sudah dibersihkan. Foto tidak akan disimpan.",true);
+});
+form.addEventListener("submit",async e=>{e.preventDefault();clearMsg();const id=document.getElementById("id").value, judul=document.getElementById("judul").value.trim(), kategori=document.getElementById("kategori").value, tanggal=document.getElementById("tanggal").value, ringkasan=document.getElementById("ringkasan").value.trim(), isi=document.getElementById("isi").value.trim();if(!judul||!isi){msg("Judul dan isi berita wajib diisi.",false);return}const payload={judul,kategori,tanggal:tanggal||null,ringkasan,isi,slug:slugify(judul)};const file=fileInput.files[0];document.getElementById("saveBtn").disabled=true;try{if(file){
+  const safeName=Date.now()+"-"+slugify(file.name);
+  const {error:upErr}=await supabaseClient.storage.from("berita").upload(safeName,file,{upsert:true,contentType:file.type});
+  if(upErr)throw upErr;
+  payload.gambar=safeName;
+}else if(id && removeExistingPhoto){
+  payload.gambar=null;
+}
+let result=id?await supabaseClient.from("berita").update(payload).eq("id",id):await supabaseClient.from("berita").insert(payload);if(result.error)throw result.error;msg(id?"Berita berhasil diperbarui.":"Berita berhasil ditambahkan.");resetForm();await loadList()}catch(err){console.error(err);msg("Gagal menyimpan: "+err.message,false)}finally{document.getElementById("saveBtn").disabled=false}});
 document.getElementById("cancelBtn").addEventListener("click",resetForm);
 document.getElementById("logoutBtn").addEventListener("click",async()=>{await supabaseClient.auth.signOut();location.href="signin.html"});
 (async()=>{const {data}=await supabaseClient.auth.getSession();if(!data.session){authError.style.display="block";return}app.style.display="block";resetForm();loadList()})();
