@@ -319,6 +319,11 @@ html,body{
 }
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style id="smkk-slider-fix">
+.hero .arrow,.hero .dot{pointer-events:auto!important;cursor:pointer!important}
+.slide:after{pointer-events:none}
+</style>
 </head>
 <body>
 
@@ -464,40 +469,85 @@ html,body{
 <footer><div><b>SMK KEHUTANAN RIMBA BAHARI SUMEDANG</b><br><small>Teknik Rehabilitasi dan Reklamasi Hutan</small></div><div>© 2026 SMK Kehutanan Rimba Bahari Sumedang · All Rights Reserved.</div></footer>
 
 <script>
-let slides=[...document.querySelectorAll('.slide')];
-let dots=[...document.querySelectorAll('.dot')];
-let index=0, timer;
-const SLIDE_INTERVAL=4000;
+/* =========================================================
+   SMKK Rimba Bahari - Slider Beranda V4
+   - 3 foto utama lama tetap dipertahankan
+   - Foto terbaru dari Berita + Kegiatan otomatis masuk
+   - Otomatis bergeser setiap 4 detik
+   - Tombol kiri/kanan dan titik indikator tetap aktif
+   ========================================================= */
+const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+const SLIDE_INTERVAL = 4000;
+let slides = [];
+let dots = [];
+let index = 0;
+let timer = null;
 
 function refreshSlides(){
-  slides=[...document.querySelectorAll('.hero .slide')];
-  dots=[...document.querySelectorAll('.hero .dot')];
+  slides = Array.from(document.querySelectorAll('.hero .slide'));
+  dots = Array.from(document.querySelectorAll('.hero .dot'));
 }
+
 function show(i){
   refreshSlides();
-  if(!slides.length)return;
-  index=(i+slides.length)%slides.length;
-  slides.forEach((s,n)=>s.classList.toggle('active',n===index));
-  dots.forEach((d,n)=>d.classList.toggle('active',n===index));
+  if(!slides.length) return;
+  index = (i + slides.length) % slides.length;
+  slides.forEach((slide,n)=>slide.classList.toggle('active', n === index));
+  dots.forEach((dot,n)=>dot.classList.toggle('active', n === index));
 }
-function start(){
+
+function startAutoSlide(){
   clearInterval(timer);
-  timer=setInterval(()=>show(index+1),SLIDE_INTERVAL);
+  timer = setInterval(()=>show(index + 1), SLIDE_INTERVAL);
 }
-function reset(){start()}
 
-document.querySelector('.hero .next').onclick=()=>{show(index+1);reset()};
-document.querySelector('.hero .prev').onclick=()=>{show(index-1);reset()};
-dots.forEach((d,n)=>d.onclick=()=>{show(n);reset()});
+function restartAutoSlide(){
+  startAutoSlide();
+}
 
-/* Foto Berita + Kegiatan terbaru otomatis ditambahkan ke slider.
-   Foto slider lama tetap dipertahankan. */
+function bindSliderControls(){
+  const next = document.querySelector('.hero .next');
+  const prev = document.querySelector('.hero .prev');
+  if(next) next.onclick = (e)=>{ e.preventDefault(); show(index + 1); restartAutoSlide(); };
+  if(prev) prev.onclick = (e)=>{ e.preventDefault(); show(index - 1); restartAutoSlide(); };
+  refreshSlides();
+  dots.forEach((dot,n)=>{
+    dot.onclick = (e)=>{ e.preventDefault(); show(n); restartAutoSlide(); };
+  });
+}
+
+function getPhotoUrl(value){
+  let foto = String(value || '').trim();
+  if(!foto) return '';
+  if(/^https?:\/\//i.test(foto) || foto.startsWith('data:')) return foto;
+  if(foto.startsWith('/')) return foto;
+  if(foto.startsWith('berita/')) foto = foto.slice(7);
+  if(!supabaseClient) return '';
+  return supabaseClient.storage.from('berita').getPublicUrl(foto).data.publicUrl || '';
+}
+
+function addDynamicDot(){
+  const controls = document.querySelector('.hero .controls');
+  if(!controls) return;
+  const dot = document.createElement('button');
+  dot.className = 'dot';
+  dot.type = 'button';
+  dot.setAttribute('aria-label','Foto '+(document.querySelectorAll('.hero .slide').length));
+  controls.appendChild(dot);
+}
+
 async function addLatestPhotosToSlider(){
-  const slider=document.querySelector('.hero');
-  if(!slider || typeof supabaseClient==="undefined") return;
+  const hero = document.querySelector('.hero');
+  if(!hero || !supabaseClient) {
+    console.warn('Slider: Supabase belum tersedia.');
+    return;
+  }
 
-  try{
-    const {data,error}=await supabaseClient
+  try {
+    const {data,error} = await supabaseClient
       .from('berita')
       .select('id,judul,kategori,gambar,tanggal,created_at')
       .not('gambar','is',null)
@@ -505,161 +555,137 @@ async function addLatestPhotosToSlider(){
       .limit(20);
 
     if(error){
-      console.error("Slider: gagal mengambil data:",error);
+      console.error('Slider: gagal mengambil data Supabase:', error);
       return;
     }
 
-    const existing=new Set(
-      [...slider.querySelectorAll('.slide')].map(s=>{
-        const bg=s.style.backgroundImage||"";
-        return bg.replace(/^url\(["']?/,'').replace(/["']?\)$/,'');
-      })
-    );
+    const allowed = new Set(['kegiatan','berita sekolah','prestasi','pengumuman','informasi','berita']);
+    const rows = (data || []).filter(row => {
+      const kategori = String(row.kategori || '').trim().toLowerCase();
+      return allowed.has(kategori) && String(row.gambar || '').trim();
+    }).slice(0,6);
 
-    let added=0;
-    for(const row of (data||[])){
-      const kategori=String(row.kategori||"").trim().toLowerCase();
-      if(!kategori) continue;
+    const existingUrls = new Set();
+    document.querySelectorAll('.hero .slide').forEach(slide=>{
+      const bg = slide.style.backgroundImage || '';
+      const match = bg.match(/url\(["']?(.*?)["']?\)/);
+      if(match && match[1]) existingUrls.add(match[1]);
+    });
 
-      const allowed=["kegiatan","berita sekolah","prestasi","pengumuman","informasi"];
-      if(!allowed.includes(kategori)) continue;
+    let added = 0;
+    for(const row of rows){
+      const url = getPhotoUrl(row.gambar);
+      if(!url || existingUrls.has(url)) continue;
 
-      let foto=String(row.gambar||"").trim();
-      if(!foto) continue;
+      const slide = document.createElement('div');
+      slide.className = 'slide';
+      slide.style.backgroundImage = `url("${url.replace(/"/g,'\\"')}")`;
 
-      let url=foto;
-      if(!/^https?:\/\//i.test(url) && !url.startsWith("/")){
-        if(url.startsWith("berita/")) url=url.slice(7);
-        url=supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
-      }
-
-      if(existing.has(url)) continue;
-
-      const slide=document.createElement("div");
-      slide.className="slide";
-      slide.style.backgroundImage=`url("${url.replace(/"/g,'\\"')}")`;
-
-      // Konten ringan pada slide baru agar konsisten dengan slider utama.
-      const content=document.createElement("div");
-      content.className="content";
-      const copy=document.createElement("div");
-      copy.className="copy";
-      const kicker=document.createElement("div");
-      kicker.className="kicker";
-      kicker.textContent=kategori==="kegiatan"?"KEGIATAN":"BERITA TERBARU";
-      const h1=document.createElement("h1");
-      h1.textContent=row.judul||"Kabar Terbaru Sekolah";
-      copy.append(kicker,h1);
+      const content = document.createElement('div');
+      content.className = 'content';
+      const copy = document.createElement('div');
+      copy.className = 'copy';
+      const kicker = document.createElement('div');
+      kicker.className = 'kicker';
+      kicker.textContent = String(row.kategori || '').trim().toLowerCase() === 'kegiatan' ? 'KEGIATAN SEKOLAH' : 'BERITA TERBARU';
+      const title = document.createElement('h1');
+      title.textContent = row.judul || 'Kabar Terbaru Sekolah';
+      copy.append(kicker,title);
       content.appendChild(copy);
       slide.appendChild(content);
-      slider.insertBefore(slide,slider.querySelector(".stats"));
 
-      const controls=document.querySelector(".hero .controls");
-      if(controls){
-        const dot=document.createElement("button");
-        dot.className="dot";
-        dot.type="button";
-        dot.setAttribute("aria-label","Foto "+(slider.querySelectorAll(".slide").length));
-        controls.appendChild(dot);
-      }
-      existing.add(url);
+      const stats = hero.querySelector('.stats');
+      hero.insertBefore(slide, stats || null);
+      addDynamicDot();
+      existingUrls.add(url);
       added++;
     }
 
-    if(added){
-      refreshSlides();
-      show(index);
-    }
-  }catch(err){
-    console.error("Slider: error:",err);
+    refreshSlides();
+    show(index);
+    bindSliderControls();
+    startAutoSlide();
+    console.log('Slider: '+added+' foto terbaru ditambahkan. Total '+slides.length+' foto.');
+  } catch(err){
+    console.error('Slider: error:', err);
   }
 }
-function syncMobileMenuTop(){
-{
-  const topbar=document.querySelector('.topbar');
-  const nav=document.querySelector('.nav');
-  if(!topbar || !nav || !mobileMenu) return;
-  mobileMenu.style.setProperty('--mobile-menu-top',
-    (topbar.getBoundingClientRect().height + nav.getBoundingClientRect().height) + 'px'
-  );
-}
-window.addEventListener('load',syncMobileMenuTop);
-window.addEventListener('resize',syncMobileMenuTop);
 
-const mobileToggle=document.querySelector('.mobile-toggle');
-const mobileMenu=document.getElementById('mobileMenu');
-if(mobileToggle && mobileMenu){
-  mobileToggle.addEventListener('click',()=>{
-    const open=mobileMenu.classList.toggle('open');
-    mobileToggle.setAttribute('aria-expanded',open?'true':'false');
-    mobileToggle.textContent=open?'×':'☰';
-  });
-  mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-    mobileMenu.classList.remove('open');
-    mobileToggle.setAttribute('aria-expanded','false');
-    mobileToggle.textContent='☰';
-  }));
-}
-
-document.addEventListener('click',(e)=>{
-  if(!mobileMenu || !mobileToggle) return;
-  if(!mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)){
-    mobileMenu.classList.remove('open');
-    mobileToggle.setAttribute('aria-expanded','false');
-    mobileToggle.textContent='☰';
+function setupMobileMenu(){
+  const mobileToggle=document.querySelector('.mobile-toggle');
+  const mobileMenu=document.getElementById('mobileMenu');
+  function syncMobileMenuTop(){
+    const topbar=document.querySelector('.topbar');
+    const nav=document.querySelector('.nav');
+    if(!topbar || !nav || !mobileMenu) return;
+    mobileMenu.style.setProperty('--mobile-menu-top',
+      (topbar.getBoundingClientRect().height + nav.getBoundingClientRect().height) + 'px'
+    );
   }
-});
-
-const hero=document.querySelector('.hero');
-if(hero){
-  hero.addEventListener('mouseenter',()=>clearInterval(timer));
-  hero.addEventListener('mouseleave',()=>start());
+  if(mobileToggle && mobileMenu){
+    mobileToggle.addEventListener('click',()=>{
+      const open=mobileMenu.classList.toggle('open');
+      mobileToggle.setAttribute('aria-expanded',open?'true':'false');
+      mobileToggle.textContent=open?'×':'☰';
+    });
+    mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+      mobileMenu.classList.remove('open');
+      mobileToggle.setAttribute('aria-expanded','false');
+      mobileToggle.textContent='☰';
+    }));
+    document.addEventListener('click',(e)=>{
+      if(!mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)){
+        mobileMenu.classList.remove('open');
+        mobileToggle.setAttribute('aria-expanded','false');
+        mobileToggle.textContent='☰';
+      }
+    });
+    window.addEventListener('load',syncMobileMenuTop);
+    window.addEventListener('resize',syncMobileMenuTop);
+  }
 }
 
-
-const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
-const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-addLatestPhotosToSlider();
-
-
-function escHome(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
-function homeImageUrl(v){
-  if(!v)return "";
-  let u=String(v).trim();
-  if(/^https?:\/\//i.test(u)||u.startsWith("data:")||u.startsWith("/")||u.startsWith("./")||u.startsWith("../"))return u;
-  if(u.startsWith("berita/"))u=u.slice(7);
-  return supabaseClient.storage.from("berita").getPublicUrl(u).data.publicUrl;
-}
+function escHome(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
 function homeDate(v){
-  const d=new Date(v); return Number.isNaN(d.getTime())?"":d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+  const d=new Date(v);
+  return Number.isNaN(d.getTime())?'':d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
 }
 async function loadLatestHome(){
-  const box=document.getElementById("latest-news"); if(!box)return;
-  const {data,error}=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false}).limit(12);
-  if(error){console.error("Gagal memuat kabar terbaru:",error);return;}
+  const box=document.getElementById('latest-news');
+  if(!box || !supabaseClient)return;
+  const {data,error}=await supabaseClient.from('berita').select('*').order('created_at',{ascending:false}).limit(12);
+  if(error){console.error('Gagal memuat kabar terbaru:',error);return;}
   const rows=(data||[]).sort((a,b)=>{
-    const da=new Date(a.tanggal||a.created_at).getTime()||0, db=new Date(b.tanggal||b.created_at).getTime()||0;
+    const da=new Date(a.tanggal||a.created_at).getTime()||0;
+    const db=new Date(b.tanggal||b.created_at).getTime()||0;
     return db-da;
   }).slice(0,3);
   if(!rows.length)return;
   box.innerHTML=rows.map(x=>{
-    const isKeg=String(x.kategori||"").trim().toLowerCase()==="kegiatan";
-    const url=isKeg?"kegiatan.html":`berita-detail.html?id=${encodeURIComponent(x.id)}`;
-    const label=isKeg?"KEGIATAN":"BERITA";
+    const isKeg=String(x.kategori||'').trim().toLowerCase()==='kegiatan';
+    const url=isKeg?'kegiatan.html':`berita-detail.html?id=${encodeURIComponent(x.id)}`;
+    const label=isKeg?'KEGIATAN':'BERITA';
     return `<article>
-      <b>${escHome(x.judul||"Kabar Sekolah")}</b>
-      <small style="display:block;margin:6px 0;color:#16834f;font-weight:800">${label}${x.tanggal?" • "+escHome(homeDate(x.tanggal)):""}</small>
-      <p>${escHome(x.ringkasan||x.isi||"Informasi terbaru dari SMK Kehutanan Rimba Bahari Sumedang.")}</p>
-      <a href="${url}">${isKeg?"Lihat kegiatan":"Baca selengkapnya"} →</a>
+      <b>${escHome(x.judul||'Kabar Sekolah')}</b>
+      <small style="display:block;margin:6px 0;color:#16834f;font-weight:800">${label}${x.tanggal?' • '+escHome(homeDate(x.tanggal)):''}</small>
+      <p>${escHome(x.ringkasan||x.isi||'Informasi terbaru dari SMK Kehutanan Rimba Bahari Sumedang.')}</p>
+      <a href="${url}">${isKeg?'Lihat kegiatan':'Baca selengkapnya'} →</a>
     </article>`;
-  }).join("");
+  }).join('');
 }
-document.addEventListener("DOMContentLoaded",loadLatestHome);
 
-function portalInfo() { return true; }
+function portalInfo(){return true;}
 
-start();
+/* Mulai setelah seluruh elemen HTML dan Supabase siap. */
+document.addEventListener('DOMContentLoaded',()=>{
+  refreshSlides();
+  show(0);
+  bindSliderControls();
+  startAutoSlide();
+  setupMobileMenu();
+  addLatestPhotosToSlider();
+  loadLatestHome();
+});
 </script>
 </body>
 </html>
