@@ -234,7 +234,7 @@
         <a href="berita.html" class="active">BERITA</a>
         <a href="galeri.html">GALERI</a>
         <a href="spmb.html">SPMB</a>
-        <a href="admin.html">PORTAL</a>
+        <a href="portal.html">PORTAL</a>
     </nav>
 </header>
 
@@ -332,12 +332,30 @@
             return;
         }
 
-        const gambar =
-            data.gambar ||
-            data.foto ||
-            data.image_url ||
-            data.foto_url ||
-            "";
+        // Foto dari admin disimpan sebagai nama file di bucket Storage "berita".
+        // Ubah nama file menjadi URL publik Supabase agar dapat ditampilkan.
+        function getImageUrl(value) {
+            if (!value) return "";
+
+            let url = String(value).trim();
+            if (!url) return "";
+
+            if (url.startsWith("http://") || url.startsWith("https://") ||
+                url.startsWith("data:") || url.startsWith("/") ||
+                url.startsWith("./") || url.startsWith("../")) {
+                return url;
+            }
+
+            if (url.startsWith("berita/")) {
+                url = url.substring("berita/".length);
+            }
+
+            return supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
+        }
+
+        const gambar = getImageUrl(
+            data.gambar || data.foto || data.image_url || data.foto_url || ""
+        );
 
         let tanggal = "";
         if (data.created_at) {
