@@ -464,21 +464,89 @@ html,body{
 <footer><div><b>SMK KEHUTANAN RIMBA BAHARI SUMEDANG</b><br><small>Teknik Rehabilitasi dan Reklamasi Hutan</small></div><div>© 2026 SMK Kehutanan Rimba Bahari Sumedang · All Rights Reserved.</div></footer>
 
 <script>
-const slides=[...document.querySelectorAll('.slide')];
-const dots=[...document.querySelectorAll('.dot')];
+let slides=[...document.querySelectorAll('.slide')];
+let dots=[...document.querySelectorAll('.dot')];
 let index=0, timer;
+const SLIDE_INTERVAL=4000;
 
+function refreshSlides(){
+  slides=[...document.querySelectorAll('.slide')];
+  dots=[...document.querySelectorAll('.dot')];
+}
 function show(i){
+  refreshSlides();
+  if(!slides.length)return;
   index=(i+slides.length)%slides.length;
   slides.forEach((s,n)=>s.classList.toggle('active',n===index));
   dots.forEach((d,n)=>d.classList.toggle('active',n===index));
 }
-function start(){timer=setInterval(()=>show(index+1),3000)}
+function start(){clearInterval(timer);timer=setInterval(()=>show(index+1),SLIDE_INTERVAL)}
 function reset(){clearInterval(timer);start()}
 document.querySelector('.next').onclick=()=>{show(index+1);reset()};
 document.querySelector('.prev').onclick=()=>{show(index-1);reset()};
 dots.forEach((d,n)=>d.onclick=()=>{show(n);reset()});
+
+/* Tambahkan foto Berita + Kegiatan terbaru ke slider Beranda.
+   Foto slider lama tetap dipertahankan. */
+async function addLatestPhotosToSlider(){
+  if(typeof supabaseClient==="undefined") return;
+  const slider=document.querySelector('.hero .slider');
+  if(!slider) return;
+  try{
+    const {data,error}=await supabaseClient.from('berita')
+      .select('*')
+      .order('created_at',{ascending:false})
+      .limit(20);
+    if(error||!Array.isArray(data)) return;
+
+    const existing=new Set([...slider.querySelectorAll('img')].map(img=>img.getAttribute('src')));
+    const seen=new Set();
+    data.forEach(row=>{
+      const kategori=String(row.kategori||'').toLowerCase();
+      const isContent= kategori.includes('kegiatan') ||
+        kategori.includes('berita') ||
+        kategori.includes('prestasi') ||
+        kategori.includes('pengumuman') ||
+        kategori.includes('informasi');
+      if(!isContent) return;
+
+      const foto=row.foto||row.gambar||row.image||row.photo||row.thumbnail||row.image_url;
+      if(!foto) return;
+      let url=String(foto).trim();
+      if(!/^https?:\/\//i.test(url) && !url.startsWith('data:') && !url.startsWith('/')){
+        if(url.startsWith('berita/')) url=url.slice(7);
+        url=supabaseClient.storage.from('berita').getPublicUrl(url).data.publicUrl;
+      }
+      if(existing.has(url)||seen.has(url)) return;
+      seen.add(url);
+
+      const slide=document.createElement('div');
+      slide.className='slide';
+      const img=document.createElement('img');
+      img.src=url;
+      img.alt=row.judul||'Kegiatan SMK Kehutanan Rimba Bahari';
+      slide.appendChild(img);
+      slider.appendChild(slide);
+
+      const dotsBox=document.querySelector('.slider-dots');
+      if(dotsBox){
+        const dot=document.createElement('button');
+        dot.className='dot';
+        dot.type='button';
+        dotsBox.appendChild(dot);
+      }
+    });
+
+    refreshSlides();
+    show(index);
+    start();
+  }catch(err){
+    console.warn('Gagal menambahkan foto terbaru ke slider:',err);
+  }
+}
+
 function syncMobileMenuTop(){
+{
   const topbar=document.querySelector('.topbar');
   const nav=document.querySelector('.nav');
   if(!topbar || !nav || !mobileMenu) return;
@@ -523,6 +591,9 @@ if(hero){
 const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
 const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Setelah Supabase siap, tambahkan foto terbaru ke slider.
+addLatestPhotosToSlider();
 
 function escHome(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
 function homeImageUrl(v){
