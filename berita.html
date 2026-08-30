@@ -1,447 +1,82 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Berita | SMK Kehutanan Rimba Bahari Sumedang</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7f5;
-            color: #123b2a;
-        }
-
-        header {
-            background: white;
-            padding: 18px 7%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-        }
-
-        .logo h1 {
-            font-size: 20px;
-            color: #075c38;
-        }
-
-        .logo span {
-            color: #14844e;
-        }
-
-        nav {
-            display: flex;
-            gap: 28px;
-            align-items: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #111;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: #087443;
-        }
-
-        nav a.active {
-            border-bottom: 3px solid #087443;
-            padding-bottom: 8px;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #075c38, #087c4b);
-            color: white;
-            padding: 75px 7%;
-        }
-
-        .hero small {
-            color: #d9f51f;
-            font-weight: bold;
-            letter-spacing: 3px;
-        }
-
-        .hero h2 {
-            font-size: 52px;
-            margin: 15px 0;
-        }
-
-        .hero p {
-            font-size: 20px;
-            max-width: 700px;
-            line-height: 1.7;
-        }
-
-        .container {
-            width: 86%;
-            max-width: 1200px;
-            margin: 55px auto;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .section-title h2 {
-            font-size: 32px;
-            color: #075c38;
-        }
-
-        .section-title p {
-            margin-top: 10px;
-            color: #666;
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-
-        .news-card {
-            background: white;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            transition: 0.3s;
-        }
-
-        .news-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .news-image {
-            height: 190px;
-            background: linear-gradient(135deg, #087443, #0b9a5c);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 55px;
-            overflow: hidden;
-        }
-
-        .news-image img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .news-content {
-            padding: 23px;
-        }
-
-        .date {
-            color: #16834f;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .news-content h3 {
-            color: #075c38;
-            font-size: 21px;
-            margin: 12px 0;
-            line-height: 1.4;
-        }
-
-        .news-content p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .read-more {
-            display: inline-block;
-            margin-top: 18px;
-            color: #087443;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer {
-            margin-top: 80px;
-            background: #06482d;
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
-
-        @media (max-width: 900px) {
-            nav {
-                gap: 12px;
-            }
-
-            nav a {
-                font-size: 13px;
-            }
-
-            .news-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 650px) {
-            header {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .hero h2 {
-                font-size: 38px;
-            }
-
-            .news-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berita | SMK Kehutanan Rimba Bahari Sumedang</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f7f5;color:#123b2a}
+header{background:#fff;padding:18px 7%;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo{display:flex;align-items:center;gap:15px}.logo img{width:70px;height:70px;object-fit:contain}
+.logo h1{font-size:20px;color:#075c38}.logo span{color:#14844e}
+nav{display:flex;gap:28px;align-items:center}nav a{text-decoration:none;color:#111;font-weight:bold;font-size:16px}
+nav a:hover,nav a.active{color:#087443}nav a.active{border-bottom:3px solid #087443;padding-bottom:8px}
+.hero{background:linear-gradient(135deg,#075c38,#087c4b);color:#fff;padding:75px 7%}
+.hero small{color:#d9f51f;font-weight:bold;letter-spacing:3px}.hero h2{font-size:52px;margin:15px 0}
+.hero p{font-size:20px;max-width:700px;line-height:1.7}
+.container{width:86%;max-width:1200px;margin:55px auto}.section-title{text-align:center;margin-bottom:35px}
+.section-title h2{font-size:32px;color:#075c38}.section-title p{margin-top:10px;color:#666}
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+.news-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 5px 20px rgba(0,0,0,.08);transition:.3s}
+.news-card:hover{transform:translateY(-6px)}
+.news-image{height:190px;background:linear-gradient(135deg,#087443,#0b9a5c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:55px;overflow:hidden}
+.news-image img{display:block;width:100%;height:100%;object-fit:cover}
+.news-content{padding:23px}.date{color:#16834f;font-size:13px;font-weight:bold}
+.news-content h3{color:#075c38;font-size:21px;margin:12px 0;line-height:1.4}.news-content p{color:#666;line-height:1.6}
+.read-more{display:inline-block;margin-top:18px;color:#087443;text-decoration:none;font-weight:bold}
+.loading,.empty{grid-column:1/-1;text-align:center;padding:40px;color:#666}
+footer{margin-top:80px;background:#06482d;color:#fff;text-align:center;padding:30px}
+@media(max-width:900px){nav{gap:12px}nav a{font-size:13px}.news-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){header{flex-direction:column;gap:20px}nav{flex-wrap:wrap;justify-content:center}.hero h2{font-size:38px}.news-grid{grid-template-columns:1fr}}
+</style>
 </head>
-
 <body>
-
 <header>
-    <div class="logo">
-        <img src="logo-sekolah.png" alt="Logo SMK Rimba Bahari">
-        <h1>
-            SMK KEHUTANAN<br>
-            <span>RIMBA BAHARI</span>
-        </h1>
-    </div>
-
-    <nav>
-        <a href="index.html">BERANDA</a>
-        <a href="profil.html">PROFIL</a>
-        <a href="kehutanan.html">KEHUTANAN</a>
-        <a href="kegiatan.html">KEGIATAN</a>
-        <a href="berita.html" class="active">BERITA</a>
-        <a href="galeri.html">GALERI</a>
-        <a href="spmb.html">SPMB</a>
-        <a href="portal.html">PORTAL</a>
-    </nav>
+<div class="logo"><img src="logo-sekolah.png" alt="Logo SMK Rimba Bahari"><h1>SMK KEHUTANAN<br><span>RIMBA BAHARI</span></h1></div>
+<nav>
+<a href="index.html">BERANDA</a><a href="profil.html">PROFIL</a><a href="kehutanan.html">KEHUTANAN</a><a href="kegiatan.html">KEGIATAN</a><a href="berita.html" class="active">BERITA</a><a href="galeri.html">GALERI</a><a href="spmb.html">SPMB</a><a href="portal.html">PORTAL</a>
+</nav>
 </header>
-
-<section class="hero">
-    <small>INFORMASI TERKINI</small>
-    <h2>Berita Sekolah</h2>
-    <p>
-        Informasi terbaru mengenai kegiatan, prestasi,
-        pengumuman, dan berbagai kabar dari
-        SMK Kehutanan Rimba Bahari Sumedang.
-    </p>
-</section>
-
+<section class="hero"><small>INFORMASI TERKINI</small><h2>Berita Sekolah</h2><p>Informasi terbaru mengenai kegiatan, prestasi, pengumuman, dan berbagai kabar dari SMK Kehutanan Rimba Bahari Sumedang.</p></section>
 <section class="container">
-
-    <div class="section-title">
-        <h2>Berita & Informasi</h2>
-        <p>Ikuti perkembangan terbaru dari sekolah kami.</p>
-    </div>
-
-    <div class="news-grid" id="news-grid">
-
-    </div>
-
+<div class="section-title"><h2>Berita &amp; Informasi</h2><p>Ikuti perkembangan terbaru dari sekolah kami.</p></div>
+<div class="news-grid" id="news-grid"><div class="loading">Memuat berita...</div></div>
 </section>
-
-<footer>
-    <p>© 2026 SMK Kehutanan Rimba Bahari Sumedang</p>
-</footer>
-
+<footer><p>&copy; 2026 SMK Kehutanan Rimba Bahari Sumedang</p></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-    const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
-
-    const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
-
-    const supabaseClient = supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-    async function loadBerita() {
-        const newsGrid = document.getElementById("news-grid");
-
-        if (!newsGrid) return;
-
-        const { data, error } = await supabaseClient
-            .from("berita")
-            .select("*")
-            .order("created_at", { ascending: false });
-
-        if (error) {
-            console.error("Gagal mengambil berita:", error);
-            newsGrid.innerHTML = `
-                <div style="grid-column:1/-1; text-align:center; padding:30px;">
-                    <p>Berita belum dapat dimuat.</p>
-                </div>
-            `;
-            return;
-        }
-
-        if (!data || data.length === 0) {
-            newsGrid.innerHTML = `
-                <div style="text-align:center; padding:30px;">
-                    <p>Belum ada berita yang tersedia.</p>
-                </div>
-            `;
-            return;
-        }
-
-        newsGrid.innerHTML = "";
-
-        data.forEach(berita => {
-
-            // Ambil gambar dari kolom yang tersedia di tabel Supabase.
-            // Mendukung URL penuh, file lokal di repository, dan format
-            // "nama_bucket/path/file.jpg" dari Supabase Storage.
-            const sumberGambar = [
-                berita.gambar,
-                berita.foto,
-                berita.image_url,
-                berita.foto_url
-            ].filter(Boolean);
-
-            function normalisasiGambar(value) {
-                if (!value) return "";
-
-                let url = String(value).trim();
-                if (!url) return "";
-
-                // URL penuh / data URL / path lokal.
-                if (
-                    url.startsWith("http://") ||
-                    url.startsWith("https://") ||
-                    url.startsWith("data:") ||
-                    url.startsWith("/") ||
-                    url.startsWith("./") ||
-                    url.startsWith("../")
-                ) {
-                    return url;
-                }
-
-                // Jika database menyimpan "bucket/path/file.jpg",
-                // ubah menjadi URL publik Supabase Storage.
-                if (url.includes("/") && !url.startsWith("storage/")) {
-                    return `${SUPABASE_URL}/storage/v1/object/public/${url
-                        .split("/")
-                        .map(part => encodeURIComponent(part))
-                        .join("/")}`;
-                }
-
-                // Jika hanya nama file, gunakan file yang ada di repository.
-                return encodeURI(url);
-            }
-
-            const kandidatGambar = sumberGambar
-                .map(normalisasiGambar)
-                .filter(Boolean);
-
-            let tanggal = "";
-            if (berita.tanggal) {
-                tanggal = berita.tanggal;
-            } else if (berita.created_at) {
-                const dateObj = new Date(berita.created_at);
-                if (!Number.isNaN(dateObj.getTime())) {
-                    tanggal = dateObj.toLocaleDateString("id-ID", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric"
-                    });
-                }
-            }
-
-            const card = document.createElement("article");
-            card.className = "news-card";
-
-            const imageBox = document.createElement("div");
-            imageBox.className = "news-image";
-
-            if (kandidatGambar.length > 0) {
-                const img = document.createElement("img");
-                img.alt = berita.judul || "Berita SMK Kehutanan Rimba Bahari";
-                img.loading = "lazy";
-                img.style.width = "100%";
-                img.style.height = "100%";
-                img.style.objectFit = "cover";
-
-                let indexGambar = 0;
-
-                img.onerror = function () {
-                    indexGambar++;
-
-                    if (indexGambar < kandidatGambar.length) {
-                        this.src = kandidatGambar[indexGambar];
-                    } else {
-                        imageBox.innerHTML = '<span style="font-size:42px;">🌲</span>';
-                    }
-                };
-
-                img.src = kandidatGambar[0];
-                imageBox.appendChild(img);
-            } else {
-                imageBox.innerHTML = '<span style="font-size:42px;">🌲</span>';
-            }
-
-            const content = document.createElement("div");
-            content.className = "news-content";
-
-            const dateDiv = document.createElement("div");
-            dateDiv.className = "date";
-            dateDiv.textContent =
-                (berita.kategori || "BERITA SEKOLAH") +
-                (tanggal ? " • " + tanggal : "");
-
-            const title = document.createElement("h3");
-            title.textContent = berita.judul || "Berita Sekolah";
-
-            const paragraph = document.createElement("p");
-            paragraph.textContent = berita.ringkasan || berita.isi || "";
-
-            const link = document.createElement("a");
-            link.href = `berita-detail.html?id=${encodeURIComponent(berita.id || "")}`;
-            link.className = "read-more";
-            link.textContent = "Baca selengkapnya →";
-
-            content.appendChild(dateDiv);
-            content.appendChild(title);
-            content.appendChild(paragraph);
-            content.appendChild(link);
-
-            card.appendChild(imageBox);
-            card.appendChild(content);
-
-            newsGrid.appendChild(card);
-        });
-    }
-console.log("JAVASCRIPT BERITA BERJALAN");
-    document.addEventListener("DOMContentLoaded", loadBerita);
+const SUPABASE_URL="https://xzgbrzabcceqwcaxegfx.supabase.co";
+const SUPABASE_KEY="sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+function normalisasiGambar(value){
+if(!value)return "";let url=String(value).trim();if(!url)return "";
+if(/^https?:\/\//i.test(url)||url.startsWith("data:")||url.startsWith("/")||url.startsWith("./")||url.startsWith("../"))return url;
+if(url.includes("/")&&!url.startsWith("storage/"))return `${SUPABASE_URL}/storage/v1/object/public/${url.split("/").map(encodeURIComponent).join("/")}`;
+return encodeURI(url);
+}
+function formatTanggal(value){if(!value)return "";const d=new Date(value);return Number.isNaN(d.getTime())?String(value):d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});}
+async function loadBerita(){
+const grid=document.getElementById("news-grid");
+const {data,error}=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false});
+if(error){console.error("Gagal mengambil berita:",error);grid.innerHTML='<div class="empty">Berita belum dapat dimuat.</div>';return;}
+if(!data||!data.length){grid.innerHTML='<div class="empty">Belum ada berita yang tersedia.</div>';return;}
+grid.innerHTML="";
+data.forEach(berita=>{
+const candidates=[berita.gambar,berita.foto,berita.image_url,berita.foto_url].filter(Boolean).map(normalisasiGambar);
+const card=document.createElement("article");card.className="news-card";
+const imageBox=document.createElement("div");imageBox.className="news-image";
+if(candidates.length){const img=document.createElement("img");img.alt=berita.judul||"Berita SMK Kehutanan Rimba Bahari";img.loading="lazy";let i=0;
+img.onerror=()=>{i++;if(i<candidates.length)img.src=candidates[i];else imageBox.innerHTML="<span>🌲</span>";};
+img.src=candidates[0];imageBox.appendChild(img);}else imageBox.innerHTML="<span>🌲</span>";
+const content=document.createElement("div");content.className="news-content";
+const date=document.createElement("div");date.className="date";date.textContent=(berita.kategori||"BERITA SEKOLAH")+" • "+formatTanggal(berita.tanggal||berita.created_at);
+const title=document.createElement("h3");title.textContent=berita.judul||"Berita Sekolah";
+const p=document.createElement("p");p.textContent=berita.ringkasan||berita.isi||"";
+const link=document.createElement("a");link.className="read-more";link.href="berita-detail.html?id="+encodeURIComponent(berita.id||"");link.textContent="Baca selengkapnya →";
+content.append(date,title,p,link);card.append(imageBox,content);grid.appendChild(card);
+});}
+document.addEventListener("DOMContentLoaded",loadBerita);
 </script>
+</body>
+</html>
