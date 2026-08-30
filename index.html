@@ -441,9 +441,9 @@ html,body{
 <section class="section" id="portal">
   <div class="section-head"><div class="kicker-dark">AKSES PORTAL SEKOLAH</div><h2>Satu Pintu untuk Semua <em>Layanan Digital</em></h2></div>
   <div class="cards three portals">
-    <article class="portal siswa"><div><h3>Portal Siswa</h3><p>E-Jurnal, Absensi, TKA, Nilai</p></div><a href="#portal" onclick="return portalInfo(event)">LOGIN →</a></article>
-    <article class="portal guru"><div><h3>Portal Guru</h3><p>E-Jurnal, Absensi, Penilaian</p></div><a href="#portal" onclick="return portalInfo(event)">LOGIN →</a></article>
-    <article class="portal admin"><div><h3>Portal Admin</h3><p>Manajemen Data & Sistem</p></div><a href="#portal" onclick="return portalInfo(event)">LOGIN →</a></article>
+    <article class="portal siswa"><div><h3>Portal Siswa</h3><p>E-Jurnal, Absensi, TKA, Nilai</p></div><a href="https://e-jurnal-pkl-rimba-bahari-m9eh.vercel.app/" target="_self">LOGIN →</a></article>
+    <article class="portal guru"><div><h3>Portal Guru</h3><p>E-Jurnal, Absensi, Penilaian</p></div><a href="https://e-jurnal-pkl-rimba-bahari-m9eh.vercel.app/" target="_self">LOGIN →</a></article>
+    <article class="portal admin"><div><h3>Portal Admin</h3><p>Manajemen Data & Sistem</p></div><a href="/admin.html" target="_self">LOGIN →</a></article>
   </div>
 </section>
 
@@ -516,11 +516,7 @@ if(hero){
 }
 
 
-function portalInfo(event){
-  event.preventDefault();
-  alert('Menu portal sudah disiapkan. Tautan LOGIN dapat dihubungkan setelah alamat portal siswa, guru, dan admin ditentukan.');
-  return false;
-}
+function portalInfo() { return true; }
 
 start();
 </script>
