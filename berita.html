@@ -141,6 +141,14 @@
             justify-content: center;
             color: white;
             font-size: 55px;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .news-content {
@@ -312,15 +320,55 @@
 
         data.forEach(berita => {
 
-            const gambar =
-                berita.gambar ||
-                berita.foto ||
-                berita.image_url ||
-                berita.foto_url ||
-                "";
+            // Ambil gambar dari kolom yang tersedia di tabel Supabase.
+            // Mendukung URL penuh, file lokal di repository, dan format
+            // "nama_bucket/path/file.jpg" dari Supabase Storage.
+            const sumberGambar = [
+                berita.gambar,
+                berita.foto,
+                berita.image_url,
+                berita.foto_url
+            ].filter(Boolean);
+
+            function normalisasiGambar(value) {
+                if (!value) return "";
+
+                let url = String(value).trim();
+                if (!url) return "";
+
+                // URL penuh / data URL / path lokal.
+                if (
+                    url.startsWith("http://") ||
+                    url.startsWith("https://") ||
+                    url.startsWith("data:") ||
+                    url.startsWith("/") ||
+                    url.startsWith("./") ||
+                    url.startsWith("../")
+                ) {
+                    return url;
+                }
+
+                // Jika database menyimpan "bucket/path/file.jpg",
+                // ubah menjadi URL publik Supabase Storage.
+                if (url.includes("/") && !url.startsWith("storage/")) {
+                    return `${SUPABASE_URL}/storage/v1/object/public/${url
+                        .split("/")
+                        .map(part => encodeURIComponent(part))
+                        .join("/")}`;
+                }
+
+                // Jika hanya nama file, gunakan file yang ada di repository.
+                return encodeURI(url);
+            }
+
+            const kandidatGambar = sumberGambar
+                .map(normalisasiGambar)
+                .filter(Boolean);
 
             let tanggal = "";
-            if (berita.created_at) {
+            if (berita.tanggal) {
+                tanggal = berita.tanggal;
+            } else if (berita.created_at) {
                 const dateObj = new Date(berita.created_at);
                 if (!Number.isNaN(dateObj.getTime())) {
                     tanggal = dateObj.toLocaleDateString("id-ID", {
@@ -334,36 +382,62 @@
             const card = document.createElement("article");
             card.className = "news-card";
 
-            card.innerHTML = `
-                <div class="news-image">
-                    ${
-                        gambar
-                        ? `<img src="${gambar}" alt="${berita.judul || "Berita SMK Kehutanan Rimba Bahari"}"
-                           style="width:100%; height:100%; object-fit:cover;">`
-                        : "🌲"
+            const imageBox = document.createElement("div");
+            imageBox.className = "news-image";
+
+            if (kandidatGambar.length > 0) {
+                const img = document.createElement("img");
+                img.alt = berita.judul || "Berita SMK Kehutanan Rimba Bahari";
+                img.loading = "lazy";
+                img.style.width = "100%";
+                img.style.height = "100%";
+                img.style.objectFit = "cover";
+
+                let indexGambar = 0;
+
+                img.onerror = function () {
+                    indexGambar++;
+
+                    if (indexGambar < kandidatGambar.length) {
+                        this.src = kandidatGambar[indexGambar];
+                    } else {
+                        imageBox.innerHTML = '<span style="font-size:42px;">🌲</span>';
                     }
-                </div>
+                };
 
-                <div class="news-content">
+                img.src = kandidatGambar[0];
+                imageBox.appendChild(img);
+            } else {
+                imageBox.innerHTML = '<span style="font-size:42px;">🌲</span>';
+            }
 
-                    <div class="date">
-                        ${berita.kategori || "BERITA SEKOLAH"}
-                        ${tanggal ? " • " + tanggal : ""}
-                    </div>
+            const content = document.createElement("div");
+            content.className = "news-content";
 
-                    <h3>${berita.judul || "Berita Sekolah"}</h3>
+            const dateDiv = document.createElement("div");
+            dateDiv.className = "date";
+            dateDiv.textContent =
+                (berita.kategori || "BERITA SEKOLAH") +
+                (tanggal ? " • " + tanggal : "");
 
-                    <p>
-                        ${berita.ringkasan || berita.isi || ""}
-                    </p>
+            const title = document.createElement("h3");
+            title.textContent = berita.judul || "Berita Sekolah";
 
-                    <a href="berita-detail.html?id=${berita.id}"
-                       class="read-more">
-                        Baca selengkapnya →
-                    </a>
+            const paragraph = document.createElement("p");
+            paragraph.textContent = berita.ringkasan || berita.isi || "";
 
-                </div>
-            `;
+            const link = document.createElement("a");
+            link.href = `berita-detail.html?id=${encodeURIComponent(berita.id || "")}`;
+            link.className = "read-more";
+            link.textContent = "Baca selengkapnya →";
+
+            content.appendChild(dateDiv);
+            content.appendChild(title);
+            content.appendChild(paragraph);
+            content.appendChild(link);
+
+            card.appendChild(imageBox);
+            card.appendChild(content);
 
             newsGrid.appendChild(card);
         });
