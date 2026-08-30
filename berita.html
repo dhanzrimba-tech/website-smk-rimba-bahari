@@ -215,6 +215,33 @@
             }
         }
     </style>
+
+<style id="photo-display-final-fix">
+/* FIX FOTO BERITA: foto yang tersedia memenuhi seluruh area, tanpa panel/ikon tambahan. */
+.news-image, .article-image {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.news-image img, .article-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center center;
+}
+.news-image.photo-loaded, .article-image.photo-loaded {
+  background: #f3f5f4;
+}
+.news-image.photo-loaded img, .article-image.photo-loaded img {
+  position: absolute;
+  inset: 0;
+}
+</style>
+
 </head>
 
 <body>
@@ -357,7 +384,8 @@
                         gambar
                         ? `<img src="${gambar}" alt="${berita.judul || "Berita SMK Kehutanan Rimba Bahari"}"
                            style="width:100%; height:100%; object-fit:cover;"
-                           onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\"font-size:42px;\">🌲</span>'">`
+                           onload="this.parentElement.classList.add('photo-loaded')"
+                           onerror="this.style.display='none'; this.parentElement.classList.remove('photo-loaded'); this.parentElement.innerHTML='<span style=\"font-size:42px;\">🌲</span>'" onload="this.parentElement.classList.add('photo-loaded')">`
                         : "🌲"
                     }
                 </div>
