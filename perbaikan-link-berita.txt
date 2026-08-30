@@ -1,0 +1,33 @@
+PERBAIKAN LINK BERITA
+
+Di berita.html, cari bagian:
+
+<a href="berita-detail.html?id=${berita.id}"
+   class="read-more">
+    Baca selengkapnya →
+</a>
+
+GANTI menjadi:
+
+<a href="/berita-detail.html?id=${encodeURIComponent(berita.id)}"
+   class="read-more">
+    Baca selengkapnya →
+</a>
+
+Catatan:
+- Tanda / di depan berita-detail.html penting agar alamat dimulai dari root website.
+- encodeURIComponent() membuat ID aman dimasukkan ke URL.
+
+Setelah mengganti:
+1. Simpan berita.html.
+2. Upload/replace berita.html di GitHub.
+3. Commit changes.
+4. Tunggu Vercel selesai deploy.
+5. Buka https://www.smkkehutan.../berita.html
+6. Klik "Baca selengkapnya →".
+
+Alamat browser yang BENAR harus terlihat seperti:
+https://www.smkkehutan.../berita-detail.html?id=ID-BERITA
+
+Bukan:
+https://www.smkkehutan.../berita.html
