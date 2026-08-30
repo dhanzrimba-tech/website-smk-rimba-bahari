@@ -9,11 +9,11 @@
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:28px}.card{background:#fff;border:1px solid #e2ebe5;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(0,50,30,.08);transition:transform .2s ease,box-shadow .2s ease}.card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,50,25,.12)}.card img{width:100%;height:210px;object-fit:cover;display:block}
 .activity-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;background:#eef5f0}
 .activity-photos img{width:100%;height:170px;object-fit:cover;display:block}
-.activity-photos img:first-child{grid-column:span 2;height:210px}
+.activity-photos img:first-child{grid-column:span 2;height:210px}.activity-photos img{min-width:0}
 .activity-photos img:nth-child(2){height:210px}
 @media(max-width:850px){
 .activity-photos{grid-template-columns:repeat(2,1fr)}
-.activity-photos img:first-child{grid-column:span 2;height:210px}
+.activity-photos img:first-child{grid-column:span 2;height:210px}.activity-photos img{min-width:0}
 .activity-photos img:nth-child(2),.activity-photos img:nth-child(3){height:150px}
 }.card-body{padding:18px}.badge{display:inline-block;background:#eaf7dc;color:#286b16;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}.card h3{margin:10px 0 7px}.date{font-weight:800;color:#075c3d;font-size:14px;margin:8px 0}.location{font-size:13px;color:#6a776f;margin-bottom:8px}.card-body p{margin:0}.gallery-section{margin-top:42px}.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}.gallery-item{background:#fff;border:1px solid #e2ebe5;border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(0,50,30,.08)}.gallery-item img{width:100%;height:360px;object-fit:cover;display:block}.gallery-caption{padding:15px 18px;font-size:14px;color:#63756d}.info-box{margin-top:28px;background:#f0f6f1;border-left:5px solid #075c3d;border-radius:14px;padding:22px 24px}.info-box h3{margin:0 0 8px;color:#075c3d}.info-box p{margin:0;color:#536057;line-height:1.65}footer{background:#073f2d;color:#fff;padding:28px 5vw;margin-top:30px}
 @media(max-width:850px){.topbar{display:none}.header{padding:12px 5vw}.brand img{width:58px;height:58px}.brand strong{font-size:17px}.brand span{font-size:11px}.nav{gap:10px;font-size:12px;flex-wrap:wrap;justify-content:flex-end}.nav .hide-mobile{display:none}.cta{padding:10px 12px}.cards{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr}.page-hero{padding:45px 0}.gallery-item img{height:300px}}
@@ -23,7 +23,12 @@
 <section class="page-hero"><div class="container"><h1>Kegiatan Siswa</h1><p>Dokumentasi kegiatan, pembelajaran, praktik, dan kehidupan siswa SMK Kehutanan Rimba Bahari Sumedang.</p></div></section>
 <section class="section"><div class="container"><h2>Aktivitas Rimba Bahari</h2><p class="muted">Dokumentasi kegiatan siswa di sekolah dan saat melaksanakan Praktik Kerja Lapangan (PKL).</p>
 <div class="cards">
-<article class="card"><div class="activity-photos"><img src="kegiatan-inventarisasi-diameter.jpeg" alt="Siswa mengukur diameter pohon"><img src="kegiatan-inventarisasi-tinggi.jpeg" alt="Siswa mengukur tinggi pohon"><img src="kegiatan-inventarisasi-diameter 2.jpeg" alt="Siswa melakukan pengukuran pohon"></div><div class="card-body"><span class="badge">PRAKTIK PKL</span><h3>Praktik Inventarisasi Hutan</h3><div class="date">20 Agustus 2026</div><div class="location">📍 BPHL Wilayah VII Ciamis</div><p class="muted">Siswa melaksanakan praktik inventarisasi hutan melalui pengamatan dan pengukuran vegetasi, termasuk pengukuran diameter dan tinggi pohon secara langsung di lapangan.</p></div></article>
+<article class="card">
+<div class="activity-photos">
+<img src="./kegiatan-inventarisasi-diameter.jpeg" alt="Siswa mengukur diameter pohon">
+<img src="./kegiatan-inventarisasi-tinggi.jpeg" alt="Siswa mengukur tinggi pohon">
+<img src="./kegiatan-inventarisasi-diameter 2.jpeg" alt="Siswa melakukan pengukuran pohon">
+</div><div class="card-body"><span class="badge">PRAKTIK PKL</span><h3>Praktik Inventarisasi Hutan</h3><div class="date">20 Agustus 2026</div><div class="location">📍 BPHL Wilayah VII Ciamis</div><p class="muted">Siswa melaksanakan praktik inventarisasi hutan melalui pengamatan dan pengukuran vegetasi, termasuk pengukuran diameter dan tinggi pohon secara langsung di lapangan.</p></div></article>
 <article class="card"><img src="slide-sholat-duha.jpeg" alt="Sholat Duha"><div class="card-body"><span class="badge">KEGIATAN</span><h3>Sholat Duha</h3><p class="muted">Dokumentasi kegiatan pembiasaan siswa.</p></div></article>
 <article class="card"><img src="slide-upacara.jpeg" alt="Upacara"><div class="card-body"><span class="badge">KEGIATAN</span><h3>Upacara</h3><p class="muted">Kegiatan upacara dan pembentukan disiplin.</p></div></article>
 </div>
