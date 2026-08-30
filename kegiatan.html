@@ -12,12 +12,72 @@
 <div class="topbar"><span>📍 Jl. Raden Umar Wirahadikusumah No. 69 · Jatinangor · Sumedang</span><span>☎ 0852 2204 9566 · ✉ smkk.rimba.bahari@gmail.com</span></div>
 <header class="header"><a class="brand" href="index.html"><img src="logo-sekolah.png" alt="Logo SMK Kehutanan Rimba Bahari"><div><strong>SMK KEHUTANAN<br>RIMBA BAHARI</strong><span>SUMEDANG</span></div></a><nav class="nav"><a href="index.html">Beranda</a><a href="profil.html">Profil</a><a href="kehutanan.html">Kehutanan</a><a href="kegiatan.html">Kegiatan</a><a href="galeri.html">Galeri</a><a href="spmb.html">SPMB</a><a class="cta" href="spmb.html">🌲 DAFTAR SPMB</a></nav></header>
 <section class="page-hero"><div class="container"><h1>Kegiatan Siswa</h1><p>Dokumentasi kegiatan, pembelajaran, praktik, dan kehidupan siswa SMK Kehutanan Rimba Bahari Sumedang.</p></div></section>
-<section class="section"><div class="container"><h2>Aktivitas Rimba Bahari</h2><p class="muted">Dokumentasi kegiatan siswa di sekolah dan saat melaksanakan Praktik Kerja Lapangan (PKL).</p>
-<div class="cards">
-<article class="card"><img src="kegiatan-inventarisasi-diameter.jpeg" alt="Praktik inventarisasi hutan - pengukuran diameter pohon"><div class="card-body"><span class="badge">PRAKTIK PKL</span><h3>Praktik Inventarisasi Hutan</h3><div class="date">20 Agustus 2026</div><div class="location">📍 BPHL Wilayah VII Ciamis</div><p class="muted">Siswa melaksanakan praktik inventarisasi hutan melalui pengamatan dan pengukuran vegetasi, termasuk pengukuran diameter dan tinggi pohon secara langsung di lapangan.</p></div></article>
-<article class="card"><img src="slide-sholat-duha.jpeg" alt="Sholat Duha"><div class="card-body"><span class="badge">KEGIATAN</span><h3>Sholat Duha</h3><p class="muted">Dokumentasi kegiatan pembiasaan siswa.</p></div></article>
-<article class="card"><img src="slide-upacara.jpeg" alt="Upacara"><div class="card-body"><span class="badge">KEGIATAN</span><h3>Upacara</h3><p class="muted">Kegiatan upacara dan pembentukan disiplin.</p></div></article>
+<section class="section"><div class="container">
+<h2>Aktivitas Rimba Bahari</h2>
+<p class="muted">Dokumentasi kegiatan siswa di sekolah dan saat melaksanakan Praktik Kerja Lapangan (PKL).</p>
+<div id="kegiatan-grid" class="cards">
+  <div class="card"><div class="card-body"><p class="muted">Memuat kegiatan terbaru...</p></div></div>
 </div>
-<div class="gallery-section"><h2>Dokumentasi Praktik Inventarisasi Hutan</h2><p class="muted">Kegiatan siswa saat melaksanakan PKL di BPHL Wilayah VII Ciamis pada 20 Agustus 2026.</p><div class="gallery-grid"><figure class="gallery-item"><img src="kegiatan-inventarisasi-diameter.jpeg" alt="Siswa mengukur diameter pohon"><figcaption class="gallery-caption">Pengukuran diameter pohon sebagai bagian dari praktik inventarisasi hutan.</figcaption></figure><figure class="gallery-item"><img src="kegiatan-inventarisasi-tinggi.jpeg" alt="Siswa mengukur tinggi pohon"><figcaption class="gallery-caption">Pengukuran tinggi pohon dan pengamatan kondisi tegakan di lapangan.</figcaption></figure></div>
-<div class="info-box"><h3>Pembelajaran Berbasis Lapangan</h3><p>Praktik ini memberikan pengalaman langsung kepada siswa dalam menerapkan teknik inventarisasi hutan yang dipelajari di sekolah, sekaligus melatih ketelitian, keterampilan pengukuran, kerja sama, dan kedisiplinan selama kegiatan PKL.</p></div></div>
-</div></section><footer><div class="container">© 2026 SMK Kehutanan Rimba Bahari Sumedang · Rimbawan Muda • Lestari • Berkarakter</div></footer></body></html>
+<div id="kegiatan-empty" class="info-box" style="display:none">
+  <h3>Belum ada kegiatan</h3>
+  <p>Data kegiatan akan tampil otomatis setelah ditambahkan melalui Portal Admin.</p>
+</div>
+</div></section>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function esc(v){
+  return String(v ?? "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+function imageUrl(v){
+  if(!v) return "";
+  let u=String(v).trim();
+  if(/^https?:\/\//i.test(u) || u.startsWith("data:") || u.startsWith("/") ||
+     u.startsWith("./") || u.startsWith("../")) return u;
+  if(u.startsWith("berita/")) u=u.slice(7);
+  return supabaseClient.storage.from("berita").getPublicUrl(u).data.publicUrl;
+}
+function formatDate(v){
+  if(!v) return "";
+  const d=new Date(v);
+  if(Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+}
+async function loadKegiatan(){
+  const grid=document.getElementById("kegiatan-grid");
+  const empty=document.getElementById("kegiatan-empty");
+  const {data,error}=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false});
+  if(error){
+    console.error("Gagal mengambil kegiatan:",error);
+    grid.innerHTML='<div class="info-box"><h3>Data kegiatan belum dapat dimuat</h3><p>Silakan coba beberapa saat lagi.</p></div>';
+    return;
+  }
+  const rows=(data||[]).filter(x=>String(x.kategori||"").trim().toLowerCase()==="kegiatan");
+  if(!rows.length){
+    grid.innerHTML="";
+    empty.style.display="block";
+    return;
+  }
+  empty.style.display="none";
+  grid.innerHTML=rows.map(item=>{
+    const img=imageUrl(item.gambar||item.foto||item.image_url||item.foto_url||"");
+    const date=formatDate(item.tanggal||item.created_at);
+    return `<article class="card">
+      ${img ? `<img src="${esc(img)}" alt="${esc(item.judul||"Kegiatan SMK Kehutanan Rimba Bahari")}" onerror="this.style.display='none'">` :
+        `<div style="height:210px;background:linear-gradient(135deg,#087443,#0b9a5c);display:flex;align-items:center;justify-content:center;font-size:55px">🌲</div>`}
+      <div class="card-body">
+        <span class="badge">KEGIATAN</span>
+        <h3>${esc(item.judul||"Kegiatan Sekolah")}</h3>
+        ${date ? `<div class="date">${esc(date)}</div>` : ""}
+        <p class="muted">${esc(item.ringkasan||item.isi||"Dokumentasi kegiatan SMK Kehutanan Rimba Bahari Sumedang.")}</p>
+      </div>
+    </article>`;
+  }).join("");
+}
+document.addEventListener("DOMContentLoaded",loadKegiatan);
+</script><footer><div class="container">© 2026 SMK Kehutanan Rimba Bahari Sumedang · Rimbawan Muda • Lestari • Berkarakter</div></footer></body></html>

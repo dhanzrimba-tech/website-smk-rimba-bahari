@@ -91,8 +91,9 @@ function parseTanggal(v){
   const d=new Date(s);
   return isNaN(d.getTime())?null:d;
 }
-function formatTanggal(v){
-  const d=parseTanggal(v);
+function formatTanggal(v,fallback){
+  let d=parseTanggal(v);
+  if(!d && fallback) d=parseTanggal(fallback);
   if(!d)return "-";
   return d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
 }
@@ -131,7 +132,7 @@ async function loadList(){
   const {data,error}=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false});
   if(error){list.innerHTML='<div class="empty">Gagal memuat berita.</div>';console.error(error);return}
   if(!data.length){list.innerHTML='<div class="empty">Belum ada berita.</div>';return}
-  let rows=data.map(b=>{const img=imageUrl(b.gambar||b.foto||"");return `<tr><td>${img?`<img class="thumb" src="${img}" onerror="this.style.display='none'">`:"🌲"}</td><td><strong>${escapeHtml(b.judul||"-")}</strong><br><small>${escapeHtml(b.kategori||"-")} • ${formatTanggal(b.tanggal)}</small></td><td><button class="action secondary smallbtn" onclick="editBerita('${b.id}')">Edit</button><button class="action danger smallbtn" onclick="hapusBerita('${b.id}')">Hapus</button></td></tr>`}).join("");
+  let rows=data.map(b=>{const img=imageUrl(b.gambar||b.foto||"");return `<tr><td>${img?`<img class="thumb" src="${img}" onerror="this.style.display='none'">`:"🌲"}</td><td><strong>${escapeHtml(b.judul||"-")}</strong><br><small>${escapeHtml(b.kategori||"-")} • ${formatTanggal(b.tanggal,b.created_at)}</small></td><td><button class="action secondary smallbtn" onclick="editBerita('${b.id}')">Edit</button><button class="action danger smallbtn" onclick="hapusBerita('${b.id}')">Hapus</button></td></tr>`}).join("");
   list.innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Foto</th><th>Berita</th><th>Aksi</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}

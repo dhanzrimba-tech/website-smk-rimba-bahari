@@ -68,7 +68,45 @@ footer{background:#073f2d;color:#fff;padding:28px 5vw;margin-top:30px}
     <article class="card"><img src="slide-sholat-duha.jpeg" alt="Galeri sholat duha"><div class="card-body"><span class="badge">GALERI</span><h3>Sholat Duha</h3></div></article>
     <article class="card"><img src="slide-upacara.jpeg" alt="Galeri upacara"><div class="card-body"><span class="badge">GALERI</span><h3>Upacara</h3></div></article>
   </div>
-</div></section>
+</div>
+
+<section class="section" style="padding-top:20px">
+  <div class="container">
+    <h2>Dokumentasi Kegiatan Terbaru</h2>
+    <p class="muted">Foto utama dari setiap kegiatan yang diinput melalui Portal Admin akan direkap otomatis di sini.</p>
+    <div id="auto-gallery" class="cards">
+      <div class="card"><div class="card-body"><p class="muted">Memuat dokumentasi...</p></div></div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function imageUrl(v){
+  if(!v)return "";
+  let u=String(v).trim();
+  if(/^https?:\/\//i.test(u)||u.startsWith("data:")||u.startsWith("/")||u.startsWith("./")||u.startsWith("../"))return u;
+  if(u.startsWith("berita/"))u=u.slice(7);
+  return supabaseClient.storage.from("berita").getPublicUrl(u).data.publicUrl;
+}
+function fmt(v){const d=new Date(v);return Number.isNaN(d.getTime())?"":d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});}
+async function loadGallery(){
+  const box=document.getElementById("auto-gallery");
+  const {data,error}=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false});
+  if(error){console.error(error);box.innerHTML='<div class="info-box"><h3>Dokumentasi belum dapat dimuat</h3><p>Silakan coba lagi nanti.</p></div>';return;}
+  const rows=(data||[]).filter(x=>String(x.kategori||"").trim().toLowerCase()==="kegiatan" && (x.gambar||x.foto||x.image_url||x.foto_url));
+  if(!rows.length){box.innerHTML='<div class="info-box"><h3>Belum ada dokumentasi kegiatan</h3><p>Foto akan muncul otomatis setelah kegiatan dengan foto ditambahkan melalui Portal Admin.</p></div>';return;}
+  box.innerHTML=rows.map(x=>{
+    const img=imageUrl(x.gambar||x.foto||x.image_url||x.foto_url);
+    return `<article class="card"><img src="${esc(img)}" alt="${esc(x.judul||"Dokumentasi kegiatan")}" onerror="this.style.display='none'"><div class="card-body"><span class="badge">KEGIATAN</span><h3>${esc(x.judul||"Kegiatan Sekolah")}</h3><div class="date">${esc(fmt(x.tanggal||x.created_at))}</div></div></article>`;
+  }).join("");
+}
+document.addEventListener("DOMContentLoaded",loadGallery);
+</script>
 
 <footer><div class="container">© 2026 SMK Kehutanan Rimba Bahari Sumedang · Rimbawan Muda • Lestari • Berkarakter</div></footer>
 </body></html>

@@ -441,14 +441,18 @@ html,body{
 <section class="section" id="portal">
   <div class="section-head"><div class="kicker-dark">AKSES PORTAL SEKOLAH</div><h2>Satu Pintu untuk Semua <em>Layanan Digital</em></h2></div>
   <div class="cards three portals">
-    <article class="portal siswa"><div><h3>Portal Siswa</h3><p>E-Jurnal, Absensi, TKA, Nilai</p></div><a href="https://e-jurnal-pkl-rimba-bahari-m9eh.vercel.app/" target="_self">LOGIN →</a></article>
+    <article class="portal siswa"><div><h3>Portal Siswa</h3><p>Portal siswa sedang dipersiapkan.</p></div><span style="display:inline-block;border:1px solid rgba(255,255,255,.4);padding:12px 18px;border-radius:12px;font-weight:800;opacity:.75">SEGERA HADIR</span></article>
     <article class="portal guru"><div><h3>Portal Guru</h3><p>E-Jurnal, Absensi, Penilaian</p></div><a href="https://e-jurnal-pkl-rimba-bahari-m9eh.vercel.app/" target="_self">LOGIN →</a></article>
-    <article class="portal admin"><div><h3>Portal Admin</h3><p>Manajemen Data & Sistem</p></div><a href="/admin.html" target="_self">LOGIN →</a></article>
+    <article class="portal admin"><div><h3>Portal Admin</h3><p>Manajemen Data & Sistem</p></div><a href="admin.html" target="_self">LOGIN →</a></article>
   </div>
 </section>
 
 <section class="section split" id="berita">
-  <div><div class="kicker-dark">BERITA & INFORMASI</div><h2>Kabar Terbaru <em>Sekolah</em></h2><div class="news"><article><b>SPMB 2026/2027</b><p>Informasi penerimaan peserta didik baru dan layanan pendaftaran.</p><a href="spmb.html">Lihat informasi →</a></article><article><b>Kegiatan Siswa</b><p>Dokumentasi kegiatan pembelajaran dan pembentukan karakter rimbawan muda.</p><a href="kegiatan.html">Lihat kegiatan →</a></article><article><b>Program Kehutanan</b><p>Aktivitas praktik dan pengembangan kompetensi peserta didik.</p><a href="kehutanan.html">Lihat program →</a></article></div></div>
+  <div><div class="kicker-dark">BERITA & KEGIATAN TERBARU</div><h2>Kabar Terbaru <em>Sekolah</em></h2>
+    <div class="news" id="latest-news">
+      <article><b>Memuat kabar terbaru...</b><p>Mohon tunggu sebentar.</p></article>
+    </div>
+  </div>
   <div class="contact"><h3>Hubungi Kami</h3><p>📍 Jl. Raden Umar Wirahadikusumah No. 69<br>Jatimekar, Situraja, Kab. Sumedang<br>Jawa Barat 45371</p><p>☎ 0852 2204 9566</p><p>✉ smkk.rimba.bahari@gmail.com</p></div>
 </section>
 
@@ -469,7 +473,7 @@ function show(i){
   slides.forEach((s,n)=>s.classList.toggle('active',n===index));
   dots.forEach((d,n)=>d.classList.toggle('active',n===index));
 }
-function start(){timer=setInterval(()=>show(index+1),6000)}
+function start(){timer=setInterval(()=>show(index+1),3000)}
 function reset(){clearInterval(timer);start()}
 document.querySelector('.next').onclick=()=>{show(index+1);reset()};
 document.querySelector('.prev').onclick=()=>{show(index-1);reset()};
@@ -515,6 +519,44 @@ if(hero){
   hero.addEventListener('mouseleave',()=>start());
 }
 
+
+const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function escHome(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function homeImageUrl(v){
+  if(!v)return "";
+  let u=String(v).trim();
+  if(/^https?:\/\//i.test(u)||u.startsWith("data:")||u.startsWith("/")||u.startsWith("./")||u.startsWith("../"))return u;
+  if(u.startsWith("berita/"))u=u.slice(7);
+  return supabaseClient.storage.from("berita").getPublicUrl(u).data.publicUrl;
+}
+function homeDate(v){
+  const d=new Date(v); return Number.isNaN(d.getTime())?"":d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+}
+async function loadLatestHome(){
+  const box=document.getElementById("latest-news"); if(!box)return;
+  const {data,error}=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false}).limit(12);
+  if(error){console.error("Gagal memuat kabar terbaru:",error);return;}
+  const rows=(data||[]).sort((a,b)=>{
+    const da=new Date(a.tanggal||a.created_at).getTime()||0, db=new Date(b.tanggal||b.created_at).getTime()||0;
+    return db-da;
+  }).slice(0,3);
+  if(!rows.length)return;
+  box.innerHTML=rows.map(x=>{
+    const isKeg=String(x.kategori||"").trim().toLowerCase()==="kegiatan";
+    const url=isKeg?"kegiatan.html":`berita-detail.html?id=${encodeURIComponent(x.id)}`;
+    const label=isKeg?"KEGIATAN":"BERITA";
+    return `<article>
+      <b>${escHome(x.judul||"Kabar Sekolah")}</b>
+      <small style="display:block;margin:6px 0;color:#16834f;font-weight:800">${label}${x.tanggal?" • "+escHome(homeDate(x.tanggal)):""}</small>
+      <p>${escHome(x.ringkasan||x.isi||"Informasi terbaru dari SMK Kehutanan Rimba Bahari Sumedang.")}</p>
+      <a href="${url}">${isKeg?"Lihat kegiatan":"Baca selengkapnya"} →</a>
+    </article>`;
+  }).join("");
+}
+document.addEventListener("DOMContentLoaded",loadLatestHome);
 
 function portalInfo() { return true; }
 

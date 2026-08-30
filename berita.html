@@ -321,7 +321,13 @@
             return;
         }
 
-        if (!data || data.length === 0) {
+        // Halaman Berita hanya menampilkan konten non-Kegiatan.
+        // Konten berkategori "Kegiatan" ditampilkan khusus di kegiatan.html.
+        data = (data || []).filter(item =>
+            String(item.kategori || "").trim().toLowerCase() !== "kegiatan"
+        );
+
+        if (data.length === 0) {
             newsGrid.innerHTML = `
                 <div style="text-align:center; padding:30px;">
                     <p>Belum ada berita yang tersedia.</p>
