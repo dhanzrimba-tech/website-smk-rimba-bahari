@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Berita | SMK Kehutanan Rimba Bahari Sumedang</title>
+    <title>Detail Berita | SMK Kehutanan Rimba Bahari Sumedang</title>
 
     <style>
         * {
@@ -74,7 +74,7 @@
         .hero {
             background: linear-gradient(135deg, #075c38, #087c4b);
             color: white;
-            padding: 75px 7%;
+            padding: 55px 7%;
         }
 
         .hero small {
@@ -84,93 +84,91 @@
         }
 
         .hero h2 {
-            font-size: 52px;
-            margin: 15px 0;
-        }
-
-        .hero p {
-            font-size: 20px;
-            max-width: 700px;
-            line-height: 1.7;
+            font-size: 42px;
+            margin-top: 15px;
+            line-height: 1.2;
         }
 
         .container {
             width: 86%;
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 55px auto;
         }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .section-title h2 {
-            font-size: 32px;
-            color: #075c38;
-        }
-
-        .section-title p {
-            margin-top: 10px;
-            color: #666;
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-        }
-
-        .news-card {
+        .article {
             background: white;
             border-radius: 18px;
             overflow: hidden;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            transition: 0.3s;
         }
 
-        .news-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .news-image {
-            height: 190px;
+        .article-image {
+            width: 100%;
+            max-height: 500px;
             background: linear-gradient(135deg, #087443, #0b9a5c);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 55px;
+            font-size: 70px;
         }
 
-        .news-content {
-            padding: 23px;
+        .article-image img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .article-content {
+            padding: 40px;
         }
 
         .date {
             color: #16834f;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: bold;
+            margin-bottom: 14px;
         }
 
-        .news-content h3 {
+        .article-content h1 {
             color: #075c38;
-            font-size: 21px;
-            margin: 12px 0;
-            line-height: 1.4;
+            font-size: 38px;
+            line-height: 1.3;
+            margin-bottom: 20px;
         }
 
-        .news-content p {
-            color: #666;
-            line-height: 1.6;
+        .summary {
+            color: #555;
+            font-size: 19px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
-        .read-more {
+        .isi {
+            color: #333;
+            font-size: 17px;
+            line-height: 1.9;
+            white-space: normal;
+        }
+
+        .isi p {
+            margin-bottom: 18px;
+        }
+
+        .back {
             display: inline-block;
-            margin-top: 18px;
+            margin-top: 30px;
             color: #087443;
             text-decoration: none;
             font-weight: bold;
+        }
+
+        .status {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
         }
 
         footer {
@@ -189,10 +187,6 @@
             nav a {
                 font-size: 13px;
             }
-
-            .news-grid {
-                grid-template-columns: 1fr 1fr;
-            }
         }
 
         @media (max-width: 650px) {
@@ -207,11 +201,15 @@
             }
 
             .hero h2 {
-                font-size: 38px;
+                font-size: 32px;
             }
 
-            .news-grid {
-                grid-template-columns: 1fr;
+            .article-content {
+                padding: 25px;
+            }
+
+            .article-content h1 {
+                font-size: 28px;
             }
         }
     </style>
@@ -241,26 +239,14 @@
 </header>
 
 <section class="hero">
-    <small>INFORMASI TERKINI</small>
-    <h2>Berita Sekolah</h2>
-    <p>
-        Informasi terbaru mengenai kegiatan, prestasi,
-        pengumuman, dan berbagai kabar dari
-        SMK Kehutanan Rimba Bahari Sumedang.
-    </p>
+    <small>BERITA SEKOLAH</small>
+    <h2>Detail Berita</h2>
 </section>
 
 <section class="container">
-
-    <div class="section-title">
-        <h2>Berita & Informasi</h2>
-        <p>Ikuti perkembangan terbaru dari sekolah kami.</p>
+    <div id="article-container">
+        <div class="status">Memuat berita...</div>
     </div>
-
-    <div class="news-grid" id="news-grid">
-
-    </div>
-
 </section>
 
 <footer>
@@ -271,7 +257,6 @@
 
 <script>
     const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
-
     const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
 
     const supabaseClient = supabase.createClient(
@@ -279,95 +264,142 @@
         SUPABASE_KEY
     );
 
-    async function loadBerita() {
-        const newsGrid = document.getElementById("news-grid");
+    function escapeHTML(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
-        if (!newsGrid) return;
+    function formatIsi(value) {
+        if (!value) return "<p>Belum ada isi berita.</p>";
+
+        const safe = escapeHTML(value);
+
+        return safe
+            .split(/\n\s*\n/)
+            .map(paragraph => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
+            .join("");
+    }
+
+    async function loadDetailBerita() {
+        const container = document.getElementById("article-container");
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        if (!id) {
+            container.innerHTML = `
+                <div class="status">
+                    <h3>Berita tidak ditemukan</h3>
+                    <p>ID berita tidak tersedia pada alamat halaman.</p>
+                    <a class="back" href="berita.html">← Kembali ke Berita</a>
+                </div>
+            `;
+            return;
+        }
+
+        console.log("Memuat berita dengan ID:", id);
 
         const { data, error } = await supabaseClient
             .from("berita")
             .select("*")
-            .order("created_at", { ascending: false });
+            .eq("id", id)
+            .maybeSingle();
 
         if (error) {
-            console.error("Gagal mengambil berita:", error);
-            newsGrid.innerHTML = `
-                <div style="grid-column:1/-1; text-align:center; padding:30px;">
-                    <p>Berita belum dapat dimuat.</p>
+            console.error("Gagal mengambil detail berita:", error);
+
+            container.innerHTML = `
+                <div class="status">
+                    <h3>Gagal memuat berita</h3>
+                    <p>Data berita belum dapat diambil dari database.</p>
+                    <a class="back" href="berita.html">← Kembali ke Berita</a>
                 </div>
             `;
             return;
         }
 
-        if (!data || data.length === 0) {
-            newsGrid.innerHTML = `
-                <div style="text-align:center; padding:30px;">
-                    <p>Belum ada berita yang tersedia.</p>
+        if (!data) {
+            container.innerHTML = `
+                <div class="status">
+                    <h3>Berita tidak ditemukan</h3>
+                    <p>Data dengan ID tersebut tidak tersedia.</p>
+                    <a class="back" href="berita.html">← Kembali ke Berita</a>
                 </div>
             `;
             return;
         }
 
-        newsGrid.innerHTML = "";
+        const gambar =
+            data.gambar ||
+            data.foto ||
+            data.image_url ||
+            data.foto_url ||
+            "";
 
-        data.forEach(berita => {
+        let tanggal = "";
+        if (data.created_at) {
+            const dateObj = new Date(data.created_at);
 
-            const gambar =
-                berita.gambar ||
-                berita.foto ||
-                berita.image_url ||
-                berita.foto_url ||
-                "";
-
-            let tanggal = "";
-            if (berita.created_at) {
-                const dateObj = new Date(berita.created_at);
-                if (!Number.isNaN(dateObj.getTime())) {
-                    tanggal = dateObj.toLocaleDateString("id-ID", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric"
-                    });
-                }
+            if (!Number.isNaN(dateObj.getTime())) {
+                tanggal = dateObj.toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
             }
+        }
 
-            const card = document.createElement("article");
-            card.className = "news-card";
+        const judul = escapeHTML(data.judul || "Berita Sekolah");
+        const kategori = escapeHTML(data.kategori || "BERITA SEKOLAH");
+        const ringkasan = escapeHTML(data.ringkasan || "");
+        const isi = formatIsi(data.isi || data.ringkasan || "");
 
-            card.innerHTML = `
-                <div class="news-image">
+        container.innerHTML = `
+            <article class="article">
+
+                <div class="article-image">
                     ${
                         gambar
-                        ? `<img src="${gambar}" alt="${berita.judul || "Berita SMK Kehutanan Rimba Bahari"}"
-                           style="width:100%; height:100%; object-fit:cover;">`
+                        ? `<img src="${escapeHTML(gambar)}"
+                               alt="${judul}"
+                               onerror="this.parentElement.innerHTML='🌲';">`
                         : "🌲"
                     }
                 </div>
 
-                <div class="news-content">
+                <div class="article-content">
 
                     <div class="date">
-                        ${berita.kategori || "BERITA SEKOLAH"}
-                        ${tanggal ? " • " + tanggal : ""}
+                        ${kategori}${tanggal ? " • " + tanggal : ""}
                     </div>
 
-                    <h3>${berita.judul || "Berita Sekolah"}</h3>
+                    <h1>${judul}</h1>
 
-                    <p>
-                        ${berita.ringkasan || berita.isi || ""}
-                    </p>
+                    ${
+                        ringkasan
+                        ? `<div class="summary">${ringkasan}</div>`
+                        : ""
+                    }
 
-                    <a href="berita-detail.html?id=${berita.id}"
-                       class="read-more">
-                        Baca selengkapnya →
+                    <div class="isi">
+                        ${isi}
+                    </div>
+
+                    <a href="berita.html" class="back">
+                        ← Kembali ke Berita
                     </a>
 
                 </div>
-            `;
 
-            newsGrid.appendChild(card);
-        });
+            </article>
+        `;
     }
-console.log("JAVASCRIPT BERITA BERJALAN");
-    document.addEventListener("DOMContentLoaded", loadBerita);
+
+    document.addEventListener("DOMContentLoaded", loadDetailBerita);
 </script>
+
+</body>
+</html>
