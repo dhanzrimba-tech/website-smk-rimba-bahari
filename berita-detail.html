@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Berita | SMK Kehutanan Rimba Bahari Sumedang</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7f5;
+            color: #123b2a;
+        }
+
+        header {
+            background: white;
+            padding: 18px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+            color: #075c38;
+        }
+
+        .logo span {
+            color: #14844e;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #111;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #087443;
+        }
+
+        nav a.active {
+            border-bottom: 3px solid #087443;
+            padding-bottom: 8px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #075c38, #087c4b);
+            color: white;
+            padding: 55px 7%;
+        }
+
+        .hero small {
+            color: #d9f51f;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            margin-top: 15px;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 86%;
+            max-width: 1000px;
+            margin: 55px auto;
+        }
+
+        .article {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .article-image {
+            width: 100%;
+            max-height: 500px;
+            background: linear-gradient(135deg, #087443, #0b9a5c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 70px;
+        }
+
+        .article-image img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .article-content {
+            padding: 40px;
+        }
+
+        .date {
+            color: #16834f;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        .article-content h1 {
+            color: #075c38;
+            font-size: 38px;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .summary {
+            color: #555;
+            font-size: 19px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .isi {
+            color: #333;
+            font-size: 17px;
+            line-height: 1.9;
+            white-space: normal;
+        }
+
+        .isi p {
+            margin-bottom: 18px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 30px;
+            color: #087443;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .status {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        footer {
+            margin-top: 80px;
+            background: #06482d;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 32px;
+            }
+
+            .article-content {
+                padding: 25px;
+            }
+
+            .article-content h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <img src="logo-sekolah.png" alt="Logo SMK Rimba Bahari">
+        <h1>
+            SMK KEHUTANAN<br>
+            <span>RIMBA BAHARI</span>
+        </h1>
+    </div>
+
+    <nav>
+        <a href="index.html">BERANDA</a>
+        <a href="profil.html">PROFIL</a>
+        <a href="kehutanan.html">KEHUTANAN</a>
+        <a href="kegiatan.html">KEGIATAN</a>
+        <a href="berita.html" class="active">BERITA</a>
+        <a href="galeri.html">GALERI</a>
+        <a href="spmb.html">SPMB</a>
+        <a href="portal.html">PORTAL</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <small>BERITA SEKOLAH</small>
+    <h2>Detail Berita</h2>
+</section>
+
+<section class="container">
+    <div id="article-container">
+        <div class="status">Memuat berita...</div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 SMK Kehutanan Rimba Bahari Sumedang</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+
+    const supabaseClient = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+    function escapeHTML(value) {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function formatIsi(value) {
+        if (!value) return "<p>Belum ada isi berita.</p>";
+
+        const safe = escapeHTML(value);
+
+        return safe
+            .split(/\n\s*\n/)
+            .map(paragraph => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
+            .join("");
+    }
+
+    async function loadDetailBerita() {
+        const container = document.getElementById("article-container");
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        if (!id) {
+            container.innerHTML = `
+                <div class="status">
+                    <h3>Berita tidak ditemukan</h3>
+                    <p>ID berita tidak tersedia pada alamat halaman.</p>
+                    <a class="back" href="berita.html">← Kembali ke Berita</a>
+                </div>
+            `;
+            return;
+        }
+
+        console.log("Memuat berita dengan ID:", id);
+
+        const { data, error } = await supabaseClient
+            .from("berita")
+            .select("*")
+            .eq("id", id)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Gagal mengambil detail berita:", error);
+
+            container.innerHTML = `
+                <div class="status">
+                    <h3>Gagal memuat berita</h3>
+                    <p>Data berita belum dapat diambil dari database.</p>
+                    <a class="back" href="berita.html">← Kembali ke Berita</a>
+                </div>
+            `;
+            return;
+        }
+
+        if (!data) {
+            container.innerHTML = `
+                <div class="status">
+                    <h3>Berita tidak ditemukan</h3>
+                    <p>Data dengan ID tersebut tidak tersedia.</p>
+                    <a class="back" href="berita.html">← Kembali ke Berita</a>
+                </div>
+            `;
+            return;
+        }
+
+        const gambar =
+            data.gambar ||
+            data.foto ||
+            data.image_url ||
+            data.foto_url ||
+            "";
+
+        let tanggal = "";
+        if (data.created_at) {
+            const dateObj = new Date(data.created_at);
+
+            if (!Number.isNaN(dateObj.getTime())) {
+                tanggal = dateObj.toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+            }
+        }
+
+        const judul = escapeHTML(data.judul || "Berita Sekolah");
+        const kategori = escapeHTML(data.kategori || "BERITA SEKOLAH");
+        const ringkasan = escapeHTML(data.ringkasan || "");
+        const isi = formatIsi(data.isi || data.ringkasan || "");
+
+        container.innerHTML = `
+            <article class="article">
+
+                <div class="article-image">
+                    ${
+                        gambar
+                        ? `<img src="${escapeHTML(gambar)}"
+                               alt="${judul}"
+                               onerror="this.parentElement.innerHTML='🌲';">`
+                        : "🌲"
+                    }
+                </div>
+
+                <div class="article-content">
+
+                    <div class="date">
+                        ${kategori}${tanggal ? " • " + tanggal : ""}
+                    </div>
+
+                    <h1>${judul}</h1>
+
+                    ${
+                        ringkasan
+                        ? `<div class="summary">${ringkasan}</div>`
+                        : ""
+                    }
+
+                    <div class="isi">
+                        ${isi}
+                    </div>
+
+                    <a href="berita.html" class="back">
+                        ← Kembali ke Berita
+                    </a>
+
+                </div>
+
+            </article>
+        `;
+    }
+
+    document.addEventListener("DOMContentLoaded", loadDetailBerita);
+</script>
+
+</body>
+</html>
