@@ -19,11 +19,15 @@ nav{display:flex;gap:24px}nav a{text-decoration:none;color:#183025;font-weight:7
 footer{background:#033820;color:#fff;text-align:center;padding:35px}
 @media(max-width:800px){nav{display:none}.grid{grid-template-columns:1fr}.identity,.subjects{grid-template-columns:1fr 1fr}.hero h1{font-size:38px}}
 @media(max-width:520px){.identity,.subjects{grid-template-columns:1fr}.header{padding:0 4%}.brand b{font-size:14px}}
-</style></head>
+</style>
+<style id="uniforms-section">
+.uniform-intro{color:#5b675f;line-height:1.65;margin-top:0}.uniform-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:24px}.uniform-card{background:#f7faf7;border:1px solid #e3ebe3;border-radius:20px;overflow:hidden;box-shadow:0 8px 24px #12351d0d}.uniform-card img{width:100%;height:430px;object-fit:contain;display:block;background:#000}.uniform-card>div{padding:20px 22px}.uniform-card h3{margin:0 0 7px;color:#075d34;font-size:21px}.uniform-card p{margin:0;color:#667169;line-height:1.5}.uniform-wide{grid-column:1/-1}.uniform-wide img{height:560px}.uniform-note{margin-top:24px;padding:18px 20px;border-radius:16px;background:#eaf5e8;border-left:5px solid #187243;display:flex;gap:12px;flex-direction:column}.uniform-note strong{color:#075d34;font-size:18px}.uniform-note span{color:#5f6c64}@media(max-width:800px){.uniform-grid{grid-template-columns:1fr}.uniform-wide{grid-column:auto}.uniform-card img,.uniform-wide img{height:460px}}
+</style>
+</head>
 <body>
 <header class="header">
 <div class="brand"><img src="logo-profil.png" alt="Logo SMK Kehutanan Rimba Bahari"><div><b>SMK KEHUTANAN<br>RIMBA BAHARI</b><small>SUMEDANG</small></div></div>
-<nav><a href="index.html">BERANDA</a><a class="active" href="#">PROFIL</a><a href="kehutanan.html">KEHUTANAN</a><a href="kegiatan.html">KEGIATAN</a><a href="#">BERITA</a><a href="galeri.html">GALERI</a><a href="#">SPMB</a><a href="#">PORTAL</a></nav>
+<nav><a href="index.html">BERANDA</a><a class="active" href="#">PROFIL</a><a href="kehutanan.html">KEHUTANAN</a><a href="kegiatan.html">KEGIATAN</a><a href="#berita">BERITA</a><a href="galeri.html">GALERI</a><a href="#seragam">SERAGAM</a><a href="#">SPMB</a></nav>
 </header>
 <section class="hero"><div class="eyebrow">MENGENAL RIMBA BAHARI</div><h1>Profil Sekolah</h1><p>SMK Kehutanan Rimba Bahari Sumedang hadir sebagai lembaga pendidikan yang mengembangkan kompetensi, karakter, dan wawasan kehutanan bagi generasi rimbawan muda.</p></section>
 <main class="container">
@@ -56,6 +60,14 @@ footer{background:#033820;color:#fff;text-align:center;padding:35px}
 <section class="card" style="margin-top:28px"><span class="badge">KOMPETENSI KEHUTANAN</span><h2>Mata Pelajaran Kehutanan</h2><div class="subjects">
 <div class="subject"><span class="number">01</span>Inventarisasi Hutan</div><div class="subject"><span class="number">02</span>Pengukuran dan Pemetaan Hutan</div><div class="subject"><span class="number">03</span>Dendrologi</div><div class="subject"><span class="number">04</span>Pemanenan Hutan</div><div class="subject"><span class="number">05</span>Teknik Rehabilitasi dan Reklamasi Hutan</div><div class="subject"><span class="number">06</span>Konservasi Tanah dan Air</div><div class="subject"><span class="number">07</span>Silvikultur</div><div class="subject"><span class="number">08</span>Agroforestri</div><div class="subject"><span class="number">09</span>Persemaian dan Pembibitan</div><div class="subject"><span class="number">10</span>Pengelolaan Hutan Lestari</div><div class="subject"><span class="number">11</span>Perlindungan Hutan</div><div class="subject"><span class="number">12</span>Praktik Lapangan</div>
 </div></section>
+
+<section class="card uniforms" id="seragam" style="margin-top:28px"><span class="badge">SERAGAM SEKOLAH</span><h2>Seragam Siswa SMK Kehutanan Rimba Bahari</h2><p class="uniform-intro">Berikut merupakan seragam yang digunakan siswa SMK Kehutanan Rimba Bahari Sumedang. Foto ditampilkan menggunakan dokumentasi yang telah ditetapkan sekolah.</p><div class="uniform-grid">
+<article class="uniform-card"><img src="seragam-pramuka-putra.jpeg" alt="Seragam Pramuka Putra"><div><h3>Seragam Pramuka Putra</h3><p>Seragam Pramuka siswa putra.</p></div></article>
+<article class="uniform-card"><img src="seragam-pramuka-putri.jpeg" alt="Seragam Pramuka Putri"><div><h3>Seragam Pramuka Putri</h3><p>Seragam Pramuka siswa putri.</p></div></article>
+<article class="uniform-card"><img src="seragam-putih-abu-putra.jpeg" alt="Seragam Putih Abu Putra"><div><h3>Seragam Putih Abu Putra</h3><p>Seragam sekolah siswa putra.</p></div></article>
+<article class="uniform-card"><img src="seragam-putih-abu-putri.jpeg" alt="Seragam Putih Abu Putri"><div><h3>Seragam Putih Abu Putri</h3><p>Seragam sekolah siswa putri.</p></div></article>
+<article class="uniform-card uniform-wide"><img src="seragam-kebesaran-kehutanan.png" alt="Seragam Kebesaran Kehutanan Putra dan Putri"><div><h3>Seragam Kebesaran Kehutanan</h3><p>Dokumentasi seragam kebesaran kehutanan putra dan putri.</p></div></article>
+</div><div class="uniform-note"><strong>Seragam Olahraga</strong><span>Foto akan ditambahkan setelah dokumentasi seragam olahraga yang sesuai tersedia.</span></div></section>
 </main>
 <footer>© 2026 SMK Kehutanan Rimba Bahari Sumedang · Rimbawan Muda • Lestari • Berkarakter</footer>
 </body></html>
