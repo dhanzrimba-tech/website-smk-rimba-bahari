@@ -291,6 +291,11 @@
 
         if (error) {
             console.error("Gagal mengambil berita:", error);
+            newsGrid.innerHTML = `
+                <div style="grid-column:1/-1; text-align:center; padding:30px;">
+                    <p>Berita belum dapat dimuat.</p>
+                </div>
+            `;
             return;
         }
 
@@ -307,19 +312,24 @@
 
         data.forEach(berita => {
 
-            const gambar = berita.gambar || berita.foto || "";
+            const gambar =
+                berita.gambar ||
+                berita.foto ||
+                berita.image_url ||
+                berita.foto_url ||
+                "";
 
-            const tanggal = berita.tanggal
-                ? new Date(berita.tanggal).toLocaleDateString("id-ID", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric"
-                })
-                : new Date(berita.created_at).toLocaleDateString("id-ID", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric"
-                });
+            let tanggal = "";
+            if (berita.created_at) {
+                const dateObj = new Date(berita.created_at);
+                if (!Number.isNaN(dateObj.getTime())) {
+                    tanggal = dateObj.toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    });
+                }
+            }
 
             const card = document.createElement("article");
             card.className = "news-card";
