@@ -257,7 +257,7 @@
         <p>Ikuti perkembangan terbaru dari sekolah kami.</p>
     </div>
 
-    <div class="news-grid">
+    <div class="news-grid" id="news-grid">
 
         <article class="news-card">
             <div class="news-image">🌲</div>
@@ -309,5 +309,97 @@
     <p>© 2026 SMK Kehutanan Rimba Bahari Sumedang</p>
 </footer>
 
-</body>
-</html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL = "https://xzgbzrabceqwcaxegfx.supabase.co";
+
+    const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+
+    const supabaseClient = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+    async function loadBerita() {
+        const newsGrid = document.getElementById("news-grid");
+
+        if (!newsGrid) return;
+
+        const { data, error } = await supabaseClient
+            .from("berita")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            console.error("Gagal mengambil berita:", error);
+            return;
+        }
+
+        if (!data || data.length === 0) {
+            newsGrid.innerHTML = `
+                <div style="text-align:center; padding:30px;">
+                    <p>Belum ada berita yang tersedia.</p>
+                </div>
+            `;
+            return;
+        }
+
+        newsGrid.innerHTML = "";
+
+        data.forEach(berita => {
+
+            const gambar = berita.gambar || berita.foto || "";
+
+            const tanggal = berita.tanggal
+                ? new Date(berita.tanggal).toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                })
+                : new Date(berita.created_at).toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+
+            const card = document.createElement("article");
+            card.className = "news-card";
+
+            card.innerHTML = `
+                <div class="news-image">
+                    ${
+                        gambar
+                        ? `<img src="${gambar}" alt="${berita.judul || "Berita SMK Kehutanan Rimba Bahari"}"
+                           style="width:100%; height:100%; object-fit:cover;">`
+                        : "🌲"
+                    }
+                </div>
+
+                <div class="news-content">
+
+                    <div class="date">
+                        ${berita.kategori || "BERITA SEKOLAH"}
+                        ${tanggal ? " • " + tanggal : ""}
+                    </div>
+
+                    <h3>${berita.judul || "Berita Sekolah"}</h3>
+
+                    <p>
+                        ${berita.ringkasan || berita.isi || ""}
+                    </p>
+
+                    <a href="berita-detail.html?id=${berita.id}"
+                       class="read-more">
+                        Baca selengkapnya →
+                    </a>
+
+                </div>
+            `;
+
+            newsGrid.appendChild(card);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", loadBerita);
+</script>
