@@ -1,0 +1,7 @@
+VERSI V5.1 - NAVIGATION LINK REPAIR
+
+Perbaikan:
+1. Link PORTAL pada berita.html diarahkan ke index.html#portal.
+2. Link PORTAL pada berita-detail.html diarahkan ke index.html#portal.
+3. Tidak mengubah database, Supabase, tampilan, atau fungsi Berita/Kegiatan.
+4. Tidak ada lagi referensi portal.html pada website utama.

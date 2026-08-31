@@ -1,0 +1,15 @@
+SMK KEHUTANAN RIMBA BAHARI SUMEDANG
+V5 - CROSS BROWSER REPAIR
+Tanggal: 31 Agustus 2026
+
+Perbaikan utama:
+1. Menghapus ketergantungan @supabase/supabase-js dari CDN jsDelivr.
+2. Menambahkan supabase-client.js lokal yang menggunakan Fetch API langsung ke Supabase REST/Auth/Storage.
+3. Memperbaiki akses data Berita, Kegiatan, Galeri, slider Beranda, detail berita, dan Portal Admin.
+4. Mempertahankan tampilan dan struktur data V4.
+5. Menambahkan penanganan error pada halaman Berita agar error koneksi tidak disalahartikan sebagai data kosong.
+
+Catatan:
+- Jalankan/upload seluruh isi website V5.
+- Tidak perlu mengubah database Supabase hanya untuk perbaikan ini.
+- File MASTER V3 tidak diubah.
