@@ -1,0 +1,18 @@
+VERSI V5.3 – SEO, NAVIGATION & GOOGLE INDEXING
+
+Basis: V5.2 SEO & Google Indexing
+
+Perubahan:
+- Memperbaiki link BERITA yang masih # pada profil.html dan kehutanan.html
+- Memperbaiki link SPMB yang masih # pada profil.html dan kehutanan.html
+- Memperbaiki tombol DAFTAR SPMB dan INFO SPMB agar menuju spmb.html
+- Menyempurnakan structured data EducationalOrganization pada index.html
+- Menambahkan alamat, telepon, email, dan akun Instagram resmi pada structured data
+- Memperbarui lastmod sitemap.xml menjadi 2026-09-01
+- Tidak mengubah desain visual utama website
+
+Domain resmi:
+https://smkkehutananrimbabahari.sch.id/
+
+Catatan deployment:
+Upload isi folder ini ke repository/deployment website yang sama. Setelah deployment berhasil, lakukan inspeksi URL dan minta pengindeksan untuk halaman yang berubah.
