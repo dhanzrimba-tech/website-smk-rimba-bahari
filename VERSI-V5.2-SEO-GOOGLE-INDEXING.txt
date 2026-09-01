@@ -1,0 +1,19 @@
+VERSI V5.2 – SEO & GOOGLE INDEXING
+
+Basis: V5.1 Navigation Link Repair
+
+Perubahan:
+- SEO title dan meta description halaman publik
+- canonical URL domain resmi
+- Open Graph dan Twitter Card
+- structured data EducationalOrganization pada beranda
+- robots.txt
+- sitemap.xml
+- halaman admin/signin diberi noindex
+- berita-detail diberi noindex karena kontennya dinamis
+
+Domain resmi:
+https://smkkehutananrimbabahari.sch.id/
+
+Catatan:
+Setelah deployment, daftarkan/verifikasi domain di Google Search Console dan kirim sitemap.xml.
