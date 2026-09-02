@@ -1,9 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin.html
-Disallow: /admin-berita-final.html
-Disallow: /signin.html
-Disallow: /supabase-client.js
-Disallow: /supabase-keamanan-berita.sql
 
 Sitemap: https://smkkehutananrimbabahari.sch.id/sitemap.xml
