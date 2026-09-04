@@ -1,0 +1,6 @@
+
+V6.1 — Forest Elegance Refinement
+- Hero forest crop repositioned to reveal more depth/path.
+- Removed hero slogan and school photo caption.
+- Strengthened header logo text.
+- Quick links and welcome section refined into cohesive forest palette.
