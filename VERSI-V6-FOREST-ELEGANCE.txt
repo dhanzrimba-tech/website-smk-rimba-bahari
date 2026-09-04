@@ -1,0 +1,15 @@
+SMKK Rimba Bahari - V6 FOREST ELEGANCE
+
+Basis: SMKK-Rimba-Bahari-WEB-FUNGSI-V5.2-SEO-GOOGLE-INDEXING
+
+Perubahan utama:
+- Hero utama menggunakan foto hutan Cigerendeung yang disediakan pengguna.
+- Foto gedung sekolah asli ditempatkan pada section sambutan/tentang di bawah hero.
+- Background section homepage diubah dari putih menjadi nuansa kehutanan hijau yang elegan.
+- Dekorasi daun dibuat minimal agar tidak ramai.
+- Header, navigasi, SPMB, portal, berita, galeri, Supabase, SEO, canonical, robots dan fungsi existing dipertahankan.
+- Responsive desktop/tablet/mobile.
+
+Asset baru:
+- hero-hutan-cigerendeung.jpg
+- foto-sekolah-rimba-bahari.jpg
