@@ -411,6 +411,7 @@
                         gambar
                         ? `<img src="${escapeHTML(gambar)}"
                                alt="${judul}"
+                                loading="eager"
                                onerror="this.parentElement.classList.remove('photo-loaded'); this.parentElement.innerHTML='🌲';" onload="this.parentElement.classList.add('photo-loaded')">`
                         : "🌲"
                     }
