@@ -1,9 +1,13 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kegiatan Siswa | SMK Kehutanan Rimba Bahari Sumedang</title>
-<meta name="description" content="Dokumentasi kegiatan dan aktivitas siswa SMK Kehutanan Rimba Bahari Sumedang.">
+<meta name="description" content="Dokumentasi kegiatan siswa SMK Kehutanan Rimba Bahari Sumedang, meliputi pembelajaran, praktik kehutanan, PKL, kunjungan, dan aktivitas sekolah.">
+<meta name="keywords" content="kegiatan SMK Kehutanan Rimba Bahari Sumedang, kegiatan siswa kehutanan, PKL kehutanan, praktik kehutanan Sumedang">
+<meta name="author" content="SMK Kehutanan Rimba Bahari Sumedang">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://smkkehutananrimbabahari.sch.id/kegiatan.html">
+<link rel="icon" type="image/png" sizes="48x48" href="/logo-sekolah.png">
+<link rel="apple-touch-icon" href="/logo-sekolah.png">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="id_ID">
 <meta property="og:site_name" content="SMK Kehutanan Rimba Bahari Sumedang">
@@ -27,7 +31,7 @@
 <section class="page-hero"><div class="container"><h1>Kegiatan Siswa</h1><p>Dokumentasi kegiatan, pembelajaran, praktik, dan kehidupan siswa SMK Kehutanan Rimba Bahari Sumedang.</p></div></section>
 <section class="section"><div class="container">
 <h2>Aktivitas Rimba Bahari</h2>
-<p class="muted">Dokumentasi kegiatan siswa di sekolah dan saat melaksanakan Praktik Kerja Lapangan (PKL).</p>
+<p class="muted">Dokumentasi kegiatan siswa di sekolah dan saat melaksanakan Praktik Kerja Lapangan (PKL), pembelajaran praktik kehutanan, kunjungan, serta aktivitas pendidikan di SMK Kehutanan Rimba Bahari Sumedang.</p>
 <div id="kegiatan-grid" class="cards">
   <div class="card"><div class="card-body"><p class="muted">Memuat kegiatan terbaru...</p></div></div>
 </div>
@@ -110,18 +114,40 @@ async function loadKegiatan(){
   grid.innerHTML=rows.map((item,index)=>{
     const img=imageUrl(item.gambar||item.foto||item.image_url||item.foto_url||"");
     const date=formatDate(item.tanggal||item.created_at);
-    return `<article class="card">
+    return `<article class="card" itemscope itemtype="https://schema.org/Event">
       ${img ? `<img src="${esc(img)}" alt="${esc(item.judul||"Kegiatan SMK Kehutanan Rimba Bahari")}" onerror="this.style.display='none'">` :
         `<div style="height:210px;background:linear-gradient(135deg,#087443,#0b9a5c);display:flex;align-items:center;justify-content:center;font-size:55px">🌲</div>`}
       <div class="card-body">
         <span class="badge">KEGIATAN</span>
-        <h3>${esc(item.judul||"Kegiatan Sekolah")}</h3>
-        ${date ? `<div class="date">${esc(date)}</div>` : ""}
-        <p class="muted">${esc(item.ringkasan||item.isi||"Dokumentasi kegiatan SMK Kehutanan Rimba Bahari Sumedang.")}</p>
+        <h3 itemprop="name">${esc(item.judul||"Kegiatan Sekolah")}</h3>
+        ${date ? `<time class="date" itemprop="startDate" datetime="${esc(item.tanggal||item.created_at||"")}">${esc(date)}</time>` : ""}
+        <p class="muted" itemprop="description">${esc(item.ringkasan||item.isi||"Dokumentasi kegiatan SMK Kehutanan Rimba Bahari Sumedang.")}</p>
         <button class="read-more" type="button" onclick="openKegiatanModal(${index})">Baca Selengkapnya →</button>
       </div>
     </article>`;
   }).join("");
+
+  // Structured data untuk membantu mesin pencari memahami daftar kegiatan.
+  const existing=document.getElementById("kegiatan-structured-data");
+  if(existing) existing.remove();
+  const structured={
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "name":"Kegiatan Siswa SMK Kehutanan Rimba Bahari Sumedang",
+    "url":"https://smkkehutananrimbabahari.sch.id/kegiatan.html",
+    "itemListElement":rows.map((item,i)=>({
+      "@type":"ListItem",
+      "position":i+1,
+      "name":String(item.judul||"Kegiatan Siswa SMK Kehutanan Rimba Bahari Sumedang"),
+      "description":String(item.ringkasan||item.isi||"Dokumentasi kegiatan siswa SMK Kehutanan Rimba Bahari Sumedang."),
+      "url":"https://smkkehutananrimbabahari.sch.id/kegiatan.html"
+    }))
+  };
+  const ld=document.createElement("script");
+  ld.id="kegiatan-structured-data";
+  ld.type="application/ld+json";
+  ld.textContent=JSON.stringify(structured);
+  document.head.appendChild(ld);
 }
 document.addEventListener("DOMContentLoaded",loadKegiatan);
 </script><footer><div class="container">© 2026 SMK Kehutanan Rimba Bahari Sumedang · Rimbawan Muda • Lestari • Berkarakter</div></footer></body></html>
