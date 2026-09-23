@@ -254,6 +254,33 @@
 <meta name="twitter:title" id="dynamic-twitter-title" content="Detail Berita | SMK Kehutanan Rimba Bahari Sumedang">
 <meta name="twitter:description" id="dynamic-twitter-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
 <meta name="twitter:image" id="dynamic-twitter-image" content="https://smkkehutananrimbabahari.sch.id/logo-sekolah.png">
+
+<style id="detail-photo-stability">
+.article-image{
+  min-height:260px;
+  width:100%;
+  background:#eef3f0;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.article-image img{
+  width:100%;
+  min-height:260px;
+  max-height:500px;
+  object-fit:cover;
+  display:block;
+}
+.article-image.photo-loaded{
+  background:#f3f5f4;
+}
+.article-image.photo-loaded img{
+  position:relative;
+  inset:auto;
+}
+</style>
+
 </head>
 
 <body>
@@ -404,6 +431,12 @@
                 url = url.substring("berita/".length);
             }
 
+            // Dukungan untuk path Supabase Storage yang tersimpan lengkap.
+            const publicMarker = "/storage/v1/object/public/berita/";
+            if (url.includes(publicMarker)) {
+                return url;
+            }
+
             return supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
         }
 
@@ -434,14 +467,22 @@
         container.innerHTML = `
             <article class="article">
 
-                <div class="article-image">
+                <div class="article-image" id="detail-photo-wrap">
                     ${
                         gambar
-                        ? `<img src="${escapeHTML(gambar)}"
-                               alt="${judul}"
+                        ? `<img id="detail-news-image"
+                                src="${escapeHTML(gambar)}"
+                                alt="${judul}"
                                 loading="eager"
-                               onerror="this.parentElement.classList.remove('photo-loaded'); this.parentElement.innerHTML='🌲';" onload="this.parentElement.classList.add('photo-loaded')">`
-                        : "🌲"
+                                decoding="async"
+                                referrerpolicy="no-referrer"
+                                onload="this.parentElement.classList.add('photo-loaded'); this.parentElement.classList.remove('photo-missing')"
+                                onerror="this.onerror=null; this.parentElement.classList.remove('photo-loaded'); this.parentElement.classList.add('photo-missing'); this.parentElement.innerHTML='<div style="padding:50px 20px;text-align:center;color:#667;"><div style=&quot;font-size:50px;&quot;>🖼️</div><strong>Foto berita belum dapat dimuat</strong><br><small>Data berita tersedia, tetapi file foto tidak dapat diakses dari penyimpanan.</small></div>'">`
+                        : `<div class="photo-missing" style="padding:50px 20px;text-align:center;color:#667;">
+                                <div style="font-size:50px;">🖼️</div>
+                                <strong>Foto berita belum tersedia</strong>
+                                <br><small>Berita tetap dapat dibaca tanpa foto.</small>
+                           </div>`
                     }
                 </div>
 
