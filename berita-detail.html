@@ -215,45 +215,45 @@
     </style>
 
 <style id="photo-display-final-fix">
-/* FIX FOTO BERITA v2:
-   Jangan gunakan position:absolute pada foto karena dapat membuat
-   .article-image kehilangan tinggi saat gambar sudah berhasil dimuat. */
-.article-image {
-  width: 100%;
-  min-height: 220px;
-  max-height: 600px;
+/* FIX FOTO BERITA: foto yang tersedia memenuhi seluruh area, tanpa panel/ikon tambahan. */
+.news-image, .article-image {
+  position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f3f5f4;
 }
-.article-image img {
+.news-image img, .article-image img {
   display: block;
-  position: static !important;
-  inset: auto !important;
   width: 100%;
-  height: auto !important;
-  max-width: 100%;
-  max-height: 600px;
-  object-fit: contain;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
   object-position: center center;
 }
-.article-image.photo-loaded {
+.news-image.photo-loaded, .article-image.photo-loaded {
   background: #f3f5f4;
 }
-@media (max-width: 650px) {
-  .article-image {
-    min-height: 180px;
-    max-height: 420px;
-  }
-  .article-image img {
-    max-height: 420px;
-  }
+.news-image.photo-loaded img, .article-image.photo-loaded img {
+  position: absolute;
+  inset: 0;
 }
 </style>
 
-<meta name="robots" content="noindex, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<link rel="canonical" id="dynamic-canonical" href="https://smkkehutananrimbabahari.sch.id/berita-detail.html">
+<link rel="icon" type="image/png" sizes="48x48" href="/logo-sekolah.png">
+<link rel="apple-touch-icon" href="/logo-sekolah.png">
+<meta name="description" id="dynamic-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
+<meta property="og:type" content="article">
+<meta property="og:title" id="dynamic-og-title" content="Detail Berita | SMK Kehutanan Rimba Bahari Sumedang">
+<meta property="og:description" id="dynamic-og-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
+<meta property="og:url" id="dynamic-og-url" content="https://smkkehutananrimbabahari.sch.id/berita-detail.html">
+<meta property="og:image" id="dynamic-og-image" content="https://smkkehutananrimbabahari.sch.id/logo-sekolah.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="dynamic-twitter-title" content="Detail Berita | SMK Kehutanan Rimba Bahari Sumedang">
+<meta name="twitter:description" id="dynamic-twitter-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
+<meta name="twitter:image" id="dynamic-twitter-image" content="https://smkkehutananrimbabahari.sch.id/logo-sekolah.png">
 </head>
 
 <body>
@@ -323,6 +323,19 @@
             .split(/\n\s*\n/)
             .map(paragraph => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
             .join("");
+    }
+
+    function updateDetailSEO(data, gambar) {
+        const title=String(data.judul||"Berita Sekolah");
+        const summary=String(data.ringkasan||data.isi||"Berita SMK Kehutanan Rimba Bahari Sumedang.").replace(/\s+/g," ").trim().slice(0,155);
+        const canonical=window.location.href.split("#")[0];
+        document.title=`${title} | SMK Kehutanan Rimba Bahari Sumedang`;
+        const setMeta=(id,content)=>{const el=document.getElementById(id);if(el)el.setAttribute("content",content);};
+        const c=document.getElementById("dynamic-canonical"); if(c)c.setAttribute("href",canonical);
+        setMeta("dynamic-description",summary); setMeta("dynamic-og-title",document.title); setMeta("dynamic-og-description",summary); setMeta("dynamic-og-url",canonical); setMeta("dynamic-og-image",gambar||"https://smkkehutananrimbabahari.sch.id/logo-sekolah.png"); setMeta("dynamic-twitter-title",document.title); setMeta("dynamic-twitter-description",summary); setMeta("dynamic-twitter-image",gambar||"https://smkkehutananrimbabahari.sch.id/logo-sekolah.png");
+        const old=document.getElementById("berita-detail-jsonld"); if(old)old.remove();
+        const schema={"@context":"https://schema.org","@type":"NewsArticle","headline":title,"description":summary,"url":canonical,"datePublished":data.created_at||data.tanggal,"dateModified":data.updated_at||data.created_at||data.tanggal,"image":gambar?[gambar]:["https://smkkehutananrimbabahari.sch.id/logo-sekolah.png"],"author":{"@type":"Organization","name":"SMK Kehutanan Rimba Bahari Sumedang","url":"https://smkkehutananrimbabahari.sch.id/"},"publisher":{"@type":"Organization","name":"SMK Kehutanan Rimba Bahari Sumedang","logo":{"@type":"ImageObject","url":"https://smkkehutananrimbabahari.sch.id/logo-sekolah.png"}}};
+        const script=document.createElement("script"); script.type="application/ld+json"; script.id="berita-detail-jsonld"; script.textContent=JSON.stringify(schema); document.head.appendChild(script);
     }
 
     async function loadDetailBerita() {
@@ -416,6 +429,8 @@
         const ringkasan = escapeHTML(data.ringkasan || "");
         const isi = formatIsi(data.isi || data.ringkasan || "");
 
+        updateDetailSEO(data, gambar);
+
         container.innerHTML = `
             <article class="article">
 
@@ -424,6 +439,7 @@
                         gambar
                         ? `<img src="${escapeHTML(gambar)}"
                                alt="${judul}"
+                                loading="eager"
                                onerror="this.parentElement.classList.remove('photo-loaded'); this.parentElement.innerHTML='🌲';" onload="this.parentElement.classList.add('photo-loaded')">`
                         : "🌲"
                     }

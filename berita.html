@@ -7,6 +7,10 @@
 <meta name="description" content="Berita dan informasi terbaru SMK Kehutanan Rimba Bahari Sumedang.">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://smkkehutananrimbabahari.sch.id/berita.html">
+<link rel="icon" type="image/png" sizes="48x48" href="/logo-sekolah.png">
+<link rel="apple-touch-icon" href="/logo-sekolah.png">
+<meta name="author" content="SMK Kehutanan Rimba Bahari Sumedang">
+<meta name="keywords" content="berita SMK Kehutanan Rimba Bahari Sumedang, berita sekolah Sumedang, informasi sekolah kehutanan">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="id_ID">
 <meta property="og:site_name" content="SMK Kehutanan Rimba Bahari Sumedang">
@@ -341,95 +345,96 @@ function getImageUrl(value) {
     return supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
 }
 
-async function loadBerita() {
-    const newsGrid = document.getElementById("news-grid");
-    if (!newsGrid) return;
+let beritaLoaded = false;
+let beritaLoading = false;
+
+function addNewsStructuredData(items) {
+    const old = document.getElementById("berita-itemlist-jsonld");
+    if (old) old.remove();
+    const schema = {
+        "@context":"https://schema.org",
+        "@type":"ItemList",
+        "name":"Berita SMK Kehutanan Rimba Bahari Sumedang",
+        "url":"https://smkkehutananrimbabahari.sch.id/berita.html",
+        "itemListElement":items.slice(0,20).map((item,index)=>({
+            "@type":"ListItem",
+            "position":index+1,
+            "url":"https://smkkehutananrimbabahari.sch.id/berita-detail.html?id="+encodeURIComponent(item.id),
+            "name":item.judul || "Berita SMK Kehutanan Rimba Bahari Sumedang"
+        }))
+    };
+    const s=document.createElement("script");
+    s.type="application/ld+json";
+    s.id="berita-itemlist-jsonld";
+    s.textContent=JSON.stringify(schema);
+    document.head.appendChild(s);
+}
+
+async function loadBerita(isRetry=false) {
+    const newsGrid=document.getElementById("news-grid");
+    if(!newsGrid || beritaLoading) return;
+    beritaLoading=true;
+
+    if(!beritaLoaded && !isRetry) {
+        newsGrid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:30px;"><p>Memuat berita sekolah...</p></div>';
+    }
 
     try {
-        const result = await supabaseClient
-            .from("berita")
-            .select("*")
-            .order("created_at", { ascending: false });
+        const result=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false});
+        if(result.error) throw result.error;
 
-        if (result.error) throw result.error;
-
-        const data = (result.data || []).filter(item =>
-            String(item.kategori || "").trim().toLowerCase() !== "kegiatan"
-        );
-
-        if (!data.length) {
-            newsGrid.innerHTML = '<div style="text-align:center;padding:30px;"><p>Belum ada berita yang tersedia.</p></div>';
+        const data=(result.data||[]).filter(item=>String(item.kategori||"").trim().toLowerCase()!=="kegiatan");
+        if(!data.length) {
+            newsGrid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:30px;"><p>Belum ada berita yang tersedia.</p></div>';
+            beritaLoaded=true;
+            addNewsStructuredData([]);
             return;
         }
 
-        // Render sekali dan tidak dikosongkan lagi setelah berhasil.
-        const fragment = document.createDocumentFragment();
-
-        data.forEach((berita) => {
+        const fragment=document.createDocumentFragment();
+        data.forEach((berita)=>{
             try {
-                const gambar = getImageUrl(
-                    berita.gambar || berita.foto || berita.image_url || berita.foto_url || ""
-                );
+                const gambar=getImageUrl(berita.gambar||berita.foto||berita.image_url||berita.foto_url||"");
+                const rawDate=berita.tanggal||berita.created_at;
+                const dateObj=rawDate?new Date(rawDate):null;
+                const tanggal=dateObj && !Number.isNaN(dateObj.getTime())
+                    ? dateObj.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}) : "";
 
-                const rawDate = berita.tanggal || berita.created_at;
-                const dateObj = rawDate ? new Date(rawDate) : null;
-                const tanggal = dateObj && !Number.isNaN(dateObj.getTime())
-                    ? dateObj.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })
-                    : "";
-
-                const card = document.createElement("article");
-                card.className = "news-card";
-
-                const imageBox = document.createElement("div");
-                imageBox.className = "news-image";
-
-                if (gambar) {
-                    const img = document.createElement("img");
-                    img.src = gambar;
-                    img.alt = berita.judul || "Berita SMK Kehutanan Rimba Bahari";
-                    img.loading = "lazy";
-                    img.style.width = "100%";
-                    img.style.height = "100%";
-                    img.style.objectFit = "cover";
-                    img.onload = () => imageBox.classList.add("photo-loaded");
-                    img.onerror = () => {
-                        img.remove();
-                        imageBox.classList.remove("photo-loaded");
-                        imageBox.innerHTML = '<span style="font-size:42px;">🌲</span>';
-                    };
+                const card=document.createElement("article");
+                card.className="news-card";
+                const imageBox=document.createElement("div");
+                imageBox.className="news-image";
+                if(gambar){
+                    const img=document.createElement("img");
+                    img.src=gambar; img.alt=berita.judul||"Berita SMK Kehutanan Rimba Bahari"; img.loading="lazy"; img.decoding="async";
+                    img.style.width="100%"; img.style.height="100%"; img.style.objectFit="cover";
+                    img.onload=()=>imageBox.classList.add("photo-loaded");
+                    img.onerror=()=>{img.remove();imageBox.classList.remove("photo-loaded");imageBox.innerHTML='<span style="font-size:42px;">🌲</span>';};
                     imageBox.appendChild(img);
-                } else {
-                    imageBox.innerHTML = '<span style="font-size:42px;">🌲</span>';
-                }
+                } else imageBox.innerHTML='<span style="font-size:42px;">🌲</span>';
 
-                const content = document.createElement("div");
-                content.className = "news-content";
-                content.innerHTML = `
-                    <div class="date">${escapeHTML(berita.kategori || "BERITA SEKOLAH")}${tanggal ? " • " + escapeHTML(tanggal) : ""}</div>
-                    <h3>${escapeHTML(berita.judul || "Berita Sekolah")}</h3>
-                    <p>${escapeHTML(berita.ringkasan || berita.isi || "")}</p>
-                    <a href="berita-detail.html?id=${encodeURIComponent(berita.id)}" class="read-more">Baca selengkapnya →</a>
-                `;
-
-                card.appendChild(imageBox);
-                card.appendChild(content);
-                fragment.appendChild(card);
-            } catch (itemError) {
-                console.error("Gagal merender satu berita:", itemError, berita);
-            }
+                const content=document.createElement("div");
+                content.className="news-content";
+                content.innerHTML=`<div class="date">${escapeHTML(berita.kategori||"BERITA SEKOLAH")}${tanggal?" • "+escapeHTML(tanggal):""}</div><h3>${escapeHTML(berita.judul||"Berita Sekolah")}</h3><p>${escapeHTML(berita.ringkasan||berita.isi||"")}</p><a href="berita-detail.html?id=${encodeURIComponent(berita.id)}" class="read-more">Baca selengkapnya →</a>`;
+                card.appendChild(imageBox); card.appendChild(content); fragment.appendChild(card);
+            } catch(itemError){ console.error("Gagal merender satu berita:",itemError,berita); }
         });
 
+        // Replace only after every card has been prepared.
         newsGrid.replaceChildren(fragment);
-    } catch (error) {
-        console.error("Gagal mengambil berita:", error);
-        newsGrid.innerHTML = `
-            <div style="text-align:center;padding:30px;">
-                <p>Berita belum dapat dimuat. Silakan coba lagi beberapa saat.</p>
-            </div>`;
-    }
+        beritaLoaded=true;
+        addNewsStructuredData(data);
+    } catch(error) {
+        console.error("Gagal mengambil berita:",error);
+        if(!beritaLoaded && !isRetry){
+            setTimeout(()=>loadBerita(true),1800);
+        } else if(!beritaLoaded){
+            newsGrid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:30px;"><p>Berita belum dapat dimuat. Silakan coba lagi beberapa saat.</p><button type="button" onclick="loadBerita(true)" style="margin-top:12px;padding:10px 18px;border:0;border-radius:10px;background:#087443;color:#fff;font-weight:bold;cursor:pointer">Muat ulang berita</button></div>';
+        }
+    } finally { beritaLoading=false; }
 }
 
-document.addEventListener("DOMContentLoaded", loadBerita);
+document.addEventListener("DOMContentLoaded", () => loadBerita(false));
 </script>
 
 </body>
