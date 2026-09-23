@@ -1,521 +1,255 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Berita | SMK Kehutanan Rimba Bahari Sumedang</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7f5;
-            color: #123b2a;
-        }
-
-        header {
-            background: white;
-            padding: 18px 7%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-        }
-
-        .logo h1 {
-            font-size: 20px;
-            color: #075c38;
-        }
-
-        .logo span {
-            color: #14844e;
-        }
-
-        nav {
-            display: flex;
-            gap: 28px;
-            align-items: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #111;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: #087443;
-        }
-
-        nav a.active {
-            border-bottom: 3px solid #087443;
-            padding-bottom: 8px;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #075c38, #087c4b);
-            color: white;
-            padding: 55px 7%;
-        }
-
-        .hero small {
-            color: #d9f51f;
-            font-weight: bold;
-            letter-spacing: 3px;
-        }
-
-        .hero h2 {
-            font-size: 42px;
-            margin-top: 15px;
-            line-height: 1.2;
-        }
-
-        .container {
-            width: 86%;
-            max-width: 1000px;
-            margin: 55px auto;
-        }
-
-        .article {
-            background: white;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-        }
-
-        .article-image {
-            width: 100%;
-            max-height: 500px;
-            background: linear-gradient(135deg, #087443, #0b9a5c);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 70px;
-        }
-
-        .article-image img {
-            width: 100%;
-            max-height: 500px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .article-content {
-            padding: 40px;
-        }
-
-        .date {
-            color: #16834f;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 14px;
-        }
-
-        .article-content h1 {
-            color: #075c38;
-            font-size: 38px;
-            line-height: 1.3;
-            margin-bottom: 20px;
-        }
-
-        .summary {
-            color: #555;
-            font-size: 19px;
-            line-height: 1.7;
-            margin-bottom: 25px;
-            font-weight: 500;
-        }
-
-        .isi {
-            color: #333;
-            font-size: 17px;
-            line-height: 1.9;
-            white-space: normal;
-        }
-
-        .isi p {
-            margin-bottom: 18px;
-        }
-
-        .back {
-            display: inline-block;
-            margin-top: 30px;
-            color: #087443;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .status {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        footer {
-            margin-top: 80px;
-            background: #06482d;
-            color: white;
-            text-align: center;
-            padding: 30px;
-        }
-
-        @media (max-width: 900px) {
-            nav {
-                gap: 12px;
-            }
-
-            nav a {
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 650px) {
-            header {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .hero h2 {
-                font-size: 32px;
-            }
-
-            .article-content {
-                padding: 25px;
-            }
-
-            .article-content h1 {
-                font-size: 28px;
-            }
-        }
-    </style>
-
-<style id="photo-display-final-fix">
-/* FIX FOTO BERITA: foto yang tersedia memenuhi seluruh area, tanpa panel/ikon tambahan. */
-.news-image, .article-image {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.news-image img, .article-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: center center;
-}
-.news-image.photo-loaded, .article-image.photo-loaded {
-  background: #f3f5f4;
-}
-.news-image.photo-loaded img, .article-image.photo-loaded img {
-  position: absolute;
-  inset: 0;
-}
-</style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detail Berita | SMK Kehutanan Rimba Bahari Sumedang</title>
+<meta name="description" id="meta-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<link rel="canonical" id="dynamic-canonical" href="https://smkkehutananrimbabahari.sch.id/berita-detail.html">
+<link rel="canonical" id="canonical-url" href="https://smkkehutananrimbabahari.sch.id/berita-detail.html">
 <link rel="icon" type="image/png" sizes="48x48" href="/logo-sekolah.png">
 <link rel="apple-touch-icon" href="/logo-sekolah.png">
-<meta name="description" id="dynamic-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
 <meta property="og:type" content="article">
-<meta property="og:title" id="dynamic-og-title" content="Detail Berita | SMK Kehutanan Rimba Bahari Sumedang">
-<meta property="og:description" id="dynamic-og-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
-<meta property="og:url" id="dynamic-og-url" content="https://smkkehutananrimbabahari.sch.id/berita-detail.html">
-<meta property="og:image" id="dynamic-og-image" content="https://smkkehutananrimbabahari.sch.id/logo-sekolah.png">
+<meta property="og:site_name" content="SMK Kehutanan Rimba Bahari Sumedang">
+<meta property="og:title" id="og-title" content="Detail Berita | SMK Kehutanan Rimba Bahari Sumedang">
+<meta property="og:description" id="og-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
+<meta property="og:url" id="og-url" content="https://smkkehutananrimbabahari.sch.id/berita-detail.html">
+<meta property="og:image" id="og-image" content="https://smkkehutananrimbabahari.sch.id/logo-sekolah.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" id="dynamic-twitter-title" content="Detail Berita | SMK Kehutanan Rimba Bahari Sumedang">
-<meta name="twitter:description" id="dynamic-twitter-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
-<meta name="twitter:image" id="dynamic-twitter-image" content="https://smkkehutananrimbabahari.sch.id/logo-sekolah.png">
+<meta name="twitter:title" id="tw-title" content="Detail Berita | SMK Kehutanan Rimba Bahari Sumedang">
+<meta name="twitter:description" id="tw-description" content="Detail berita SMK Kehutanan Rimba Bahari Sumedang.">
+<meta name="twitter:image" id="tw-image" content="https://smkkehutananrimbabahari.sch.id/logo-sekolah.png">
 
-<style id="detail-photo-stability">
-.article-image{
-  min-height:260px;
-  width:100%;
-  background:#eef3f0;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f3f7f5;color:#183b2c}
+a{text-decoration:none}
+.header{background:#fff;padding:14px 6%;display:flex;align-items:center;justify-content:space-between;gap:25px;box-shadow:0 2px 12px rgba(0,0,0,.07);position:relative;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;min-width:250px}
+.brand img{width:58px;height:58px;object-fit:contain}
+.brand-text strong{display:block;color:#075c38;font-size:18px;line-height:1.08}
+.brand-text span{display:block;color:#16834f;font-size:13px;margin-top:3px}
+.nav{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.nav a{color:#193126;font-size:14px;font-weight:700;padding:12px 10px;border-radius:10px}
+.nav a:hover,.nav a.active{color:#087443;background:#eef7f1}
+.hero{background:linear-gradient(120deg,#056a3c,#0a8b52);color:#fff;padding:42px 7% 46px}
+.hero-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:end;gap:25px}
+.hero small{display:block;color:#d9f51f;font-weight:800;letter-spacing:3px;margin-bottom:12px}
+.hero h1{font-size:42px;line-height:1.1}
+.breadcrumb{font-size:13px;opacity:.95;white-space:nowrap}
+.breadcrumb a{color:#fff}.breadcrumb strong{color:#e7f33d}
+.layout{width:92%;max-width:1180px;margin:38px auto 70px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:25px}
+.article{background:#fff;border-radius:18px;box-shadow:0 5px 22px rgba(0,0,0,.07);overflow:hidden;padding:28px}
+.meta{color:#087443;font-weight:800;font-size:14px;margin-bottom:14px}
+.article h2{font-size:36px;line-height:1.25;color:#075c38;margin-bottom:22px}
+.divider{height:1px;background:#dfe8e3;margin-bottom:20px}
+.photo-wrap{width:100%;border-radius:14px;overflow:hidden;background:#eef3f0;min-height:260px;margin-bottom:25px}
+.photo-wrap img{width:100%;max-height:590px;min-height:260px;display:block;object-fit:cover}
+.photo-missing{min-height:260px;display:flex;align-items:center;justify-content:center;text-align:center;color:#65776e;padding:30px}
+.photo-missing .icon{font-size:48px;margin-bottom:8px}
+.caption{font-size:13px;color:#718078;text-align:center;padding:10px 15px 0;line-height:1.5}
+.summary{font-size:19px;line-height:1.75;color:#43554c;margin:22px 0;font-weight:500}
+.content{font-size:17px;line-height:1.9;color:#303f37}
+.content p{margin-bottom:18px}
+.back{display:inline-block;margin-top:20px;padding:13px 18px;border-radius:12px;background:#eaf6ef;color:#087443;font-weight:800}
+.sidebar{display:flex;flex-direction:column;gap:20px}
+.side-box{background:#fff;border-radius:16px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,.06)}
+.side-box h3{color:#087443;font-size:20px;margin-bottom:16px}
+.recent{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #e5ece8}
+.recent:last-child{border-bottom:0}
+.recent img{width:78px;height:58px;border-radius:8px;object-fit:cover;background:#eef3f0;flex:none}
+.recent-title{font-size:13px;line-height:1.35;font-weight:700;color:#17402e}
+.recent-date{font-size:11px;color:#718078;margin-top:5px}
+.categories a{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #e5ece8;color:#315144;font-size:14px}
+.categories a:last-child{border-bottom:0}
+.count{background:#16834f;color:#fff;border-radius:20px;padding:4px 9px;font-size:11px;font-weight:800}
+footer{background:#06482d;color:#fff;text-align:center;padding:30px}
+@media(max-width:900px){
+ .header{flex-direction:column;align-items:flex-start}.nav{gap:7px}
+ .hero-inner{align-items:flex-start;flex-direction:column}.breadcrumb{white-space:normal}
+ .layout{grid-template-columns:1fr}.sidebar{order:2}
 }
-.article-image img{
-  width:100%;
-  min-height:260px;
-  max-height:500px;
-  object-fit:cover;
-  display:block;
-}
-.article-image.photo-loaded{
-  background:#f3f5f4;
-}
-.article-image.photo-loaded img{
-  position:relative;
-  inset:auto;
+@media(max-width:600px){
+ .hero{padding:32px 6%}.hero h1{font-size:32px}
+ .article{padding:20px}.article h2{font-size:28px}
+ .summary{font-size:17px}.content{font-size:16px}
+ .brand-text strong{font-size:16px}
 }
 </style>
-
 </head>
-
 <body>
 
-<header>
-    <div class="logo">
-        <img src="logo-sekolah.png" alt="Logo SMK Rimba Bahari">
-        <h1>
-            SMK KEHUTANAN<br>
-            <span>RIMBA BAHARI</span>
-        </h1>
+<header class="header">
+  <a class="brand" href="index.html" aria-label="SMK Kehutanan Rimba Bahari Sumedang">
+    <img src="logo-sekolah.png" alt="Logo SMK Kehutanan Rimba Bahari Sumedang">
+    <div class="brand-text">
+      <strong>SMK Kehutanan<br>Rimba Bahari Sumedang</strong>
+      <span>Hijaukan Negeri, Wujudkan Masa Depan</span>
     </div>
-
-    <nav>
-        <a href="index.html">BERANDA</a>
-        <a href="profil.html">PROFIL</a>
-        <a href="kehutanan.html">KEHUTANAN</a>
-        <a href="kegiatan.html">KEGIATAN</a>
-        <a href="berita.html" class="active">BERITA</a>
-        <a href="galeri.html">GALERI</a>
-        <a href="spmb.html">SPMB</a>
-        <a href="index.html#portal">PORTAL</a>
-    </nav>
+  </a>
+  <nav class="nav" aria-label="Navigasi utama">
+    <a href="index.html">Beranda</a>
+    <a href="profil.html">Profil</a>
+    <a href="berita.html" class="active">Berita</a>
+    <a href="kegiatan.html">Kegiatan</a>
+    <a href="kehutanan.html">Akademik</a>
+    <a href="galeri.html">Galeri</a>
+    <a href="spmb.html">SPMB</a>
+    <a href="index.html#portal">Portal</a>
+  </nav>
 </header>
 
 <section class="hero">
-    <small>BERITA SEKOLAH</small>
-    <h2>Detail Berita</h2>
-</section>
-
-<section class="container">
-    <div id="article-container">
-        <div class="status">Memuat berita...</div>
+  <div class="hero-inner">
+    <div>
+      <small>BERITA SEKOLAH</small>
+      <h1>Detail Berita</h1>
     </div>
+    <div class="breadcrumb">
+      <a href="index.html">Beranda</a> &nbsp;›&nbsp;
+      <a href="berita.html">Berita</a> &nbsp;›&nbsp;
+      <strong>Detail Berita</strong>
+    </div>
+  </div>
 </section>
 
-<footer>
-    <p>© 2026 SMK Kehutanan Rimba Bahari Sumedang</p>
-</footer>
+<main class="layout">
+  <article class="article" id="article-container">
+    <div style="text-align:center;padding:60px 20px;color:#68776f">Memuat berita...</div>
+  </article>
+
+  <aside class="sidebar">
+    <div class="side-box">
+      <h3>Berita Terbaru</h3>
+      <div id="recent-news">
+        <div style="color:#718078;font-size:13px">Memuat berita...</div>
+      </div>
+    </div>
+
+    <div class="side-box">
+      <h3>▮ Kategori</h3>
+      <div class="categories">
+        <a href="berita.html">Berita Sekolah <span class="count" id="count-berita">-</span></a>
+        <a href="kegiatan.html">Kegiatan <span class="count" id="count-kegiatan">-</span></a>
+        <a href="berita.html">Prestasi <span class="count">-</span></a>
+        <a href="berita.html">Pramuka <span class="count">-</span></a>
+        <a href="berita.html">Lingkungan <span class="count">-</span></a>
+        <a href="berita.html">PKL <span class="count">-</span></a>
+      </div>
+    </div>
+
+    <a class="back" href="berita.html" style="text-align:center">← Kembali ke Daftar Berita</a>
+  </aside>
+</main>
+
+<footer>© 2026 SMK Kehutanan Rimba Bahari Sumedang</footer>
 
 <script src="supabase-client.js?v=5.0.0"></script>
-
 <script>
-    const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const SUPABASE_URL="https://xzgbrzabcceqwcaxegfx.supabase.co";
+const SUPABASE_KEY="sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-    const supabaseClient = supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+function esc(v){
+ return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+function formatIsi(v){
+ if(!v) return "<p>Belum ada isi berita.</p>";
+ return esc(v).split(/\n\s*\n/).map(p=>"<p>"+p.replace(/\n/g,"<br>")+"</p>").join("");
+}
+function getImageUrl(value){
+ if(!value) return "";
+ let url=String(value).trim();
+ if(!url) return "";
+ if(/^https?:\/\//i.test(url) || url.startsWith("data:") || url.startsWith("/") || url.startsWith("./") || url.startsWith("../")) return url;
+ if(url.startsWith("berita/")) url=url.substring(7);
+ return supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
+}
+function setSeo(data,img){
+ const title=(data.judul||"Berita Sekolah")+" | SMK Kehutanan Rimba Bahari Sumedang";
+ const desc=String(data.ringkasan||data.isi||"Berita SMK Kehutanan Rimba Bahari Sumedang.").replace(/\s+/g," ").trim().slice(0,155);
+ const url=location.href.split("#")[0];
+ document.title=title;
+ document.getElementById("meta-description").content=desc;
+ document.getElementById("canonical-url").href=url;
+ document.getElementById("og-title").content=title;
+ document.getElementById("og-description").content=desc;
+ document.getElementById("og-url").content=url;
+ document.getElementById("og-image").content=img||location.origin+"/logo-sekolah.png";
+ document.getElementById("tw-title").content=title;
+ document.getElementById("tw-description").content=desc;
+ document.getElementById("tw-image").content=img||location.origin+"/logo-sekolah.png";
 
-    function escapeHTML(value) {
-        return String(value ?? "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
-    }
+ const old=document.getElementById("newsarticle-schema"); if(old) old.remove();
+ const s=document.createElement("script"); s.type="application/ld+json"; s.id="newsarticle-schema";
+ s.textContent=JSON.stringify({
+   "@context":"https://schema.org","@type":"NewsArticle","headline":data.judul||"Berita Sekolah",
+   "description":desc,"url":url,"image":img?[img]:[location.origin+"/logo-sekolah.png"],
+   "datePublished":data.created_at||data.tanggal,
+   "dateModified":data.updated_at||data.created_at||data.tanggal,
+   "author":{"@type":"Organization","name":"SMK Kehutanan Rimba Bahari Sumedang","url":location.origin+"/"},
+   "publisher":{"@type":"Organization","name":"SMK Kehutanan Rimba Bahari Sumedang","logo":{"@type":"ImageObject","url":location.origin+"/logo-sekolah.png"}}
+ });
+ document.head.appendChild(s);
+}
 
-    function formatIsi(value) {
-        if (!value) return "<p>Belum ada isi berita.</p>";
+async function loadDetail(){
+ const box=document.getElementById("article-container");
+ const id=new URLSearchParams(location.search).get("id");
+ if(!id){box.innerHTML='<div style="text-align:center;padding:60px">Berita tidak ditemukan.<br><br><a class="back" href="berita.html">← Kembali ke Berita</a></div>';return;}
 
-        const safe = escapeHTML(value);
+ const {data,error}=await supabaseClient.from("berita").select("*").eq("id",id).maybeSingle();
+ if(error||!data){box.innerHTML='<div style="text-align:center;padding:60px">Data berita tidak ditemukan.<br><br><a class="back" href="berita.html">← Kembali ke Berita</a></div>';return;}
 
-        return safe
-            .split(/\n\s*\n/)
-            .map(paragraph => `<p>${paragraph.replace(/\n/g, "<br>")}</p>`)
-            .join("");
-    }
+ const img=getImageUrl(data.gambar||data.foto||data.image_url||data.foto_url||"");
+ const dt=data.tanggal||data.created_at;
+ const tanggal=dt?new Date(dt).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
+ const judul=esc(data.judul||"Berita Sekolah");
+ const kategori=esc(data.kategori||"Berita Sekolah");
+ const ringkasan=esc(data.ringkasan||"");
 
-    function updateDetailSEO(data, gambar) {
-        const title=String(data.judul||"Berita Sekolah");
-        const summary=String(data.ringkasan||data.isi||"Berita SMK Kehutanan Rimba Bahari Sumedang.").replace(/\s+/g," ").trim().slice(0,155);
-        const canonical=window.location.href.split("#")[0];
-        document.title=`${title} | SMK Kehutanan Rimba Bahari Sumedang`;
-        const setMeta=(id,content)=>{const el=document.getElementById(id);if(el)el.setAttribute("content",content);};
-        const c=document.getElementById("dynamic-canonical"); if(c)c.setAttribute("href",canonical);
-        setMeta("dynamic-description",summary); setMeta("dynamic-og-title",document.title); setMeta("dynamic-og-description",summary); setMeta("dynamic-og-url",canonical); setMeta("dynamic-og-image",gambar||"https://smkkehutananrimbabahari.sch.id/logo-sekolah.png"); setMeta("dynamic-twitter-title",document.title); setMeta("dynamic-twitter-description",summary); setMeta("dynamic-twitter-image",gambar||"https://smkkehutananrimbabahari.sch.id/logo-sekolah.png");
-        const old=document.getElementById("berita-detail-jsonld"); if(old)old.remove();
-        const schema={"@context":"https://schema.org","@type":"NewsArticle","headline":title,"description":summary,"url":canonical,"datePublished":data.created_at||data.tanggal,"dateModified":data.updated_at||data.created_at||data.tanggal,"image":gambar?[gambar]:["https://smkkehutananrimbabahari.sch.id/logo-sekolah.png"],"author":{"@type":"Organization","name":"SMK Kehutanan Rimba Bahari Sumedang","url":"https://smkkehutananrimbabahari.sch.id/"},"publisher":{"@type":"Organization","name":"SMK Kehutanan Rimba Bahari Sumedang","logo":{"@type":"ImageObject","url":"https://smkkehutananrimbabahari.sch.id/logo-sekolah.png"}}};
-        const script=document.createElement("script"); script.type="application/ld+json"; script.id="berita-detail-jsonld"; script.textContent=JSON.stringify(schema); document.head.appendChild(script);
-    }
+ setSeo(data,img);
 
-    async function loadDetailBerita() {
-        const container = document.getElementById("article-container");
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
+ box.innerHTML=`
+   <div class="meta">${kategori}${tanggal?" • "+tanggal:""}</div>
+   <h2>${judul}</h2>
+   <div class="divider"></div>
+   <div class="photo-wrap" id="photo-area">
+     ${img
+       ? `<img src="${esc(img)}" alt="${judul}" loading="eager" decoding="async"
+              onload="this.parentElement.classList.add('loaded')"
+              onerror="this.remove();this.parentElement.innerHTML='<div class=&quot;photo-missing&quot;><div><div class=&quot;icon&quot;>🖼️</div><strong>Foto berita belum dapat dimuat</strong><br><small>Berita tetap dapat dibaca tanpa foto.</small></div></div>'">`
+       : `<div class="photo-missing"><div><div class="icon">🖼️</div><strong>Foto berita belum tersedia</strong><br><small>Berita tetap dapat dibaca tanpa foto.</small></div></div>`
+     }
+   </div>
+   ${ringkasan?`<div class="summary">${ringkasan}</div>`:""}
+   <div class="content">${formatIsi(data.isi||data.ringkasan||"")}</div>
+   <a class="back" href="berita.html">← Kembali ke Daftar Berita</a>
+ `;
+}
 
-        if (!id) {
-            container.innerHTML = `
-                <div class="status">
-                    <h3>Berita tidak ditemukan</h3>
-                    <p>ID berita tidak tersedia pada alamat halaman.</p>
-                    <a class="back" href="berita.html">← Kembali ke Berita</a>
-                </div>
-            `;
-            return;
-        }
+async function loadSidebar(){
+ const recent=document.getElementById("recent-news");
+ const {data,error}=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false}).limit(8);
+ if(error||!data){recent.innerHTML="<div style='color:#718078;font-size:13px'>Berita terbaru belum dapat dimuat.</div>";return;}
 
-        console.log("Memuat berita dengan ID:", id);
+ const berita=data.filter(x=>String(x.kategori||"").toLowerCase()!=="kegiatan");
+ const kegiatan=data.filter(x=>String(x.kategori||"").toLowerCase()==="kegiatan");
+ document.getElementById("count-berita").textContent=berita.length;
+ document.getElementById("count-kegiatan").textContent=kegiatan.length;
 
-        const { data, error } = await supabaseClient
-            .from("berita")
-            .select("*")
-            .eq("id", id)
-            .maybeSingle();
+ recent.innerHTML=berita.slice(0,5).map(x=>{
+   const img=getImageUrl(x.gambar||x.foto||x.image_url||x.foto_url||"");
+   const d=x.created_at||x.tanggal;
+   const date=d?new Date(d).toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}):"";
+   return `<a class="recent" href="berita-detail.html?id=${encodeURIComponent(x.id)}">
+      ${img?`<img src="${esc(img)}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">`:`<img alt="" src="logo-sekolah.png">`}
+      <span><span class="recent-title">${esc(x.judul||"Berita Sekolah")}</span><span class="recent-date">▣ ${date}</span></span>
+   </a>`;
+ }).join("")||"<div style='color:#718078;font-size:13px'>Belum ada berita terbaru.</div>";
+}
 
-        if (error) {
-            console.error("Gagal mengambil detail berita:", error);
-
-            container.innerHTML = `
-                <div class="status">
-                    <h3>Gagal memuat berita</h3>
-                    <p>Data berita belum dapat diambil dari database.</p>
-                    <a class="back" href="berita.html">← Kembali ke Berita</a>
-                </div>
-            `;
-            return;
-        }
-
-        if (!data) {
-            container.innerHTML = `
-                <div class="status">
-                    <h3>Berita tidak ditemukan</h3>
-                    <p>Data dengan ID tersebut tidak tersedia.</p>
-                    <a class="back" href="berita.html">← Kembali ke Berita</a>
-                </div>
-            `;
-            return;
-        }
-
-        // Foto dari admin disimpan sebagai nama file di bucket Storage "berita".
-        // Ubah nama file menjadi URL publik Supabase agar dapat ditampilkan.
-        function getImageUrl(value) {
-            if (!value) return "";
-
-            let url = String(value).trim();
-            if (!url) return "";
-
-            if (url.startsWith("http://") || url.startsWith("https://") ||
-                url.startsWith("data:") || url.startsWith("/") ||
-                url.startsWith("./") || url.startsWith("../")) {
-                return url;
-            }
-
-            if (url.startsWith("berita/")) {
-                url = url.substring("berita/".length);
-            }
-
-            // Dukungan untuk path Supabase Storage yang tersimpan lengkap.
-            const publicMarker = "/storage/v1/object/public/berita/";
-            if (url.includes(publicMarker)) {
-                return url;
-            }
-
-            return supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
-        }
-
-        const gambar = getImageUrl(
-            data.gambar || data.foto || data.image_url || data.foto_url || ""
-        );
-
-        let tanggal = "";
-        if (data.created_at) {
-            const dateObj = new Date(data.created_at);
-
-            if (!Number.isNaN(dateObj.getTime())) {
-                tanggal = dateObj.toLocaleDateString("id-ID", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric"
-                });
-            }
-        }
-
-        const judul = escapeHTML(data.judul || "Berita Sekolah");
-        const kategori = escapeHTML(data.kategori || "BERITA SEKOLAH");
-        const ringkasan = escapeHTML(data.ringkasan || "");
-        const isi = formatIsi(data.isi || data.ringkasan || "");
-
-        updateDetailSEO(data, gambar);
-
-        container.innerHTML = `
-            <article class="article">
-
-                <div class="article-image" id="detail-photo-wrap">
-                    ${
-                        gambar
-                        ? `<img id="detail-news-image"
-                                src="${escapeHTML(gambar)}"
-                                alt="${judul}"
-                                loading="eager"
-                                decoding="async"
-                                referrerpolicy="no-referrer"
-                                onload="this.parentElement.classList.add('photo-loaded'); this.parentElement.classList.remove('photo-missing')"
-                                onerror="this.onerror=null; this.parentElement.classList.remove('photo-loaded'); this.parentElement.classList.add('photo-missing'); this.parentElement.innerHTML='<div style="padding:50px 20px;text-align:center;color:#667;"><div style=&quot;font-size:50px;&quot;>🖼️</div><strong>Foto berita belum dapat dimuat</strong><br><small>Data berita tersedia, tetapi file foto tidak dapat diakses dari penyimpanan.</small></div>'">`
-                        : `<div class="photo-missing" style="padding:50px 20px;text-align:center;color:#667;">
-                                <div style="font-size:50px;">🖼️</div>
-                                <strong>Foto berita belum tersedia</strong>
-                                <br><small>Berita tetap dapat dibaca tanpa foto.</small>
-                           </div>`
-                    }
-                </div>
-
-                <div class="article-content">
-
-                    <div class="date">
-                        ${kategori}${tanggal ? " • " + tanggal : ""}
-                    </div>
-
-                    <h1>${judul}</h1>
-
-                    ${
-                        ringkasan
-                        ? `<div class="summary">${ringkasan}</div>`
-                        : ""
-                    }
-
-                    <div class="isi">
-                        ${isi}
-                    </div>
-
-                    <a href="berita.html" class="back">
-                        ← Kembali ke Berita
-                    </a>
-
-                </div>
-
-            </article>
-        `;
-    }
-
-    document.addEventListener("DOMContentLoaded", loadDetailBerita);
+document.addEventListener("DOMContentLoaded",()=>{loadDetail();loadSidebar();});
 </script>
-
 </body>
 </html>
