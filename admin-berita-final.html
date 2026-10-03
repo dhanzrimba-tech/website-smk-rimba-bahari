@@ -182,6 +182,22 @@ fileInput.addEventListener("change",()=>{
   const f=fileInput.files[0]; if(!f)return;
   preview.src=URL.createObjectURL(f);preview.style.display="block";
 });
+async function compressImageToWebP(file,maxSide=1600,quality=0.75){
+  if(!file || !file.type.startsWith("image/")) return file;
+  if(file.type === "image/svg+xml") return file;
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((resolve,reject)=>{const el=new Image();el.onload=()=>resolve(el);el.onerror=()=>reject(new Error("Foto tidak dapat dibaca."));el.src=url;});
+    let w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;
+    const scale=Math.min(1,maxSide/Math.max(w,h)); w=Math.max(1,Math.round(w*scale)); h=Math.max(1,Math.round(h*scale));
+    const canvas=document.createElement("canvas"); canvas.width=w; canvas.height=h;
+    const ctx=canvas.getContext("2d",{alpha:true}); ctx.drawImage(img,0,0,w,h);
+    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error("Kompresi WebP gagal.")),"image/webp",quality));
+    const base=(file.name||"foto").replace(/\.[^.]+$/i,"").replace(/[^a-z0-9_-]+/gi,"-").replace(/^-+|-+$/g,"").toLowerCase()||"foto";
+    return new File([blob],base+".webp",{type:"image/webp",lastModified:Date.now()});
+  }finally{URL.revokeObjectURL(url);}
+}
+
 form.addEventListener("submit",async e=>{
   e.preventDefault(); clearMsg();
   const id=document.getElementById("id").value;
@@ -197,8 +213,9 @@ form.addEventListener("submit",async e=>{
   document.getElementById("saveBtn").disabled=true;
   try{
     if(file){
-      const safeName=Date.now()+"-"+slugify(file.name);
-      const {error:upErr}=await supabaseClient.storage.from("berita").upload(safeName,file,{upsert:true,contentType:file.type});
+      const compressedFile=await compressImageToWebP(file,1600,0.75);
+      const safeName=Date.now()+"-"+slugify(compressedFile.name);
+      const {error:upErr}=await supabaseClient.storage.from("berita").upload(safeName,compressedFile,{upsert:true,contentType:"image/webp"});
       if(upErr) throw upErr;
       payload.gambar=safeName;
     }

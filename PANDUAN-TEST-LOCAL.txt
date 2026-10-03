@@ -1,0 +1,14 @@
+PANDUAN TEST WEBSITE DEVELOPMENT
+
+1. Klik dua kali JALANKAN-WEBSITE.bat
+2. Tunggu sampai browser otomatis membuka http://127.0.0.1:5500/
+3. Untuk login gunakan: http://127.0.0.1:5500/signin.html
+4. Login dengan akun admin sekolah.
+5. Dari halaman admin pilih Kelola Alumni.
+6. Jangan tutup jendela PowerShell selama testing.
+7. Untuk menghentikan server, kembali ke PowerShell lalu tekan CTRL+C.
+
+CATATAN:
+- Ini hanya server lokal untuk testing.
+- Tidak mengubah website online.
+- Tidak perlu Python atau Node.js.

@@ -1,0 +1,3 @@
+VERSI V6.2.10 – ALUMNI SUPABASE + TAMPILAN NAMA ANGKATAN LATIN
+
+Perubahan: Direktori publik menampilkan scientific_name (nama Latin) sebagai nama angkatan utama. batch_name tetap dipertahankan sebagai fallback/data admin.

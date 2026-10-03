@@ -1,0 +1,4 @@
+V6.2.6 - Penyempurnaan watermark foto alumni.
+- Watermark dibuat kecil, transparan, tanpa banner/strip putih.
+- Posisi default di sudut kanan bawah agar foto tetap menjadi fokus utama.
+- Foto tetap WebP terkompresi.

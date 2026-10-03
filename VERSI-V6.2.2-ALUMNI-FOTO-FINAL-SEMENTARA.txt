@@ -1,0 +1,5 @@
+V6.2.2 - Perbaikan foto alumni.
+- Dokumentasi asli Agra & Dzaki ditambahkan dalam format WebP terkompresi.
+- Foto Sanggiri yang sebelumnya salah dihapus dari paket.
+- Sanggiri sementara menggunakan poster yang benar dan terkompresi; foto potret asli akan ditambahkan saat tersedia.
+- Tidak mengubah data alumni lainnya.

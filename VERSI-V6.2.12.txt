@@ -1,0 +1,9 @@
+VERSI V6.2.12 - LOCAL DEVELOPMENT SERVER
+
+Basis: V6.2.11
+- Detail berita menggunakan template GitHub yang sama dengan versi online.
+- Ditambahkan server lokal portable berbasis Windows PowerShell.
+- Ditambahkan JALANKAN-WEBSITE.bat.
+- Ditambahkan panduan testing lokal.
+- Tidak membutuhkan Python atau Node.js.
+- Tidak mengubah website online.

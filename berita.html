@@ -7,10 +7,6 @@
 <meta name="description" content="Berita dan informasi terbaru SMK Kehutanan Rimba Bahari Sumedang.">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://smkkehutananrimbabahari.sch.id/berita.html">
-<link rel="icon" type="image/png" sizes="48x48" href="/logo-sekolah.png">
-<link rel="apple-touch-icon" href="/logo-sekolah.png">
-<meta name="author" content="SMK Kehutanan Rimba Bahari Sumedang">
-<meta name="keywords" content="berita SMK Kehutanan Rimba Bahari Sumedang, berita sekolah Sumedang, informasi sekolah kehutanan">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="id_ID">
 <meta property="og:site_name" content="SMK Kehutanan Rimba Bahari Sumedang">
@@ -234,7 +230,7 @@
     </style>
 
 <style id="photo-display-final-fix">
-/* FIX FOTO BERITA: foto yang tersedia memenuhi seluruh area, tanpa panel/ikon tambahan. */
+/* V6.2.20 - FOTO BERITA TANPA CROP: pertahankan rasio asli untuk portrait maupun landscape. */
 .news-image, .article-image {
   position: relative;
   overflow: hidden;
@@ -259,49 +255,72 @@
 }
 </style>
 
-
-<style>
-.sosmed-footer{margin-top:4px}
-.sosmed-footer-title{font-size:14px;font-weight:800;letter-spacing:.5px;margin-bottom:14px}
-.sosmed-footer-list{display:flex;justify-content:center;gap:22px;align-items:flex-start;flex-wrap:wrap}
-.sosmed-item{width:92px;text-align:center;color:#fff;text-decoration:none;display:block}
-.sosmed-icon{width:52px;height:52px;margin:0 auto 8px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 16px rgba(0,0,0,.25);transition:transform .2s,box-shadow .2s}
-.sosmed-item:hover .sosmed-icon{transform:translateY(-4px);box-shadow:0 9px 20px rgba(0,0,0,.32)}
-.sosmed-name{font-size:12px;font-weight:800;line-height:1.25}
-.sosmed-handle{font-size:9px;line-height:1.35;opacity:.8;margin-top:3px;word-break:break-word}
-.sosmed-ig{background:linear-gradient(135deg,#833ab4 0%,#fd1d1d 55%,#fcb045 100%)}
-.sosmed-yt{background:#ff0000;border-radius:15px}
-.sosmed-tt{background:#111}
-@media(max-width:560px){
- .sosmed-footer-list{gap:10px}
- .sosmed-item{width:82px}
- .sosmed-icon{width:48px;height:48px}
-}
+<style id="site-navbar-v617">
+.site-header{position:relative!important;z-index:1000!important;width:100%!important;min-height:104px!important;height:auto!important;margin:0!important;padding:0!important;background:#fff!important;border-bottom:1px solid rgba(0,70,45,.08)!important;box-shadow:0 2px 15px rgba(0,0,0,.06)!important;display:block!important;box-sizing:border-box!important;}
+.site-header-inner{max-width:1500px!important;margin:0 auto!important;min-height:104px!important;height:auto!important;padding:12px 32px!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:28px!important;box-sizing:border-box!important;}
+.site-brand{display:flex!important;flex-direction:row!important;align-items:center!important;gap:14px!important;text-decoration:none!important;color:#064f34!important;flex:0 0 auto!important;min-width:255px!important;margin:0!important;padding:0!important;}
+.site-brand img{width:72px!important;height:72px!important;object-fit:contain!important;display:block!important;margin:0!important;}
+.site-brand-text{display:flex!important;flex-direction:column!important;line-height:1.05!important;}
+.site-brand-text strong{font-size:21px!important;letter-spacing:.2px!important;}
+.site-brand-text small{display:block!important;margin-top:7px!important;font-size:15px!important;font-weight:800!important;letter-spacing:3px!important;color:#a57a08!important;}
+.site-nav{margin-left:auto!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-end!important;gap:22px!important;white-space:nowrap!important;flex-wrap:nowrap!important;width:auto!important;}
+.site-nav a{font-family:inherit!important;font-size:16px!important;font-weight:800!important;color:#173c2c!important;text-decoration:none!important;line-height:1!important;padding:12px 0!important;position:relative!important;white-space:nowrap!important;margin:0!important;border:0!important;background:transparent!important;}
+.site-nav a:hover{color:#087b4a!important;}
+.site-nav a.is-active{color:#087b4a!important;}
+.site-nav a.is-active:not(.site-spmb-cta)::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:2px!important;height:3px!important;border-radius:4px!important;background:#087b4a!important;}
+.site-nav .site-spmb-cta{background:#086b43!important;color:#fff!important;padding:15px 20px!important;border-radius:12px!important;box-shadow:0 5px 16px rgba(0,80,50,.12)!important;}
+.site-nav .site-spmb-cta:hover{color:#fff!important;background:#075b3a!important;}
+.site-menu-toggle{display:none!important;border:0!important;background:#086b43!important;color:#fff!important;border-radius:10px!important;font-size:25px!important;line-height:1!important;padding:10px 13px!important;cursor:pointer!important;margin:0!important;}
+@media(max-width:1250px){.site-header,.site-header-inner{min-height:92px!important}.site-header-inner{padding:10px 22px!important;gap:14px!important}.site-nav{gap:16px!important}.site-nav a{font-size:15px!important}.site-brand{min-width:0!important}.site-brand img{width:64px!important;height:64px!important}.site-brand-text strong{font-size:18px!important}.site-brand-text small{font-size:13px!important}}
+@media(max-width:1080px){.site-header{min-height:82px!important}.site-header-inner{min-height:82px!important;padding:9px 18px!important;position:relative!important}.site-menu-toggle{display:block!important;margin-left:auto!important}.site-nav{display:none!important;position:absolute!important;left:16px!important;right:16px!important;top:100%!important;margin:0!important;padding:12px!important;background:#fff!important;border:1px solid rgba(0,70,45,.12)!important;border-radius:0 0 16px 16px!important;box-shadow:0 14px 30px rgba(0,0,0,.12)!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;white-space:normal!important;width:auto!important;} .site-nav.is-open{display:flex!important}.site-nav a{padding:13px 14px!important;border-radius:9px!important}.site-nav a.is-active:not(.site-spmb-cta)::after{display:none!important}.site-nav a:hover{background:#eef7f1!important}.site-nav .site-spmb-cta{margin-top:6px!important;text-align:center!important}.site-brand-text strong{font-size:17px!important}}
+@media(max-width:520px){.site-header-inner{min-height:76px!important;padding:8px 14px!important}.site-brand img{width:55px!important;height:55px!important}.site-brand-text strong{font-size:15px!important}.site-brand-text small{font-size:11px!important;letter-spacing:2px!important}.site-menu-toggle{font-size:22px!important;padding:9px 11px!important}.site-nav{left:10px!important;right:10px!important}}
 </style>
 
+<style id="smkk-social-footer-css">
+.sosmed-footer{margin-top:4px}.sosmed-footer-title{font-size:14px;font-weight:800;letter-spacing:.5px;margin-bottom:14px}.sosmed-footer-list{display:flex;justify-content:center;gap:22px;align-items:flex-start;flex-wrap:wrap}.sosmed-item{width:92px;text-align:center;color:#fff;text-decoration:none;display:block}.sosmed-icon{width:52px;height:52px;margin:0 auto 8px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 16px rgba(0,0,0,.25);transition:transform .2s,box-shadow .2s}.sosmed-item:hover .sosmed-icon{transform:translateY(-4px);box-shadow:0 9px 20px rgba(0,0,0,.32)}.sosmed-name{font-size:12px;font-weight:800;line-height:1.25}.sosmed-handle{font-size:9px;line-height:1.35;opacity:.8;margin-top:3px;word-break:break-word}.sosmed-ig{background:linear-gradient(135deg,#833ab4 0%,#fd1d1d 55%,#fcb045 100%)}.sosmed-yt{background:#ff0000;border-radius:15px}.sosmed-tt{background:#111}
+@media (max-width:700px){.sosmed-footer-list{gap:10px}.sosmed-item{width:82px}.sosmed-icon{width:48px;height:48px}}
+</style>
+
+<style id="smkk-footer-consistency-v619">
+.site-footer{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr);align-items:center;gap:32px;padding:36px 5%!important;text-align:left!important;box-sizing:border-box;min-height:190px}
+.site-footer-brand{font-size:16px;line-height:1.5;text-align:left}
+.site-footer-brand b{font-weight:900;letter-spacing:.1px}
+.site-footer-brand small{opacity:.8}
+.site-footer-copy{text-align:center;font-size:16px;line-height:1.5}
+.site-footer>.sosmed-footer{margin:0!important;justify-self:end;width:100%;max-width:360px}
+.site-footer .sosmed-footer-title{text-align:center;margin-bottom:14px}
+.site-footer .sosmed-footer-list{justify-content:center;gap:22px}
+.site-footer .sosmed-item{flex:0 0 92px}
+@media(max-width:850px){
+  .site-footer{grid-template-columns:1fr;gap:22px;text-align:center!important;min-height:0;padding:34px 6%!important}
+  .site-footer-brand,.site-footer-copy{text-align:center}
+  .site-footer>.sosmed-footer{justify-self:center}
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">
-        <img src="logo-sekolah.png" alt="Logo SMK Rimba Bahari">
-        <h1>
-            SMK KEHUTANAN<br>
-            <span>RIMBA BAHARI</span>
-        </h1>
-    </div>
-
-    <nav>
-        <a href="index.html">BERANDA</a>
-        <a href="profil.html">PROFIL</a>
-        <a href="kehutanan.html">KEHUTANAN</a>
-        <a href="kegiatan.html">KEGIATAN</a>
-        <a href="berita.html" class="active">BERITA</a>
-        <a href="galeri.html">GALERI</a>
-        <a href="spmb.html">SPMB</a>
-        <a href="index.html#portal">PORTAL</a>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-brand" href="index.html" aria-label="SMK Kehutanan Rimba Bahari Sumedang">
+      <img src="logo-sekolah.png" alt="Logo SMK Kehutanan Rimba Bahari Sumedang">
+      <span class="site-brand-text"><strong>SMK KEHUTANAN<br>RIMBA BAHARI</strong><small>SUMEDANG</small></span>
+    </a>
+    <button class="site-menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false">☰</button>
+    <nav class="site-nav" aria-label="Navigasi utama">
+      <a data-nav="home" href="index.html">Beranda</a>
+      <a data-nav="profil" href="profil.html">Profil</a>
+      <a data-nav="kehutanan" href="kehutanan.html">Kehutanan</a>
+      <a data-nav="kegiatan" href="kegiatan.html">Kegiatan</a>
+      <a data-nav="alumni" href="alumni.html">Alumni</a>
+      <a data-nav="berita" href="berita.html">Berita</a>
+      <a data-nav="galeri" href="galeri.html">Galeri</a>
+      <a data-nav="spmb" href="spmb.html">SPMB</a>
+      <a data-nav="portal" href="index.html#portal">Portal</a>
+      <a class="site-spmb-cta" href="spmb.html">🌲 DAFTAR SPMB</a>
     </nav>
+  </div>
 </header>
 
 <section class="hero">
@@ -327,171 +346,162 @@
 
 </section>
 
-<footer><div><b>SMK KEHUTANAN RIMBA BAHARI SUMEDANG</b></div><div>© 2026 SMK Kehutanan Rimba Bahari Sumedang · All Rights Reserved.</div><div>
-<div class="sosmed-footer">
-  <div class="sosmed-footer-title">MEDIA SOSIAL RESMI SEKOLAH</div>
-  <div class="sosmed-footer-list">
-    <a class="sosmed-item" href="https://www.instagram.com/smkk_rimba_bahari_sumedang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Resmi SMK Kehutanan Rimba Bahari">
-      <span class="sosmed-icon sosmed-ig">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true">
-          <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" stroke="#fff" stroke-width="2"/>
-          <circle cx="12" cy="12" r="4.1" stroke="#fff" stroke-width="2"/>
-          <circle cx="17.5" cy="6.7" r="1.25" fill="#fff"/>
-        </svg>
-      </span>
-      <div class="sosmed-name">Instagram</div>
-      <div class="sosmed-handle">@smkk_rimba_bahari_sumedang</div>
-    </a>
-
-    <a class="sosmed-item" href="https://www.youtube.com/@smkkehutananrimbabaharisum7397" target="_blank" rel="noopener noreferrer" aria-label="YouTube Resmi SMK Kehutanan Rimba Bahari">
-      <span class="sosmed-icon sosmed-yt">
-        <svg viewBox="0 0 28 20" width="30" height="22" aria-hidden="true">
-          <path d="M27.4 5.1a3.5 3.5 0 0 0-2.45-2.47C22.78 2 14 2 14 2S5.22 2 3.05 2.63A3.5 3.5 0 0 0 .6 5.1 36.5 36.5 0 0 0 0 10a36.5 36.5 0 0 0 .6 4.9 3.5 3.5 0 0 0 2.45 2.47C5.22 18 14 18 14 18s8.78 0 10.95-.63a3.5 3.5 0 0 0 2.45-2.47A36.5 36.5 0 0 0 28 10a36.5 36.5 0 0 0-.6-4.9Z" fill="#fff"/>
-          <path d="m11.2 6.2 7.1 3.8-7.1 3.8V6.2Z" fill="#ff0000"/>
-        </svg>
-      </span>
-      <div class="sosmed-name">YouTube</div>
-      <div class="sosmed-handle">SMK Kehutanan Rimba Bahari</div>
-    </a>
-
-    <a class="sosmed-item" href="https://www.tiktok.com/@smkkehutananrbs" target="_blank" rel="noopener noreferrer" aria-label="TikTok Resmi SMK Kehutanan Rimba Bahari">
-      <span class="sosmed-icon sosmed-tt">
-        <svg viewBox="0 0 24 24" width="25" height="25" fill="#fff" aria-hidden="true">
-          <path d="M15.2 3c.35 2.2 1.55 3.55 3.8 3.7v3.1c-1.32.13-2.53-.3-3.75-1.08v6.12c0 3.25-2.18 5.15-5.15 5.15A5.1 5.1 0 0 1 5 14.86c0-3.15 2.78-5.45 5.96-4.92v3.18a2.08 2.08 0 1 0 1.1 1.83V3h3.14z"/>
-        </svg>
-      </span>
-      <div class="sosmed-name">TikTok</div>
-      <div class="sosmed-handle">@smkkehutananrbs</div>
-    </a>
+<footer class="site-footer">
+  <div class="site-footer-brand">
+    <b>SMK KEHUTANAN RIMBA BAHARI SUMEDANG</b><br>
+    <small>Teknik Rehabilitasi dan Reklamasi Hutan</small>
   </div>
-</div>
-</div></footer>
+  <div class="site-footer-copy">© 2026 SMK Kehutanan Rimba Bahari Sumedang · Rimbawan Muda · Lestari · Berkarakter</div>
+  <div class="sosmed-footer" aria-label="Media sosial resmi sekolah">
+    <div class="sosmed-footer-title">MEDIA SOSIAL RESMI SEKOLAH</div>
+    <div class="sosmed-footer-list">
+      <a class="sosmed-item" href="https://www.instagram.com/smkk_rimba_bahari_sumedang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Resmi SMK Kehutanan Rimba Bahari">
+        <span class="sosmed-icon sosmed-ig"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4.1" stroke="#fff" stroke-width="2"/><circle cx="17.5" cy="6.7" r="1.25" fill="#fff"/></svg></span>
+        <div class="sosmed-name">Instagram</div><div class="sosmed-handle">@smkk_rimba_bahari_sumedang</div>
+      </a>
+      <a class="sosmed-item" href="https://www.youtube.com/@smkkehutananrimbabaharisum7397" target="_blank" rel="noopener noreferrer" aria-label="YouTube Resmi SMK Kehutanan Rimba Bahari">
+        <span class="sosmed-icon sosmed-yt"><svg viewBox="0 0 28 20" width="30" height="22" aria-hidden="true"><path d="M27.4 5.1a3.5 3.5 0 0 0-2.45-2.47C22.78 2 14 2 14 2S5.22 2 3.05 2.63A3.5 3.5 0 0 0 .6 5.1 36.5 36.5 0 0 0 0 10a36.5 36.5 0 0 0 .6 4.9 3.5 3.5 0 0 0 2.45 2.47C5.22 18 14 18 14 18s8.78 0 10.95-.63a3.5 3.5 0 0 0 2.45-2.47A36.5 36.5 0 0 0 28 10a36.5 36.5 0 0 0-.6-4.9Z" fill="#fff"/><path d="m11.2 6.2 7.1 3.8-7.1 3.8V6.2Z" fill="#ff0000"/></svg></span>
+        <div class="sosmed-name">YouTube</div><div class="sosmed-handle">SMK Kehutanan Rimba Bahari</div>
+      </a>
+      <a class="sosmed-item" href="https://www.tiktok.com/@smkkehutananrbs" target="_blank" rel="noopener noreferrer" aria-label="TikTok Resmi SMK Kehutanan Rimba Bahari">
+        <span class="sosmed-icon sosmed-tt"><svg viewBox="0 0 24 24" width="25" height="25" fill="#fff" aria-hidden="true"><path d="M15.2 3c.35 2.2 1.55 3.55 3.8 3.7v3.1c-1.32.13-2.53-.3-3.75-1.08v6.12c0 3.25-2.18 5.15-5.15 5.15A5.1 5.1 0 0 1 5 14.86c0-3.15 2.78-5.45 5.96-4.92v3.18a2.08 2.08 0 1 0 1.1 1.83V3h3.14z"/></svg></span>
+        <div class="sosmed-name">TikTok</div><div class="sosmed-handle">@smkkehutananrbs</div>
+      </a>
+    </div>
+  </div>
+</footer>
 
-<script src="supabase-client.js?v=5.0.1"></script>
+<script src="supabase-client.js?v=5.0.0"></script>
 
 <script>
-const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
-const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_URL = "https://xzgbrzabcceqwcaxegfx.supabase.co";
 
-function escapeHTML(value) {
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
+    const SUPABASE_KEY = "sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
 
-function getImageUrl(value) {
-    if (!value) return "";
-    let url = String(value).trim();
-    if (!url) return "";
+    const supabaseClient = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-    if (url.startsWith("http://") || url.startsWith("https://") ||
-        url.startsWith("data:") || url.startsWith("/") ||
-        url.startsWith("./") || url.startsWith("../")) {
-        return url;
-    }
+    async function loadBerita() {
+        const newsGrid = document.getElementById("news-grid");
 
-    if (url.startsWith("berita/")) {
-        url = url.substring("berita/".length);
-    }
+        if (!newsGrid) return;
 
-    return supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
-}
+        let { data, error } = await supabaseClient
+            .from("berita")
+            .select("*")
+            .order("created_at", { ascending: false });
 
-let beritaLoaded = false;
-let beritaLoading = false;
-
-function addNewsStructuredData(items) {
-    const old = document.getElementById("berita-itemlist-jsonld");
-    if (old) old.remove();
-    const schema = {
-        "@context":"https://schema.org",
-        "@type":"ItemList",
-        "name":"Berita SMK Kehutanan Rimba Bahari Sumedang",
-        "url":"https://smkkehutananrimbabahari.sch.id/berita.html",
-        "itemListElement":items.slice(0,20).map((item,index)=>({
-            "@type":"ListItem",
-            "position":index+1,
-            "url":"https://smkkehutananrimbabahari.sch.id/berita-detail.html?id="+encodeURIComponent(item.id),
-            "name":item.judul || "Berita SMK Kehutanan Rimba Bahari Sumedang"
-        }))
-    };
-    const s=document.createElement("script");
-    s.type="application/ld+json";
-    s.id="berita-itemlist-jsonld";
-    s.textContent=JSON.stringify(schema);
-    document.head.appendChild(s);
-}
-
-async function loadBerita(isRetry=false) {
-    const newsGrid=document.getElementById("news-grid");
-    if(!newsGrid || beritaLoading) return;
-    beritaLoading=true;
-
-    if(!beritaLoaded && !isRetry) {
-        newsGrid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:30px;"><p>Memuat berita sekolah...</p></div>';
-    }
-
-    try {
-        const result=await supabaseClient.from("berita").select("*").order("created_at",{ascending:false});
-        if(result.error) throw result.error;
-
-        const data=(result.data||[]).filter(item=>String(item.kategori||"").trim().toLowerCase()!=="kegiatan");
-        if(!data.length) {
-            newsGrid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:30px;"><p>Belum ada berita yang tersedia.</p></div>';
-            beritaLoaded=true;
-            addNewsStructuredData([]);
+        if (error) {
+            console.error("Gagal mengambil berita:", error);
+            newsGrid.innerHTML = `
+                <div style="text-align:center; padding:30px;">
+                    <p>Berita belum dapat dimuat. Silakan coba lagi beberapa saat.</p>
+                </div>
+            `;
             return;
         }
 
-        const fragment=document.createDocumentFragment();
-        data.forEach((berita)=>{
-            try {
-                const gambar=getImageUrl(berita.gambar||berita.foto||berita.image_url||berita.foto_url||"");
-                const rawDate=berita.tanggal||berita.created_at;
-                const dateObj=rawDate?new Date(rawDate):null;
-                const tanggal=dateObj && !Number.isNaN(dateObj.getTime())
-                    ? dateObj.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}) : "";
+        // Halaman Berita hanya menampilkan konten non-Kegiatan.
+        // Konten berkategori "Kegiatan" ditampilkan khusus di kegiatan.html.
+        data = (data || []).filter(item =>
+            String(item.kategori || "").trim().toLowerCase() !== "kegiatan"
+        );
 
-                const card=document.createElement("article");
-                card.className="news-card";
-                const imageBox=document.createElement("div");
-                imageBox.className="news-image";
-                if(gambar){
-                    const img=document.createElement("img");
-                    img.src=gambar; img.alt=berita.judul||"Berita SMK Kehutanan Rimba Bahari"; img.loading="lazy"; img.decoding="async";
-                    img.style.width="100%"; img.style.height="100%"; img.style.objectFit="cover";
-                    img.onload=()=>imageBox.classList.add("photo-loaded");
-                    img.onerror=()=>{img.remove();imageBox.classList.remove("photo-loaded");imageBox.innerHTML='<span style="font-size:42px;">🌲</span>';};
-                    imageBox.appendChild(img);
-                } else imageBox.innerHTML='<span style="font-size:42px;">🌲</span>';
-
-                const content=document.createElement("div");
-                content.className="news-content";
-                content.innerHTML=`<div class="date">${escapeHTML(berita.kategori||"BERITA SEKOLAH")}${tanggal?" • "+escapeHTML(tanggal):""}</div><h3>${escapeHTML(berita.judul||"Berita Sekolah")}</h3><p>${escapeHTML(berita.ringkasan||berita.isi||"")}</p><a href="berita-detail.html?id=${encodeURIComponent(berita.id)}" class="read-more">Baca selengkapnya →</a>`;
-                card.appendChild(imageBox); card.appendChild(content); fragment.appendChild(card);
-            } catch(itemError){ console.error("Gagal merender satu berita:",itemError,berita); }
-        });
-
-        // Replace only after every card has been prepared.
-        newsGrid.replaceChildren(fragment);
-        beritaLoaded=true;
-        addNewsStructuredData(data);
-    } catch(error) {
-        console.error("Gagal mengambil berita:",error);
-        if(!beritaLoaded && !isRetry){
-            setTimeout(()=>loadBerita(true),1800);
-        } else if(!beritaLoaded){
-            newsGrid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:30px;"><p>Berita belum dapat dimuat. Silakan coba lagi beberapa saat.</p><button type="button" onclick="loadBerita(true)" style="margin-top:12px;padding:10px 18px;border:0;border-radius:10px;background:#087443;color:#fff;font-weight:bold;cursor:pointer">Muat ulang berita</button></div>';
+        if (data.length === 0) {
+            newsGrid.innerHTML = `
+                <div style="text-align:center; padding:30px;">
+                    <p>Belum ada berita yang tersedia.</p>
+                </div>
+            `;
+            return;
         }
-    } finally { beritaLoading=false; }
-}
 
-document.addEventListener("DOMContentLoaded", () => loadBerita(false));
+        newsGrid.innerHTML = "";
+
+        data.forEach(berita => {
+
+            // Foto dari admin disimpan sebagai nama file di bucket Storage "berita".
+            // Jika sudah berupa URL, gunakan langsung. Jika hanya nama file,
+            // ubah menjadi URL publik Supabase Storage.
+            function getImageUrl(value) {
+                if (!value) return "";
+
+                let url = String(value).trim();
+                if (!url) return "";
+
+                // URL penuh atau path lokal.
+                if (url.startsWith("http://") || url.startsWith("https://") ||
+                    url.startsWith("data:") || url.startsWith("/") ||
+                    url.startsWith("./") || url.startsWith("../")) {
+                    return url;
+                }
+
+                // Jika tersimpan sebagai "berita/nama-file.jpg",
+                // buang nama bucket karena bucket sudah ditentukan di bawah.
+                if (url.startsWith("berita/")) {
+                    url = url.substring("berita/".length);
+                }
+
+                return supabaseClient.storage.from("berita").getPublicUrl(url).data.publicUrl;
+            }
+
+            const gambar = getImageUrl(
+                berita.gambar || berita.foto || berita.image_url || berita.foto_url || ""
+            );
+
+            const tanggal = berita.tanggal
+                ? new Date(berita.tanggal).toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                })
+                : new Date(berita.created_at).toLocaleDateString("id-ID", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                });
+
+            const card = document.createElement("article");
+            card.className = "news-card";
+
+            card.innerHTML = `
+                <div class="news-image">
+                    ${
+                        gambar
+                        ? `<img src="${gambar}" alt="${berita.judul || "Berita SMK Kehutanan Rimba Bahari"}"
+                           style="width:100%; height:100%; object-fit:contain; background:#eef3f0;"
+                           onload="this.parentElement.classList.add('photo-loaded')"
+                           onerror="this.style.display='none'; this.parentElement.classList.remove('photo-loaded'); this.parentElement.innerHTML='<span style=\"font-size:42px;\">🌲</span>'" onload="this.parentElement.classList.add('photo-loaded')">`
+                        : "🌲"
+                    }
+                </div>
+
+                <div class="news-content">
+
+                    <div class="date">
+                        ${berita.kategori || "BERITA SEKOLAH"}
+                        ${tanggal ? " • " + tanggal : ""}
+                    </div>
+
+                    <h3>${berita.judul || "Berita Sekolah"}</h3>
+
+                    <p>
+                        ${berita.ringkasan || berita.isi || ""}
+                    </p>
+
+                    <a href="berita-detail.html?id=${berita.id}"
+                       class="read-more">
+                        Baca selengkapnya →
+                    </a>
+
+                </div>
+            `;
+
+            newsGrid.appendChild(card);
+        });
+    }
+console.log("JAVASCRIPT BERITA BERJALAN");
+    document.addEventListener("DOMContentLoaded", loadBerita);
 </script>
-
-</body>
-</html>

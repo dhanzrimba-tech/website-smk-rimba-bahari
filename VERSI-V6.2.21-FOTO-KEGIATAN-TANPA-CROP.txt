@@ -1,0 +1,14 @@
+VERSI V6.2.21 – FOTO KEGIATAN TANPA CROP
+
+Perubahan:
+- kegiatan.html: gambar kartu kegiatan menggunakan object-fit: contain agar foto portrait/vertikal dan foto landscape tidak terpotong.
+- kegiatan.html: area foto menjadi 230px dengan latar netral sehingga rasio asli foto tetap terlihat.
+- Placeholder ketika kegiatan tidak memiliki foto disesuaikan menjadi 230px.
+- Tidak mengubah Supabase, Storage, database, pipeline kompresi WebP, navbar, footer, atau data kegiatan.
+- Basis pengembangan: V6.2.20.
+
+Pengujian lokal:
+1. Jalankan website lokal.
+2. Buka kegiatan.html.
+3. Cek foto kegiatan portrait/vertikal dan landscape.
+4. Pastikan seluruh foto terlihat tanpa crop paksa dan kartu tetap rapi.

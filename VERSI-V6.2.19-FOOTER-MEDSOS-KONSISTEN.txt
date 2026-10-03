@@ -1,0 +1,7 @@
+V6.2.19 – FOOTER MEDIA SOSIAL KONSISTEN
+
+Basis: V6.2.18-MEDSOS-LENGKAP.
+Perbaikan: seluruh halaman publik menggunakan struktur footer 3 kolom yang konsisten: identitas sekolah | copyright | media sosial resmi.
+Media sosial: Instagram, YouTube, TikTok.
+Responsif: desktop 3 kolom, layar kecil ditumpuk rapi di tengah.
+Tidak mengubah data Supabase, Alumni, Berita, Kegiatan, atau Navbar V6.2.17.

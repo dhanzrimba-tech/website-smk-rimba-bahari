@@ -1,0 +1,10 @@
+VERSI V6.2.22 — GALERI FOTO TANPA CROP
+
+Basis: V6.2.21 FOTO KEGIATAN TANPA CROP
+
+Perubahan:
+- Galeri dokumentasi kegiatan menggunakan object-fit: contain.
+- Rasio asli foto dipertahankan agar foto vertikal tidak terpotong.
+- Tinggi area foto galeri menjadi 230px.
+- Background area foto dibuat netral agar foto dengan rasio berbeda tetap rapi.
+- Tidak mengubah database, Supabase Storage, kompresi WebP, navbar, footer, Berita, atau Kegiatan.

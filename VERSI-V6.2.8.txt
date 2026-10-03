@@ -1,0 +1,6 @@
+V6.2.8 - Alumni watermark pattern monokrom.
+- Watermark kecil berulang diagonal.
+- Logo sekolah dibuat monokrom/abu-abu transparan, tanpa warna asli.
+- Efek sangat halus saat normal dan lebih terlihat saat zoom.
+- Foto utama tetap fokus; tidak ada banner/kotak.
+- Maksimal 1200px, WebP quality 72%.

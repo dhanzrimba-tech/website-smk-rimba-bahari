@@ -1,0 +1,1 @@
+V6.2.13 – Direktori Alumni: pencarian nama + filter tahun lulus + filter status foto.\nTidak mengubah struktur database atau data alumni.\nDibuat dari V6.2.12 Local Test; berita-detail tetap menggunakan template GitHub yang sudah disamakan dengan online.\n

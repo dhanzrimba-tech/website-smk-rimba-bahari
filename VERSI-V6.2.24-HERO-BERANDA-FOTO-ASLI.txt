@@ -1,0 +1,31 @@
+V6.2.24 — HERO BERANDA FOTO ASLI SEKOLAH
+
+Dasar: V6.2.23-BERANDA-TRANSPARAN-READABILITY
+
+Perubahan:
+1. Hero/slider Beranda diganti dari foto hutan Cigerendeng menjadi rangkaian foto asli sekolah dan kegiatan kehutanan.
+2. Urutan foto:
+   - Gedung/sekelompok siswa SMK Kehutanan Rimba Bahari Sumedang
+   - Praktik pengukuran pohon
+   - Praktik kehutanan di hutan
+   - Suasana pembelajaran di kelas
+   - Praktik kegiatan di hutan
+   - Kegiatan di Wisata Hutan Payau
+   - Kebersamaan siswa di Vredeburg
+3. Foto asli tidak diedit dan wajah tidak diubah.
+4. Foto hero dioptimalkan menjadi WebP untuk membantu performa halaman.
+5. Overlay hijau dibuat lebih transparan agar foto lebih terlihat, sementara teks tetap menonjol melalui kontras dan text-shadow.
+6. Slider tetap memakai panah, indikator titik, dan auto-slide 4 detik.
+7. Ditambahkan 7 indikator slide sesuai jumlah foto.
+8. Responsif untuk desktop dan HP, dengan posisi gambar disesuaikan per foto agar komposisi lebih baik.
+9. Bagian lain website tidak diubah.
+
+TEST:
+- Jalankan lokal dengan JALANKAN-WEBSITE.bat.
+- Buka http://127.0.0.1:5500/index.html
+- Periksa semua 7 slide dengan panah dan indikator.
+- Periksa auto-slide.
+- Periksa tampilan HP.
+- Pastikan tombol JELAJAHI SEKOLAH dan LIHAT KEGIATAN tetap berfungsi.
+
+Jangan deploy sebelum hasil lokal disetujui.

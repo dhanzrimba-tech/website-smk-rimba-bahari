@@ -1,0 +1,10 @@
+VERSI V6.2.18 - MEDIA SOSIAL FOOTER LENGKAP
+
+Perubahan:
+- Footer media sosial diseragamkan di seluruh halaman publik.
+- Instagram resmi: @smkk_rimba_bahari_sumedang
+- YouTube resmi: SMK Kehutanan Rimba Bahari
+- TikTok resmi: @smkkehutananrbs
+- Masing-masing ikon menjadi tautan aktif ke akun resmi.
+- Tidak mengubah data berita, kegiatan, alumni, Supabase, atau navbar V6.2.17.
+- V6.2.17 Navbar Konsisten menjadi basis perubahan.

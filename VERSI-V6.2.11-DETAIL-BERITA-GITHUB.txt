@@ -1,0 +1,5 @@
+V6.2.11 - DETAIL BERITA GITHUB / ONLINE MATCH
+
+Template berita-detail.html diganti menggunakan file berita-detail dari GitHub yang diberikan pengguna,
+agar tampilan development mengikuti template detail berita yang sedang online.
+Tidak mengubah database, Supabase policy, data alumni, atau Storage.

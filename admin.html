@@ -24,7 +24,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:12px 10px;border-bottom:
 <div id="app" style="display:none">
 <div class="top">
   <div><h1>PENGELOLAAN WEBSITE</h1><span>SMK Kehutanan Rimba Bahari Sumedang</span></div>
-  <div><a href="berita.html">← Lihat Website</a> &nbsp; <button id="logoutBtn">KELUAR</button></div>
+  <div><a href="alumni.html">Lihat Alumni</a> &nbsp; <a href="admin-alumni.html">Kelola Alumni</a> &nbsp; <a href="berita.html">← Lihat Website</a> &nbsp; <button id="logoutBtn">KELUAR</button></div>
 </div>
 <div class="wrap">
   <div class="panel">
@@ -156,9 +156,26 @@ clearFotoBtn.addEventListener("click",()=>{
   clearPhotoUI();
   msg("Foto sudah dibersihkan. Foto tidak akan disimpan.",true);
 });
+async function compressImageToWebP(file,maxSide=1600,quality=0.75){
+  if(!file || !file.type.startsWith("image/")) return file;
+  if(file.type === "image/svg+xml") return file;
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise((resolve,reject)=>{const el=new Image();el.onload=()=>resolve(el);el.onerror=()=>reject(new Error("Foto tidak dapat dibaca."));el.src=url;});
+    let w=img.naturalWidth||img.width,h=img.naturalHeight||img.height;
+    const scale=Math.min(1,maxSide/Math.max(w,h)); w=Math.max(1,Math.round(w*scale)); h=Math.max(1,Math.round(h*scale));
+    const canvas=document.createElement("canvas"); canvas.width=w; canvas.height=h;
+    const ctx=canvas.getContext("2d",{alpha:true}); ctx.drawImage(img,0,0,w,h);
+    const blob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error("Kompresi WebP gagal.")),"image/webp",quality));
+    const base=(file.name||"foto").replace(/\.[^.]+$/i,"").replace(/[^a-z0-9_-]+/gi,"-").replace(/^-+|-+$/g,"").toLowerCase()||"foto";
+    return new File([blob],base+".webp",{type:"image/webp",lastModified:Date.now()});
+  }finally{URL.revokeObjectURL(url);}
+}
+
 form.addEventListener("submit",async e=>{e.preventDefault();clearMsg();const id=document.getElementById("id").value, judul=document.getElementById("judul").value.trim(), kategori=document.getElementById("kategori").value, tanggal=document.getElementById("tanggal").value, ringkasan=document.getElementById("ringkasan").value.trim(), isi=document.getElementById("isi").value.trim();if(!judul||!isi){msg("Judul dan isi berita wajib diisi.",false);return}const payload={judul,kategori,tanggal:tanggal||null,ringkasan,isi,slug:slugify(judul)};const file=fileInput.files[0];document.getElementById("saveBtn").disabled=true;try{if(file){
-  const safeName=Date.now()+"-"+slugify(file.name);
-  const {error:upErr}=await supabaseClient.storage.from("berita").upload(safeName,file,{upsert:true,contentType:file.type});
+  const compressedFile=await compressImageToWebP(file,1600,0.75);
+  const safeName=Date.now()+"-"+slugify(compressedFile.name);
+  const {error:upErr}=await supabaseClient.storage.from("berita").upload(safeName,compressedFile,{upsert:true,contentType:"image/webp"});
   if(upErr)throw upErr;
   payload.gambar=safeName;
 }else if(id && removeExistingPhoto){

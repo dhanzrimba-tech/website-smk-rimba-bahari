@@ -1,0 +1,7 @@
+V6.2.4 - Pipeline foto alumni: resize + WebP + watermark otomatis.
+- Menambahkan alumni-photo-watermark.js untuk memproses file di browser sebelum upload.
+- Maksimum sisi 1200 px, WebP quality 72%.
+- Watermark logo sekolah + nama sekolah dibuat halus.
+- File asli tidak pernah diunggah oleh pipeline.
+- Menambahkan alumni-photo-watermark-test.html untuk pemeriksaan visual lokal.
+- 5 contoh foto watermarked dibuat untuk uji; belum dihubungkan ke Supabase Storage.

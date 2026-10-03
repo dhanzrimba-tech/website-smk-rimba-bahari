@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Admin Alumni | SMK Kehutanan Rimba Bahari</title>
+<link rel="icon" href="logo-sekolah.png">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7f3;color:#173526}.wrap{width:min(1100px,92%);margin:30px auto}.head{background:#06371f;color:#fff;border-radius:22px;padding:24px;display:flex;justify-content:space-between;gap:20px;align-items:center}.head h1{margin:0 0 6px}.head p{margin:0;color:#dbe9de}.btn{border:0;border-radius:999px;padding:11px 16px;font-weight:800;cursor:pointer}.btn.green{background:#0b4d2b;color:#fff}.btn.light{background:#fff;color:#0b4d2b}.panel{background:#fff;border-radius:20px;padding:24px;margin-top:20px;box-shadow:0 10px 30px #17352612}.row{display:grid;grid-template-columns:1fr 1fr;gap:20px}.field{margin:12px 0}.field label{display:block;font-weight:800;margin-bottom:7px;color:#0b4d2b}.field select,.field input{width:100%;padding:12px;border:1px solid #ccd9ce;border-radius:12px;font-size:15px}.preview{margin-top:15px;background:#eef4ee;border-radius:16px;padding:15px;text-align:center}.preview img{max-width:100%;max-height:520px;object-fit:contain;border-radius:12px}.status{margin-top:15px;padding:12px;border-radius:12px;background:#edf5ee;color:#244f35;line-height:1.5}.status.error{background:#fff0f0;color:#8b1d1d}.status.warn{background:#fff8e6;color:#745510}.small{font-size:13px;color:#66766c;line-height:1.6}.list{display:grid;gap:10px}.toolbar{display:grid;grid-template-columns:minmax(0,1fr) 180px 190px;gap:12px;margin:16px 0}.toolbar input,.toolbar select{width:100%;padding:12px;border:1px solid #ccd9ce;border-radius:12px;font-size:15px;background:#fff}.result-count{font-size:13px;color:#66766c;margin:-5px 0 12px}.item{border:1px solid #dce7de;border-radius:14px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:center}.empty{padding:20px;text-align:center;border:1px dashed #ccd9ce;border-radius:14px;color:#66766c}@media(max-width:800px){.toolbar{grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1}}.item strong{color:#0b4d2b}.item small{color:#6b776f}.badge{display:inline-block;padding:5px 9px;border-radius:999px;background:#edf5ee;color:#0b4d2b;font-size:11px;font-weight:800}@media(max-width:700px){.row{grid-template-columns:1fr}.head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head"><div><h1>Admin Direktori Alumni</h1><p>Upload foto profil alumni melalui pipeline resmi V6.2.8.</p></div><button class="btn light" id="logoutBtn" type="button">Keluar</button></header>
+  <section class="panel" id="authPanel"><strong>Memeriksa akses admin...</strong></section>
+  <section class="panel" id="appPanel" style="display:none">
+    <h2>Upload / Ganti Foto Alumni</h2>
+    <p class="small">Foto asli diproses di browser: maksimal 1200 px → WebP quality 72% → watermark diagonal monokrom → upload ke bucket <b>alumni-photos</b>. Foto asli tidak diunggah.</p>
+    <div class="row">
+      <div>
+        <div class="field"><label for="alumniSelect">Pilih Alumni</label><select id="alumniSelect"></select></div>
+        <div class="field"><label for="photoFile">Pilih Foto Asli</label><input id="photoFile" type="file" accept="image/jpeg,image/png,image/webp"></div>
+        <button class="btn green" id="uploadBtn" type="button">Proses &amp; Upload Foto</button>
+        <div id="status" class="status">Siap.</div>
+      </div>
+      <div class="preview"><div class="small">Preview hasil watermark sebelum upload</div><img id="preview" alt="Preview foto alumni" style="display:none"></div>
+    </div>
+  </section>
+  <section class="panel" id="listPanel" style="display:none"><h2>Status Foto Alumni</h2><div class="toolbar"><input id="searchAlumni" type="search" placeholder="Cari nama alumni..." autocomplete="off"><select id="filterYear"><option value="">Semua Tahun</option></select><select id="filterPhoto"><option value="">Semua Status</option><option value="connected">Foto Terhubung</option><option value="missing">Belum Ada Foto</option></select></div><div id="resultCount" class="result-count"></div><div id="list" class="list"></div></section>
+</div>
+<script src="supabase-client.js?v=5.0.0"></script>
+<script src="alumni-photo-watermark.js?v=6.2.8"></script>
+<script>
+const SUPABASE_URL="https://xzgbrzabcceqwcaxegfx.supabase.co";
+const SUPABASE_KEY="sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+let alumniRows=[];
+function slugify(s){return String(s||'alumni').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,80)||'alumni';}
+function setStatus(msg,type=''){const el=$('status');el.className='status'+(type?' '+type:'');el.textContent=msg;}
+async function requireAdmin(){
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){$('authPanel').innerHTML='<strong>Akses admin diperlukan.</strong><p class="small">Silakan login terlebih dahulu melalui halaman login sekolah.</p><a class="btn green" href="signin.html">Login Admin</a>';return false;}
+  const uid=session.user&&session.user.id;
+  const {data:profile,error}=await supabaseClient.from('profiles').select('id,role').eq('id',uid).maybeSingle();
+  if(error||!profile||profile.role!=='admin'){$('authPanel').innerHTML='<strong>Akses ditolak.</strong><p class="small">Akun ini tidak memiliki role admin.</p>';return false;}
+  $('authPanel').innerHTML='<span class="badge">ADMIN TERVERIFIKASI</span><p class="small">Akun admin berhasil diverifikasi.</p>';
+  $('appPanel').style.display='block';$('listPanel').style.display='block';return true;
+}
+async function loadAlumni(){
+  const {data,error}=await supabaseClient.from('alumni').select('id,full_name,graduation_year,profile_photo_path,status,active').eq('active',true).order('graduation_year',{ascending:false});
+  if(error){setStatus('Gagal membaca data alumni: '+error.message,'error');return;}
+  alumniRows=data||[];
+  $('alumniSelect').innerHTML=alumniRows.map(a=>`<option value="${a.id}">${a.full_name} — ${a.graduation_year}</option>`).join('');
+  const years=[...new Set(alumniRows.map(a=>a.graduation_year).filter(Boolean))].sort((a,b)=>b-a);
+  $('filterYear').innerHTML='<option value="">Semua Tahun</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
+  renderAlumniList();
+}
+function renderAlumniList(){
+  const q=String($('searchAlumni').value||'').trim().toLowerCase();
+  const year=$('filterYear').value;
+  const photo=$('filterPhoto').value;
+  const filtered=alumniRows.filter(a=>{
+    const name=String(a.full_name||'').toLowerCase();
+    const matchName=!q||name.includes(q);
+    const matchYear=!year||String(a.graduation_year)===year;
+    const connected=!!a.profile_photo_path;
+    const matchPhoto=!photo||(photo==='connected'&&connected)||(photo==='missing'&&!connected);
+    return matchName&&matchYear&&matchPhoto;
+  });
+  $('resultCount').textContent=`Menampilkan ${filtered.length} dari ${alumniRows.length} alumni`;
+  $('list').innerHTML=filtered.map(a=>`<div class="item"><div><strong>${a.full_name}</strong><br><small>Lulusan ${a.graduation_year}</small></div><div>${a.profile_photo_path?'<span class="badge">FOTO TERHUBUNG</span>':'<span class="badge" style="background:#fff4dc;color:#7b5d12">BELUM ADA FOTO</span>'}</div></div>`).join('')||'<div class="empty">Alumni yang dicari tidak ditemukan.</div>';
+}
+
+let processedFile=null;
+['searchAlumni','filterYear','filterPhoto'].forEach(id=>$(id).addEventListener('input',renderAlumniList));
+['filterYear','filterPhoto'].forEach(id=>$(id).addEventListener('change',renderAlumniList));
+$('photoFile').addEventListener('change',async e=>{
+  const file=e.target.files&&e.target.files[0];if(!file)return;processedFile=null;$('preview').style.display='none';setStatus('Memproses foto...');
+  try{processedFile=await AlumniPhotoPipeline.prepareAlumniPhoto(file);$('preview').src=URL.createObjectURL(processedFile);$('preview').style.display='block';setStatus(`Siap diupload: ${Math.round(processedFile.size/1024)} KB • ${processedFile.name}`);}catch(err){setStatus(err.message||'Gagal memproses foto.','error');}
+});
+$('uploadBtn').addEventListener('click',async()=>{
+  if(!processedFile){setStatus('Pilih foto terlebih dahulu.','warn');return;}
+  const alumni=alumniRows.find(a=>a.id===$('alumniSelect').value);if(!alumni){setStatus('Data alumni tidak ditemukan.','error');return;}
+  if(processedFile.size>2*1024*1024){setStatus('Hasil WebP melebihi batas 2 MB.','error');return;}
+  const path=`${alumni.graduation_year}/${slugify(alumni.full_name)}.webp`;
+  $('uploadBtn').disabled=true;setStatus('Mengupload ke Supabase Storage...');
+  try{
+    const up=await supabaseClient.storage.from('alumni-photos').upload(path,processedFile,{upsert:true,contentType:'image/webp',cacheControl:'31536000'});
+    if(up.error)throw up.error;
+    setStatus('Upload berhasil. Menyimpan path foto ke data alumni...');
+    const upd=await supabaseClient.from('alumni').update({profile_photo_path:path,updated_at:new Date().toISOString()}).eq('id',alumni.id);
+    if(upd.error)throw upd.error;
+    setStatus(`BERHASIL. Foto ${alumni.full_name} tersambung ke ${path}.`);
+    await loadAlumni();
+  }catch(err){setStatus(err.message||'Proses upload gagal.','error');}
+  finally{$('uploadBtn').disabled=false;}
+});
+$('logoutBtn').addEventListener('click',async()=>{await supabaseClient.auth.signOut();location.href='signin.html';});
+(async()=>{if(await requireAdmin())await loadAlumni();})();
+</script>
+</body></html>

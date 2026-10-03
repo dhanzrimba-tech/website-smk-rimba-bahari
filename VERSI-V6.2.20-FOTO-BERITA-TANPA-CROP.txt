@@ -1,0 +1,13 @@
+VERSI V6.2.20 – FOTO BERITA TANPA CROP
+
+Perubahan:
+- berita.html: gambar kartu berita menggunakan object-fit: contain agar poster portrait/TikTok tidak terpotong.
+- berita.html: tinggi area foto menjadi 220px dengan latar netral.
+- berita-detail.html: gambar utama mengikuti rasio asli, tanpa object-fit: cover dan tanpa batas tinggi 590px.
+- Tidak mengubah Supabase, Storage, database, pipeline kompresi WebP, navbar, footer, atau data berita.
+- Basis pengembangan: V6.2.19.
+
+Pengujian lokal:
+1. Jalankan website lokal.
+2. Buka berita.html dan cek poster Muhammad Adi serta berita landscape lama.
+3. Buka detail berita Muhammad Adi dan pastikan seluruh poster terlihat.

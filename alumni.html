@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alumni | SMK Kehutanan Rimba Bahari Sumedang</title>
+<meta name="description" content="Direktori alumni dan kisah keberhasilan lulusan SMK Kehutanan Rimba Bahari Sumedang.">
+<link rel="icon" href="logo-sekolah.png">
+<style>
+:root{--green:#0b4d2b;--green2:#06371f;--gold:#d5a72a;--cream:#f6f1df;--text:#183025;--muted:#607066;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:linear-gradient(180deg,#f7f5ec 0%,#edf4ed 100%)}
+a{text-decoration:none;color:inherit}
+.header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:12px 5%;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid rgba(11,77,43,.12);box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.brand{display:flex;align-items:center;gap:10px}.brand img{width:52px;height:52px;object-fit:contain}.brand strong{display:block;color:var(--green);font-size:14px;line-height:1.05}.brand span{font-size:11px;color:#8a6b17;font-weight:800;letter-spacing:2px}
+.nav{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.nav a{font-size:13px;font-weight:800;color:#294235}.nav a:hover,.nav a.active{color:#08713e}.nav .cta{background:var(--green);color:#fff;padding:10px 14px;border-radius:999px}
+.hero{position:relative;overflow:hidden;padding:78px 5% 64px;text-align:center;background:radial-gradient(circle at 50% 20%,rgba(255,255,255,.9),rgba(226,239,225,.8)),linear-gradient(135deg,#eaf3e8,#f8f3dd)}
+.hero:before,.hero:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(11,77,43,.07);filter:blur(2px)}.hero:before{left:-100px;top:-80px}.hero:after{right:-90px;bottom:-120px}
+.kicker{position:relative;z-index:1;color:#9b7816;font-weight:900;letter-spacing:3px;font-size:12px}.hero h1{position:relative;z-index:1;margin:12px 0 8px;font-size:clamp(38px,6vw,68px);color:var(--green);line-height:.95}.hero h1 em{font-family:Georgia,serif;color:#b48720;font-weight:500}.hero p{position:relative;z-index:1;max-width:760px;margin:18px auto 0;color:#56685c;line-height:1.7;font-size:16px}
+.container{width:min(1180px,90%);margin:0 auto}.section{padding:58px 0}.section-head{text-align:center;margin-bottom:30px}.section-head h2{margin:8px 0;color:var(--green);font-size:34px}.section-head p{max-width:720px;margin:auto;color:var(--muted);line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.card{background:#fff;border:1px solid rgba(11,77,43,.1);border-radius:24px;overflow:hidden;box-shadow:0 12px 35px rgba(13,60,35,.08);transition:.2s}.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(13,60,35,.13)}
+.photo{height:360px;background:linear-gradient(180deg,#eaf1e9,#dce8dc);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}.photo img{width:100%;height:100%;object-fit:contain}.card:nth-child(3) .photo img,.card:nth-child(4) .photo img,.card:nth-child(5) .photo img{object-fit:cover;object-position:center top}
+.body{padding:22px}.tag{display:inline-block;padding:6px 10px;border-radius:999px;background:#edf5ee;color:var(--green);font-size:11px;font-weight:900;letter-spacing:.5px}.body h3{margin:12px 0 8px;color:var(--green);font-size:21px}.body p{margin:0;color:#5e6d63;line-height:1.65;font-size:14px}.year{color:#9b7816;font-weight:900;font-size:13px;margin:10px 0}
+.feature{margin-top:34px;background:linear-gradient(135deg,var(--green2),var(--green));border-radius:28px;padding:28px;color:#fff;display:grid;grid-template-columns:1.2fr .8fr;gap:26px;align-items:center}.feature h3{font-size:27px;margin:0 0 10px}.feature p{line-height:1.7;color:#dbe9de;margin:0}.feature img{width:100%;max-height:430px;object-fit:cover;border-radius:18px;border:2px solid rgba(255,255,255,.18)}
+.detail-btn{margin-top:16px;border:0;border-radius:999px;padding:11px 16px;background:var(--green);color:#fff;font-weight:900;cursor:pointer;transition:.2s}.detail-btn:hover{background:#0a6a3b;transform:translateY(-1px)}.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,25,15,.72);backdrop-filter:blur(6px)}.modal.show{display:flex}.modal-box{width:min(760px,96vw);max-height:90vh;overflow:auto;background:#fff;border-radius:26px;box-shadow:0 30px 80px rgba(0,0,0,.3);position:relative}.modal-top{display:grid;grid-template-columns:260px 1fr;gap:24px;padding:28px;background:linear-gradient(135deg,#eef5ec,#fbf4dc)}.modal-photo{height:330px;border-radius:18px;overflow:hidden;background:#dfe9df;display:flex;align-items:flex-end;justify-content:center}.modal-photo img{width:100%;height:100%;object-fit:contain}.modal-copy{align-self:center}.modal-copy .tag{margin-bottom:10px}.modal-copy h2{margin:8px 0;color:var(--green);font-size:32px}.modal-copy p{line-height:1.7;color:#53645a}.modal-content{padding:26px 28px 30px}.info-row{padding:13px 0;border-bottom:1px solid #e8eee8}.info-row strong{display:block;color:var(--green);font-size:12px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px}.info-row span{color:#526258;line-height:1.6}.modal-close{position:absolute;right:14px;top:14px;width:40px;height:40px;border:0;border-radius:50%;background:#fff;color:var(--green);font-size:24px;font-weight:900;cursor:pointer;box-shadow:0 5px 18px rgba(0,0,0,.15)}@media(max-width:650px){.modal-top{grid-template-columns:1fr}.modal-photo{height:360px}.modal-copy h2{font-size:27px}}
+.footer{background:#06371f;color:#e7f0e8;padding:32px 5%;margin-top:20px}.footer-inner{width:min(1180px,90%);margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center}.footer small{color:#b9cfbd}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.feature{grid-template-columns:1fr}.nav{gap:10px}.nav a{font-size:12px}}
+@media(max-width:650px){.header{align-items:flex-start}.nav{display:none}.grid{grid-template-columns:1fr}.photo{height:390px}.hero{padding-top:58px}.footer-inner{flex-direction:column;align-items:flex-start}}
+</style>
+<script src="supabase-client.js?v=5.0.0"></script>
+<style id="site-navbar-v617">
+.site-header{position:relative!important;z-index:1000!important;width:100%!important;min-height:104px!important;height:auto!important;margin:0!important;padding:0!important;background:#fff!important;border-bottom:1px solid rgba(0,70,45,.08)!important;box-shadow:0 2px 15px rgba(0,0,0,.06)!important;display:block!important;box-sizing:border-box!important;}
+.site-header-inner{max-width:1500px!important;margin:0 auto!important;min-height:104px!important;height:auto!important;padding:12px 32px!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:space-between!important;gap:28px!important;box-sizing:border-box!important;}
+.site-brand{display:flex!important;flex-direction:row!important;align-items:center!important;gap:14px!important;text-decoration:none!important;color:#064f34!important;flex:0 0 auto!important;min-width:255px!important;margin:0!important;padding:0!important;}
+.site-brand img{width:72px!important;height:72px!important;object-fit:contain!important;display:block!important;margin:0!important;}
+.site-brand-text{display:flex!important;flex-direction:column!important;line-height:1.05!important;}
+.site-brand-text strong{font-size:21px!important;letter-spacing:.2px!important;}
+.site-brand-text small{display:block!important;margin-top:7px!important;font-size:15px!important;font-weight:800!important;letter-spacing:3px!important;color:#a57a08!important;}
+.site-nav{margin-left:auto!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-end!important;gap:22px!important;white-space:nowrap!important;flex-wrap:nowrap!important;width:auto!important;}
+.site-nav a{font-family:inherit!important;font-size:16px!important;font-weight:800!important;color:#173c2c!important;text-decoration:none!important;line-height:1!important;padding:12px 0!important;position:relative!important;white-space:nowrap!important;margin:0!important;border:0!important;background:transparent!important;}
+.site-nav a:hover{color:#087b4a!important;}
+.site-nav a.is-active{color:#087b4a!important;}
+.site-nav a.is-active:not(.site-spmb-cta)::after{content:""!important;position:absolute!important;left:0!important;right:0!important;bottom:2px!important;height:3px!important;border-radius:4px!important;background:#087b4a!important;}
+.site-nav .site-spmb-cta{background:#086b43!important;color:#fff!important;padding:15px 20px!important;border-radius:12px!important;box-shadow:0 5px 16px rgba(0,80,50,.12)!important;}
+.site-nav .site-spmb-cta:hover{color:#fff!important;background:#075b3a!important;}
+.site-menu-toggle{display:none!important;border:0!important;background:#086b43!important;color:#fff!important;border-radius:10px!important;font-size:25px!important;line-height:1!important;padding:10px 13px!important;cursor:pointer!important;margin:0!important;}
+@media(max-width:1250px){.site-header,.site-header-inner{min-height:92px!important}.site-header-inner{padding:10px 22px!important;gap:14px!important}.site-nav{gap:16px!important}.site-nav a{font-size:15px!important}.site-brand{min-width:0!important}.site-brand img{width:64px!important;height:64px!important}.site-brand-text strong{font-size:18px!important}.site-brand-text small{font-size:13px!important}}
+@media(max-width:1080px){.site-header{min-height:82px!important}.site-header-inner{min-height:82px!important;padding:9px 18px!important;position:relative!important}.site-menu-toggle{display:block!important;margin-left:auto!important}.site-nav{display:none!important;position:absolute!important;left:16px!important;right:16px!important;top:100%!important;margin:0!important;padding:12px!important;background:#fff!important;border:1px solid rgba(0,70,45,.12)!important;border-radius:0 0 16px 16px!important;box-shadow:0 14px 30px rgba(0,0,0,.12)!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;white-space:normal!important;width:auto!important;} .site-nav.is-open{display:flex!important}.site-nav a{padding:13px 14px!important;border-radius:9px!important}.site-nav a.is-active:not(.site-spmb-cta)::after{display:none!important}.site-nav a:hover{background:#eef7f1!important}.site-nav .site-spmb-cta{margin-top:6px!important;text-align:center!important}.site-brand-text strong{font-size:17px!important}}
+@media(max-width:520px){.site-header-inner{min-height:76px!important;padding:8px 14px!important}.site-brand img{width:55px!important;height:55px!important}.site-brand-text strong{font-size:15px!important}.site-brand-text small{font-size:11px!important;letter-spacing:2px!important}.site-menu-toggle{font-size:22px!important;padding:9px 11px!important}.site-nav{left:10px!important;right:10px!important}}
+</style>
+
+<style id="smkk-social-footer-css">
+.sosmed-footer{margin-top:4px}.sosmed-footer-title{font-size:14px;font-weight:800;letter-spacing:.5px;margin-bottom:14px}.sosmed-footer-list{display:flex;justify-content:center;gap:22px;align-items:flex-start;flex-wrap:wrap}.sosmed-item{width:92px;text-align:center;color:#fff;text-decoration:none;display:block}.sosmed-icon{width:52px;height:52px;margin:0 auto 8px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 5px 16px rgba(0,0,0,.25);transition:transform .2s,box-shadow .2s}.sosmed-item:hover .sosmed-icon{transform:translateY(-4px);box-shadow:0 9px 20px rgba(0,0,0,.32)}.sosmed-name{font-size:12px;font-weight:800;line-height:1.25}.sosmed-handle{font-size:9px;line-height:1.35;opacity:.8;margin-top:3px;word-break:break-word}.sosmed-ig{background:linear-gradient(135deg,#833ab4 0%,#fd1d1d 55%,#fcb045 100%)}.sosmed-yt{background:#ff0000;border-radius:15px}.sosmed-tt{background:#111}
+@media (max-width:700px){.sosmed-footer-list{gap:10px}.sosmed-item{width:82px}.sosmed-icon{width:48px;height:48px}}
+</style>
+
+<style id="smkk-footer-consistency-v619">
+.site-footer{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr);align-items:center;gap:32px;padding:36px 5%!important;text-align:left!important;box-sizing:border-box;min-height:190px}
+.site-footer-brand{font-size:16px;line-height:1.5;text-align:left}
+.site-footer-brand b{font-weight:900;letter-spacing:.1px}
+.site-footer-brand small{opacity:.8}
+.site-footer-copy{text-align:center;font-size:16px;line-height:1.5}
+.site-footer>.sosmed-footer{margin:0!important;justify-self:end;width:100%;max-width:360px}
+.site-footer .sosmed-footer-title{text-align:center;margin-bottom:14px}
+.site-footer .sosmed-footer-list{justify-content:center;gap:22px}
+.site-footer .sosmed-item{flex:0 0 92px}
+@media(max-width:850px){
+  .site-footer{grid-template-columns:1fr;gap:22px;text-align:center!important;min-height:0;padding:34px 6%!important}
+  .site-footer-brand,.site-footer-copy{text-align:center}
+  .site-footer>.sosmed-footer{justify-self:center}
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-brand" href="index.html" aria-label="SMK Kehutanan Rimba Bahari Sumedang">
+      <img src="logo-sekolah.png" alt="Logo SMK Kehutanan Rimba Bahari Sumedang">
+      <span class="site-brand-text"><strong>SMK KEHUTANAN<br>RIMBA BAHARI</strong><small>SUMEDANG</small></span>
+    </a>
+    <button class="site-menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false">☰</button>
+    <nav class="site-nav" aria-label="Navigasi utama">
+      <a data-nav="home" href="index.html">Beranda</a>
+      <a data-nav="profil" href="profil.html">Profil</a>
+      <a data-nav="kehutanan" href="kehutanan.html">Kehutanan</a>
+      <a data-nav="kegiatan" href="kegiatan.html">Kegiatan</a>
+      <a data-nav="alumni" href="alumni.html">Alumni</a>
+      <a data-nav="berita" href="berita.html">Berita</a>
+      <a data-nav="galeri" href="galeri.html">Galeri</a>
+      <a data-nav="spmb" href="spmb.html">SPMB</a>
+      <a data-nav="portal" href="index.html#portal">Portal</a>
+      <a class="site-spmb-cta" href="spmb.html">🌲 DAFTAR SPMB</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="kicker">JEJAK LULUSAN RIMBA BAHARI</div>
+  <h1>Alumni <em>Berprestasi</em></h1>
+  <p>Ruang dokumentasi alumni SMK Kehutanan Rimba Bahari Sumedang yang melanjutkan langkah di dunia kerja, pendidikan, pengabdian, dan berbagai bidang lainnya.</p>
+</section>
+
+<main class="container section">
+  <div class="section-head">
+    <div class="kicker">DIREKTORI ALUMNI</div>
+    <h2>Melangkah dari Rimba, Mengabdi untuk Negeri</h2>
+    <p>Data alumni ditampilkan berdasarkan dokumentasi dan informasi yang telah diberikan sekolah. Data akan terus diperbarui secara bertahap.</p>
+  </div>
+
+  <div class="grid" id="alumniGrid">
+    <div class="card"><div class="body"><strong>Memuat direktori alumni...</strong><p>Mohon tunggu.</p></div></div>
+  </div>
+
+  <section class="feature" aria-label="Dokumentasi Agra dan Dzaki">
+    <div><div class="kicker" style="color:#e6c55a">DOKUMENTASI ALUMNI</div><h3>Agra &amp; Dzaki</h3><p>Dokumentasi bersama alumni yang sedang menjalani pendidikan Polisi Kehutanan (Polhut) di Pusdik Binmas Lemdiklat Polri, Semarang.</p></div>
+    <img src="alumni-agra-dzaki-watermarked.webp" alt="Dokumentasi Agra dan Dzaki"></section>
+</main>
+
+<div class="modal" id="alumniModal" aria-hidden="true"><div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" type="button" id="modalClose" aria-label="Tutup">×</button><div class="modal-top"><div class="modal-photo"><img id="modalPhoto" src="" alt=""></div><div class="modal-copy"><span class="tag" id="modalTag"></span><h2 id="modalTitle"></h2><p id="modalIntro"></p></div></div><div class="modal-content"><div class="info-row"><strong>Status / Pencapaian</strong><span id="modalStatus"></span></div><div class="info-row"><strong>Tahun Lulus</strong><span id="modalYear"></span></div><div class="info-row"><strong>Angkatan</strong><span id="modalBatch"></span></div><div class="info-row"><strong>Institusi / Lokasi</strong><span id="modalInstitution"></span></div><div class="info-row"><strong>Posisi / Peran</strong><span id="modalPosition"></span></div><div class="info-row"><strong>Kompetensi Keahlian</strong><span id="modalCompetency">Kehutanan</span></div></div></div></div>
+<footer class="site-footer">
+  <div class="site-footer-brand">
+    <b>SMK KEHUTANAN RIMBA BAHARI SUMEDANG</b><br>
+    <small>Teknik Rehabilitasi dan Reklamasi Hutan</small>
+  </div>
+  <div class="site-footer-copy">© 2026 SMK Kehutanan Rimba Bahari Sumedang · Rimbawan Muda · Lestari · Berkarakter</div>
+  <div class="sosmed-footer" aria-label="Media sosial resmi sekolah">
+    <div class="sosmed-footer-title">MEDIA SOSIAL RESMI SEKOLAH</div>
+    <div class="sosmed-footer-list">
+      <a class="sosmed-item" href="https://www.instagram.com/smkk_rimba_bahari_sumedang/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Resmi SMK Kehutanan Rimba Bahari">
+        <span class="sosmed-icon sosmed-ig"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" aria-hidden="true"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="4.1" stroke="#fff" stroke-width="2"/><circle cx="17.5" cy="6.7" r="1.25" fill="#fff"/></svg></span>
+        <div class="sosmed-name">Instagram</div><div class="sosmed-handle">@smkk_rimba_bahari_sumedang</div>
+      </a>
+      <a class="sosmed-item" href="https://www.youtube.com/@smkkehutananrimbabaharisum7397" target="_blank" rel="noopener noreferrer" aria-label="YouTube Resmi SMK Kehutanan Rimba Bahari">
+        <span class="sosmed-icon sosmed-yt"><svg viewBox="0 0 28 20" width="30" height="22" aria-hidden="true"><path d="M27.4 5.1a3.5 3.5 0 0 0-2.45-2.47C22.78 2 14 2 14 2S5.22 2 3.05 2.63A3.5 3.5 0 0 0 .6 5.1 36.5 36.5 0 0 0 0 10a36.5 36.5 0 0 0 .6 4.9 3.5 3.5 0 0 0 2.45 2.47C5.22 18 14 18 14 18s8.78 0 10.95-.63a3.5 3.5 0 0 0 2.45-2.47A36.5 36.5 0 0 0 28 10a36.5 36.5 0 0 0-.6-4.9Z" fill="#fff"/><path d="m11.2 6.2 7.1 3.8-7.1 3.8V6.2Z" fill="#ff0000"/></svg></span>
+        <div class="sosmed-name">YouTube</div><div class="sosmed-handle">SMK Kehutanan Rimba Bahari</div>
+      </a>
+      <a class="sosmed-item" href="https://www.tiktok.com/@smkkehutananrbs" target="_blank" rel="noopener noreferrer" aria-label="TikTok Resmi SMK Kehutanan Rimba Bahari">
+        <span class="sosmed-icon sosmed-tt"><svg viewBox="0 0 24 24" width="25" height="25" fill="#fff" aria-hidden="true"><path d="M15.2 3c.35 2.2 1.55 3.55 3.8 3.7v3.1c-1.32.13-2.53-.3-3.75-1.08v6.12c0 3.25-2.18 5.15-5.15 5.15A5.1 5.1 0 0 1 5 14.86c0-3.15 2.78-5.45 5.96-4.92v3.18a2.08 2.08 0 1 0 1.1 1.83V3h3.14z"/></svg></span>
+        <div class="sosmed-name">TikTok</div><div class="sosmed-handle">@smkkehutananrbs</div>
+      </a>
+    </div>
+  </div>
+</footer>
+<script>
+const SUPABASE_URL="https://xzgbrzabcceqwcaxegfx.supabase.co";
+const SUPABASE_KEY="sb_publishable_3ZQnb7vOMpsW1MqFVFMX2Q_2oAaQ_qf";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const modal=document.getElementById('alumniModal');
+let alumniData={};
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function tagFor(a){const s=(a.status||'').toLowerCase();return s.includes('polisi kehutanan')?'POLISI KEHUTANAN':s.includes('tni')?'TNI':'ALUMNI';}
+function photoUrl(path,fallback){if(!path)return fallback;return supabaseClient.storage.from('alumni-photos').getPublicUrl(path).data.publicUrl;}
+function renderAlumni(rows){
+ const grid=document.getElementById('alumniGrid');
+ grid.innerHTML=rows.map((a,i)=>{
+   const key=a.id; alumniData[key]=a; const tag=tagFor(a); const photo=photoUrl(a.profile_photo_path,a.fallback);
+   const batch=a.batch?(a.batch.scientific_name?` • <em>${esc(a.batch.scientific_name)}</em>`:` • ${esc(a.batch.batch_name)}`):'';
+   return `<article class="card"><div class="photo"><img src="${photo}" alt="${esc(a.full_name)}, alumni SMK Kehutanan Rimba Bahari" loading="lazy" draggable="false"></div><div class="body"><span class="tag">${tag}</span><h3>${esc(a.full_name)}</h3><p class="year">Lulusan ${a.graduation_year}${batch}</p><p>${esc(a.description||a.status||'Alumni SMK Kehutanan Rimba Bahari Sumedang.')}</p><button class="detail-btn" type="button" data-id="${key}">Lihat Profil</button></div></article>`;
+ }).join('');
+ grid.querySelectorAll('.detail-btn').forEach(btn=>btn.addEventListener('click',()=>openAlumni(btn.dataset.id)));
+}
+async function loadAlumni(){
+ const grid=document.getElementById('alumniGrid');
+ try{
+  const [ar,br]=await Promise.all([supabaseClient.from('alumni').select('*').eq('active',true).order('graduation_year',{ascending:false}),supabaseClient.from('alumni_batches').select('id,graduation_year,batch_name,scientific_name,education_system').eq('active',true)]);
+  if(ar.error)throw ar.error;if(br.error)throw br.error;
+  const batches=br.data||[];
+  const fallback={
+   'Agra':'alumni-agra-watermarked.webp','Dzaki':'alumni-dzaki-watermarked.webp','Alifiando Oktaramadhansyah Hamid':'alumni-alifiando-oktaramadhansyah-hamid-watermarked.webp','Sanggiri Furnama Wiguna':'alumni-sanggiri-furnama-wiguna-watermarked.webp','Muhammad Adi Firmansyah':'alumni-muhammad-adi-firmansyah-watermarked.webp'
+  };
+  const rows=(ar.data||[]).map(a=>({...a,batch:batches.find(b=>b.id===a.batch_id)||batches.find(b=>b.graduation_year===a.graduation_year)||null,fallback:fallback[a.full_name]||'logo-sekolah.png'}));
+  if(!rows.length){grid.innerHTML='<div class="card"><div class="body"><strong>Belum ada data alumni.</strong></div></div>';return;}
+  renderAlumni(rows);
+ }catch(err){grid.innerHTML='<div class="card"><div class="body"><strong>Direktori belum dapat dimuat.</strong><p>'+esc(err.message||'Terjadi kesalahan koneksi.')+'</p></div></div>';console.error(err);}
+}
+function openAlumni(id){const d=alumniData[id];if(!d)return;const tag=tagFor(d);document.getElementById('modalPhoto').src=photoUrl(d.profile_photo_path,d.fallback);document.getElementById('modalPhoto').alt=d.full_name;document.getElementById('modalTag').textContent=tag;document.getElementById('modalTitle').textContent=d.full_name;document.getElementById('modalIntro').textContent=d.description||d.status||'';document.getElementById('modalStatus').textContent=d.status||'—';document.getElementById('modalYear').textContent=d.graduation_year||'—';document.getElementById('modalBatch').innerHTML=d.batch?((d.batch.scientific_name?'<em>'+esc(d.batch.scientific_name)+'</em>':esc(d.batch.batch_name))+(d.batch.education_system?' • '+esc(d.batch.education_system):'')):'—';document.getElementById('modalInstitution').textContent=d.institution||'—';document.getElementById('modalPosition').textContent=d.position||'—';modal.classList.add('show');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+function closeAlumni(){modal.classList.remove('show');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+document.getElementById('modalClose').addEventListener('click',closeAlumni);modal.addEventListener('click',e=>{if(e.target===modal)closeAlumni()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAlumni()});
+loadAlumni();
+</script>
+
+<script>
+document.addEventListener('contextmenu', function(e){
+  if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+});
+document.addEventListener('dragstart', function(e){
+  if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+});
+</script>
+
+<script id="site-navbar-v617">
+(function(){
+  const path=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+  const key=path==='index.html'?'home':path.replace('.html','');
+  const active=document.querySelector('.site-nav a[data-nav="'+key+'"]');
+  if(active) active.classList.add('is-active');
+  const btn=document.querySelector('.site-menu-toggle'), nav=document.querySelector('.site-nav');
+  if(btn&&nav){btn.addEventListener('click',function(){const open=nav.classList.toggle('is-open');btn.setAttribute('aria-expanded',String(open));btn.setAttribute('aria-label',open?'Tutup menu':'Buka menu');});nav.addEventListener('click',function(e){if(e.target.closest('a')){nav.classList.remove('is-open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Buka menu');}});}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+VERSI V6.2.16 – KOMPRESI FOTO BERITA & KEGIATAN
+
+- Foto upload berita/kegiatan diproses di browser sebelum upload.
+- Sisi terpanjang maksimum 1600 px.
+- Hasil WebP quality 75%.
+- File asli tidak diupload; Storage menerima hasil kompresi.
+- Bucket tetap berita.
+- Database dan data yang sudah ada tidak diubah.
+- Uji dengan satu foto besar terlebih dahulu sebelum upload banyak foto.

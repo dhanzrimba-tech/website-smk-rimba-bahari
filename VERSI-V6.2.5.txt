@@ -1,0 +1,5 @@
+V6.2.5 - Watermark alumni dibuat terlihat dan diterapkan pada foto profil/dokumentasi.
+- Alumni.html sekarang memakai file watermarked untuk kartu dan modal.
+- Watermark diperkuat secara halus: opacity 78%, logo dan teks sedikit lebih besar.
+- Dokumentasi Agra & Dzaki juga diberi watermark.
+- Tidak mengubah data alumni/Supabase.

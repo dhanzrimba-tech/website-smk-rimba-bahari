@@ -1,0 +1,5 @@
+V6.2.3 - Foto asli Sanggiri.
+- Foto Sanggiri diganti dengan foto asli yang dikonfirmasi pengguna.
+- Foto dioptimalkan ke WebP quality 72%, sisi terpanjang maksimal 1200px.
+- Poster Sanggiri tidak digunakan sebagai foto profil utama.
+- Data alumni lainnya tidak diubah.

@@ -1,0 +1,15 @@
+V6.2.24 FIX — HERO BERANDA FOTO ASLI
+
+Perbaikan:
+- Memperbaiki referensi file foto Hero Beranda agar sesuai dengan file WebP yang tersedia.
+- Tidak mengubah layout, teks, slider, navigasi, atau fungsi website lainnya.
+- 7 foto Hero menggunakan file WebP:
+  hero-sekolah.webp
+  hero-praktik-pengukuran.webp
+  hero-praktik-hutan.webp
+  hero-pembelajaran.webp
+  hero-praktik-lapangan.webp
+  hero-wisata-hutan-payau.webp
+  hero-kebersamaan.webp
+
+Tes lokal terlebih dahulu sebelum deployment.

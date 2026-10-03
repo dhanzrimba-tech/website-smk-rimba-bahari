@@ -1,0 +1,15 @@
+VERSI WEBSITE: V6.2 – DIREKTORI ALUMNI
+
+Dasar:
+- V6.1 FOREST ELEGANCE TIKTOK RESMI
+
+Perubahan:
+1. Menambahkan halaman alumni.html.
+2. Menambahkan 5 profil alumni awal: Agra, Dzaki, Alifiando Oktaramadhansyah Hamid, Sanggiri Furnama Wiguna, dan Muhammad Adi Firmansyah.
+3. Menambahkan dokumentasi bersama Agra & Dzaki.
+4. Foto alumni menggunakan foto yang diberikan pengguna; tidak mengganti wajah/foto dengan generatif.
+5. Menambahkan tautan ALUMNI pada navigasi halaman utama dan beberapa halaman publik.
+6. Tidak mengubah database website atau fungsi berita/kegiatan.
+
+
+Pembaruan: Profil alumni interaktif. Tombol Lihat Profil membuka detail alumni tanpa meninggalkan halaman.

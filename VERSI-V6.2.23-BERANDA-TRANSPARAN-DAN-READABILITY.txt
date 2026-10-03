@@ -1,0 +1,8 @@
+V6.2.23 — Beranda Transparan & Readability
+
+Perubahan hanya pada index.html.
+1. Panel statistik hero dibuat lebih transparan agar foto latar lebih terlihat.
+2. Teks angka dan label statistik diperkuat dengan warna dan text-shadow agar tetap menonjol.
+3. Quick menu dibuat semi-transparan dengan blur ringan agar foto tidak terlalu tertutup.
+4. Bagian BERITA & KEGIATAN TERBARU diberi latar terang agar judul Kabar Terbaru Sekolah dan isi berita lebih mudah dibaca.
+5. Berita, kegiatan, galeri, alumni, navbar, footer, Supabase, dan Storage tidak diubah.

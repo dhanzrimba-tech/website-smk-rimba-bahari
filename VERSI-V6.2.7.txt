@@ -1,0 +1,9 @@
+V6.2.7 - Alumni Watermark Pattern
+
+- Watermark menggunakan pola kecil berulang (teks + logo sekolah).
+- Transparansi sangat rendah agar hampir tidak terlihat pada tampilan normal.
+- Pola tetap dapat dikenali ketika foto diperbesar.
+- Tidak memakai banner/kotak watermark.
+- Foto tetap WebP terkompresi.
+- Menonaktifkan context menu dan drag pada elemen IMG sebagai lapisan perlindungan sederhana.
+- Tidak mengubah database Supabase.

@@ -1,0 +1,9 @@
+VERSI V6.2.1 - DIREKTORI ALUMNI FOTO WEB OPTIMIZED
+
+Perubahan:
+- Foto utama 5 alumni menggunakan versi WebP teroptimasi.
+- Maksimum sisi terpanjang foto sampai 1200px tanpa upscale.
+- Kompresi WebP quality 72%.
+- Foto asli tidak diubah isi/wajahnya.
+- Poster Agra & Dzaki tetap dipertahankan sebagai dokumentasi tambahan.
+- Tidak mengubah struktur database atau fungsi halaman website lainnya.
