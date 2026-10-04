@@ -50,7 +50,11 @@ async function loadAlumni(){
   const {data,error}=await supabaseClient.from('alumni').select('id,full_name,graduation_year,profile_photo_path,status,active').eq('active',true).order('graduation_year',{ascending:false});
   if(error){setStatus('Gagal membaca data alumni: '+error.message,'error');return;}
   alumniRows=data||[];
-  $('alumniSelect').innerHTML=alumniRows.map(a=>`<option value="${a.id}">${a.full_name} — ${a.graduation_year}</option>`).join('');
+  const pendingAlumni=alumniRows.filter(a=>!a.profile_photo_path);
+  $('alumniSelect').innerHTML=pendingAlumni.length
+    ? pendingAlumni.map(a=>`<option value="${a.id}">${a.full_name} — ${a.graduation_year}</option>`).join('')
+    : '<option value="">Semua alumni sudah memiliki foto</option>';
+  $('alumniSelect').disabled=!pendingAlumni.length;
   const years=[...new Set(alumniRows.map(a=>a.graduation_year).filter(Boolean))].sort((a,b)=>b-a);
   $('filterYear').innerHTML='<option value="">Semua Tahun</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
   renderAlumniList();
